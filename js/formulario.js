@@ -1,5 +1,15 @@
 // Gestión del formulario de envío y WhatsApp
 
+// ============ CONFIGURACIÓN ============
+const CONFIG_PEDIDOS = {
+    // URL del Web App de Google Apps Script
+    // Después de desplegar el script, reemplaza esta URL
+    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxVFEwoX7Mfbp5w2TrmDKsNvpwe0J4yQm3DvnyxZzUhRox-RjyEcfc-gtWfBSLtHUgf/exec',
+    
+    // Número de WhatsApp (sin espacios ni símbolos, con código de país)
+    WHATSAPP_NUMBER: '543515957014'
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('shippingForm');
     
@@ -8,12 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-function enviarPedidoWhatsApp(e) {
+async function enviarPedidoWhatsApp(e) {
     e.preventDefault();
     
     // Obtener datos del formulario
     const formData = new FormData(e.target);
-    const datos = {
+    const datosCliente = {
         nombre: formData.get('nombre'),
         telefono: formData.get('telefono'),
         email: formData.get('email'),
@@ -38,6 +48,46 @@ function enviarPedidoWhatsApp(e) {
     // Guardar el total en localStorage para mostrarlo en la página de gracias
     localStorage.setItem('orderTotal', total.toString());
     
+    // ============ ENVIAR A GOOGLE SHEETS ============
+    await enviarPedidoGoogleSheets({
+        cliente: datosCliente,
+        productos: cart,
+        total: total
+    });
+    
+    // ============ ENVIAR POR WHATSAPP ============
+    enviarPorWhatsApp(datosCliente, cart, total);
+    
+    // Limpiar carrito y redirigir a página de gracias
+    localStorage.removeItem('cart');
+    
+    // Redirigir a la página de agradecimiento
+    window.location.href = 'gracias.html';
+}
+
+// ============ ENVIAR PEDIDO A GOOGLE SHEETS ============
+async function enviarPedidoGoogleSheets(pedido) {
+    try {
+        const response = await fetch(CONFIG_PEDIDOS.GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Importante para Google Apps Script
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(pedido)
+        });
+        
+        console.log('✅ Pedido registrado en Google Sheets');
+        
+    } catch (error) {
+        console.error('❌ Error al enviar a Google Sheets:', error);
+        // No bloqueamos el proceso si falla Google Sheets
+        // El pedido se enviará igualmente por WhatsApp
+    }
+}
+
+// ============ ENVIAR POR WHATSAPP ============
+function enviarPorWhatsApp(datos, cart, total) {
     // Construir mensaje para WhatsApp
     let mensaje = `*NUEVO PEDIDO*\n\n`;
     mensaje += `*Datos del Cliente:*\n`;
@@ -53,43 +103,23 @@ function enviarPedidoWhatsApp(e) {
     
     mensaje += `*Productos:*\n`;
     cart.forEach((item, index) => {
-        mensaje += `${index + 1}. ${item.nombreOriginal || item.nombre}\n`;
-        
-        // Agregar talle si existe
-        if (item.talle) {
-            mensaje += `   Talle: ${item.talle}\n`;
-        }
-        
-        // Agregar color si existe
-        if (item.color) {
-            mensaje += `   Color: ${item.color}\n`;
-        }
-        
+        mensaje += `${index + 1}. ${item.nombre}\n`;
         mensaje += `   Cantidad: ${item.quantity}\n`;
         mensaje += `   Precio unitario: $${formatearPrecio(item.precio)}\n`;
         mensaje += `   Subtotal: $${formatearPrecio(item.precio * item.quantity)}\n\n`;
     });
     
-    mensaje += `*TOTAL: ${formatearPrecio(total)}*\n\n`;
+    mensaje += `*TOTAL: $${formatearPrecio(total)}*\n\n`;
     mensaje += `*Notas adicionales:*\n${datos.notas}`;
     
     // Codificar mensaje para URL
     const mensajeCodificado = encodeURIComponent(mensaje);
     
-    // Número de WhatsApp (sin espacios ni símbolos)
-    const numeroWhatsApp = '543515957014';
-    
     // Crear URL de WhatsApp
-    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`;
+    const urlWhatsApp = `https://wa.me/${CONFIG_PEDIDOS.WHATSAPP_NUMBER}?text=${mensajeCodificado}`;
     
     // Abrir WhatsApp en nueva ventana
     window.open(urlWhatsApp, '_blank');
-    
-    // Limpiar carrito y redirigir a página de gracias
-    localStorage.removeItem('cart');
-    
-    // Redirigir a la página de agradecimiento
-    window.location.href = 'gracias.html';
 }
 
 function formatearPrecio(precio) {
