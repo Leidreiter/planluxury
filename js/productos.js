@@ -1,6 +1,6 @@
 // Base de datos de productos con galería de imágenes
 // Generado automáticamente desde Google Sheets
-// Última actualización: 22/3/2026, 04:03:55
+// Última actualización: 22/3/2026, 04:08:05
 
 const productos = [
     {
@@ -9,17 +9,16 @@ const productos = [
         descripcion: "gorro para dormir infantil para niños",
         descripcionDetallada: "gorro para dormir infantil para niños",
         precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        imagen: "https://lh3.googleusercontent.com/d/1zaJF1raVtNhbW7BnFhued4uvsLyPMqBE",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1zaJF1raVtNhbW7BnFhued4uvsLyPMqBE"
         ],
         categoria: "categoria1",
         stock: 200,
         caracteristicas: [
             "niños",
             "algodón",
-            "pijama",
-            ""
+            "pijama"
         ]
     }
 ];
