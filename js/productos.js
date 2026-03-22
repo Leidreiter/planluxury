@@ -1,11 +1,11 @@
 // Base de datos de productos con galería de imágenes
 // Generado automáticamente desde Google Sheets
-// Última actualización: 22/3/2026, 05:25:10
+// Última actualización: 22/3/2026, 05:27:51
 
 const productos = [
     {
         id: 1,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorro Dormir",
         descripcion: "Gorra de categoría 1",
         descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
         precio: 8000,
@@ -19,13 +19,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 2,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorro Bruja",
         descripcion: "Gorra de categoría 1",
         descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
         precio: 8000,
@@ -39,13 +38,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 3,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorro Cumple",
         descripcion: "Gorra de categoría 1",
         descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
         precio: 8000,
@@ -59,13 +57,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 4,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorra Lluvia",
         descripcion: "Gorra de categoría 1",
         descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
         precio: 8000,
@@ -79,13 +76,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 5,
-        nombre: "Gorra de categoría 1",
+        nombre: "sombrero Maquinista",
         descripcion: "Gorra de categoría 2",
         descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
         precio: 8000,
@@ -99,13 +95,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 6,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorro Pirata",
         descripcion: "Gorra de categoría 2",
         descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
         precio: 8000,
@@ -119,13 +114,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 7,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorro Aprendiz",
         descripcion: "Gorra de categoría 2",
         descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
         precio: 8000,
@@ -139,13 +133,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 8,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorro Plata",
         descripcion: "Gorra de categoría 2",
         descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
         precio: 8000,
@@ -159,13 +152,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 9,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorra Marinero",
         descripcion: "Gorra de categoría 3",
         descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
         precio: 8000,
@@ -179,13 +171,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 10,
-        nombre: "Gorra de categoría 1",
+        nombre: "galera",
         descripcion: "Gorra de categoría 3",
         descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
         precio: 8000,
@@ -199,13 +190,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 11,
-        nombre: "Gorra de categoría 1",
+        nombre: "galera Cuero",
         descripcion: "Gorra de categoría 3",
         descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
         precio: 8000,
@@ -219,13 +209,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 12,
-        nombre: "Gorra de categoría 1",
+        nombre: "sombreo Dama",
         descripcion: "Gorra de categoría 3",
         descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
         precio: 8000,
@@ -239,13 +228,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 13,
-        nombre: "Gorra de categoría 1",
+        nombre: "sombrero Playero",
         descripcion: "Gorra de categoría 4",
         descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
         precio: 8000,
@@ -259,13 +247,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 14,
-        nombre: "Gorra de categoría 1",
+        nombre: "sombrero Caballero",
         descripcion: "Gorra de categoría 4",
         descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
         precio: 8000,
@@ -279,13 +266,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 15,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorrito Bebe",
         descripcion: "Gorra de categoría 4",
         descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
         precio: 8000,
@@ -299,13 +285,12 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     },
     {
         id: 16,
-        nombre: "Gorra de categoría 1",
+        nombre: "gorra",
         descripcion: "Gorra de categoría 4",
         descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
         precio: 8000,
@@ -319,8 +304,7 @@ const productos = [
             "alogodón",
             "industria nacional",
             "estilizada",
-            "personalizable",
-            ""
+            "personalizable"
         ]
     }
 ];
