@@ -1,13 +1,13 @@
 // Base de datos de productos con galería de imágenes
 // Generado automáticamente desde Google Sheets
-// Última actualización: 22/3/2026, 04:08:05
+// Última actualización: 22/3/2026, 04:32:33
 
 const productos = [
     {
         id: 1,
-        nombre: "Gorro para dormir",
-        descripcion: "gorro para dormir infantil para niños",
-        descripcionDetallada: "gorro para dormir infantil para niños",
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 1",
+        descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
         precio: 8000,
         imagen: "https://lh3.googleusercontent.com/d/1zaJF1raVtNhbW7BnFhued4uvsLyPMqBE",
         galeria: [
@@ -16,9 +16,311 @@ const productos = [
         categoria: "categoria1",
         stock: 200,
         caracteristicas: [
-            "niños",
-            "algodón",
-            "pijama"
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 2,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 1",
+        descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria1",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 3,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 1",
+        descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria1",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 4,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 1",
+        descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria1",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 5,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 2",
+        descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria2",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 6,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 2",
+        descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria2",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 7,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 2",
+        descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria2",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 8,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 2",
+        descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria2",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 9,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 3",
+        descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria3",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 10,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 3",
+        descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria3",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 11,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 3",
+        descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria3",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 12,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 3",
+        descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria3",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 13,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 4",
+        descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria4",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 14,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 4",
+        descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria4",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 15,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 4",
+        descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria4",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
+        ]
+    },
+    {
+        id: 16,
+        nombre: "Gorra de categoría 1",
+        descripcion: "Gorra de categoría 4",
+        descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
+        precio: 8000,
+        imagen: "img/productos/placeholder.png",
+        galeria: [
+            "img/productos/placeholder.png"
+        ],
+        categoria: "categoria4",
+        stock: 200,
+        caracteristicas: [
+            "alogodón",
+            "industria nacional",
+            "estilizada",
+            "personalizable",
+            ""
         ]
     }
 ];
