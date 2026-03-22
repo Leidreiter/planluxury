@@ -1,0 +1,457 @@
+// Base de datos de productos con galería de imágenes
+const productos = [
+    {
+        id: 1,
+        nombre: "Producto #1 CAT 1",
+        descripcion: "Descripción corta del producto 1. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/001.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria1",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 2,
+        nombre: "Producto #2 CAT 1",
+        descripcion: "Descripción corta del producto 1. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/002.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria1",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 3,
+        nombre: "Producto #3 CAT 1",
+        descripcion: "Descripción corta del producto 1. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/003.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria1",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 4,
+        nombre: "Producto #4 CAT 1",
+        descripcion: "Descripción corta del producto 1. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/004.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria1",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    
+    {
+        id: 5,
+        nombre: "Producto #1 CAT 2",
+        descripcion: "Descripción corta del producto 2. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/005.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria2",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 6,
+        nombre: "Producto #2 CAT 2",
+        descripcion: "Descripción corta del producto 2. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/006.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria2",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 7,
+        nombre: "Producto #3 CAT 2",
+        descripcion: "Descripción corta del producto 2. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/007.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria2",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 8,
+        nombre: "Producto #4 CAT 2",
+        descripcion: "Descripción corta del producto 2. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/008.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria2",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    
+    {
+        id: 9,
+        nombre: "Producto #1 CAT 3",
+        descripcion: "Descripción corta del producto 3. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/009.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria3",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 10,
+        nombre: "Producto #2 CAT 3",
+        descripcion: "Descripción corta del producto 3. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/010.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria3",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 11,
+        nombre: "Producto #3 CAT 3",
+        descripcion: "Descripción corta del producto 3. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/011.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria3",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 12,
+        nombre: "Producto #4 CAT 3",
+        descripcion: "Descripción corta del producto 3. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/012.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria3",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 13,
+        nombre: "Producto #1 CAT 4",
+        descripcion: "img/productos/013.png",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/013.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria4",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    {
+        id: 14,
+        nombre: "Producto #2 CAT 4",
+        descripcion: "Descripción corta del producto 4. Ya disponible en nuestra tienda",
+        descripcionDetallada: "Descripción más larga y detallada de cada producto para brindar al cliente toda la información que necesita antes de realizar su compra.",
+        precio: 10000,
+        imagen: "img/productos/014.png",
+        galeria: [
+            "img/productos/001.png",
+            "img/productos/002.png",
+            "img/productos/003.png",
+            "img/productos/004.png",
+            "img/productos/005.png"
+        ],
+        categoria: "categoria4",
+        stock: 10,
+        caracteristicas: [
+            "Materiales: XXXXXXXXX",
+            "Medidas: XXXXXXXXX",
+            "Peso: XXXXXXXXX",
+            "Calidad: XXXXXXXXX",
+            "Marca: XXXXXXXXX"
+        ]
+    },
+    
+];
+
+// Renderizar productos
+function renderizarProductos() {
+    const grid = document.getElementById('productsGrid');
+    if (!grid) return;
+
+    grid.innerHTML = productos.map(producto => `
+        <article class="product-card">
+            <a href="producto.html?id=${producto.id}" class="product-link">
+                <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" loading="lazy">
+                <div class="product-info">
+                    <h3 class="product-title">${producto.nombre}</h3>
+                    <p class="product-description">${producto.descripcion}</p>
+                    <p class="product-price">${formatearPrecio(producto.precio)}</p>
+                </div>
+            </a>
+            <div class="product-actions">
+                <button class="add-to-cart-btn" onclick="window.location.href='producto.html?id=${producto.id}'" aria-label="Ver detalles de ${producto.nombre}">
+                    Ver producto
+                </button>
+
+                <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})" aria-label="Agregar ${producto.nombre} al carrito">
+                    Agregar al Carrito
+                </button>
+            </div>
+        </article>
+    `).join('');
+}
+
+// Agregar al carrito
+function agregarAlCarrito(id) {
+    const producto = productos.find(p => p.id === id);
+    if (!producto) return;
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingItem = cart.find(item => item.id === id);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            imagen: producto.imagen,
+            quantity: 1
+        });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    actualizarContadorCarrito();
+    mostrarNotificacion('Producto agregado al carrito');
+}
+
+// Formatear precio
+function formatearPrecio(precio) {
+    return precio.toLocaleString('es-AR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    });
+}
+
+// Mostrar notificación
+function mostrarNotificacion(mensaje) {
+    const notif = document.createElement('div');
+    notif.textContent = mensaje;
+    notif.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: #22c55e;
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 5px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 9999;
+        animation: slideIn 0.3s ease-out;
+    `;
+
+    document.body.appendChild(notif);
+
+    setTimeout(() => {
+        notif.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => notif.remove(), 300);
+    }, 2000);
+}
+
+// Agregar estilos de animación
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Inicializar al cargar la página
+document.addEventListener('DOMContentLoaded', renderizarProductos);
