@@ -111,7 +111,15 @@ function renderizarDetalleProducto(producto) {
             
             <div class="product-detail-info">
                 <span class="product-category">${producto.categoria}</span>
-                <h1>${producto.nombre}</h1>
+                <div class="product-title-row">
+                    <h1>${producto.nombre}</h1>
+                    <button class="btn-favorito ${esFavorito(producto.id) ? 'active' : ''}" 
+                            onclick="toggleFavorito(${producto.id})" 
+                            aria-label="Agregar a favoritos"
+                            id="btnFavorito">
+                        <i class="${esFavorito(producto.id) ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                    </button>
+                </div>
                 
                 <p class="product-stock ${stockClass}">${stockText}</p>
                 
@@ -149,6 +157,25 @@ function renderizarDetalleProducto(producto) {
                     </button>
                 </div>
                 
+                <div class="share-buttons">
+                    <span class="share-label">Compartir:</span>
+                    <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(producto.nombre + ' - ' + window.location.href)}" 
+                       target="_blank" rel="noopener" class="share-btn whatsapp" aria-label="Compartir en WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" 
+                       target="_blank" rel="noopener" class="share-btn facebook" aria-label="Compartir en Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(producto.nombre)}&url=${encodeURIComponent(window.location.href)}" 
+                       target="_blank" rel="noopener" class="share-btn twitter" aria-label="Compartir en X/Twitter">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                    <button class="share-btn copy-link" onclick="copiarEnlace()" aria-label="Copiar enlace">
+                        <i class="fa-solid fa-link"></i>
+                    </button>
+                </div>
+
                 <div class="product-navigation">
                     ${prevProduct ? `
                         <a href="producto.html?id=${prevProduct.id}" class="nav-product-btn prev">
@@ -629,6 +656,81 @@ function mostrarNotificacion(mensaje) {
         notif.style.animation = 'slideOut 0.3s ease-out';
         setTimeout(() => notif.remove(), 300);
     }, 2000);
+}
+
+// ===== FAVORITOS =====
+
+// Obtener favoritos desde localStorage
+function obtenerFavoritos() {
+    return JSON.parse(localStorage.getItem('favorites')) || [];
+}
+
+// Verificar si un producto es favorito
+function esFavorito(id) {
+    const favoritos = obtenerFavoritos();
+    return favoritos.includes(id);
+}
+
+// Agregar o quitar de favoritos
+function toggleFavorito(id) {
+    let favoritos = obtenerFavoritos();
+    const index = favoritos.indexOf(id);
+    
+    if (index > -1) {
+        favoritos.splice(index, 1);
+        mostrarNotificacion('Eliminado de favoritos');
+    } else {
+        favoritos.push(id);
+        mostrarNotificacion('Agregado a favoritos ♥');
+    }
+    
+    localStorage.setItem('favorites', JSON.stringify(favoritos));
+    
+    // Actualizar botón
+    const btn = document.getElementById('btnFavorito');
+    if (btn) {
+        const icon = btn.querySelector('i');
+        if (esFavorito(id)) {
+            btn.classList.add('active');
+            icon.className = 'fa-solid fa-heart';
+        } else {
+            btn.classList.remove('active');
+            icon.className = 'fa-regular fa-heart';
+        }
+    }
+    
+    // Actualizar contador en el nav
+    actualizarContadorFavoritos();
+}
+
+// Actualizar contador de favoritos en el nav
+function actualizarContadorFavoritos() {
+    const favoritos = obtenerFavoritos();
+    const contadores = document.querySelectorAll('.favorites-count');
+    contadores.forEach(contador => {
+        contador.textContent = favoritos.length;
+        if (favoritos.length > 0) {
+            contador.style.display = 'flex';
+        } else {
+            contador.style.display = 'none';
+        }
+    });
+}
+
+// Copiar enlace al portapapeles
+function copiarEnlace() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        mostrarNotificacion('Enlace copiado al portapapeles');
+    }).catch(() => {
+        // Fallback para navegadores que no soportan clipboard API
+        const input = document.createElement('input');
+        input.value = window.location.href;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        mostrarNotificacion('Enlace copiado al portapapeles');
+    });
 }
 
 // Formatear precio

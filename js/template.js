@@ -34,6 +34,9 @@ function renderHeader(activePage = '') {
                     <a href="faq.html" class="nav-link ${activePage === 'faq' ? 'active' : ''}">Preguntas</a> 
                     <!-- <a href="index.html#contacto" class="nav-link ${activePage === 'contacto' ? 'active' : ''}">Contacto</a>-->
                     <a href="contacto.html" class="nav-link ${activePage === 'contacto' ? 'active' : ''}">Contacto</a> 
+                    <a href="favoritos.html" class="nav-link favorites-link ${activePage === 'favoritos' ? 'active' : ''}" aria-label="Mis Favoritos">
+                        <i class="fa-solid fa-heart"></i><span class="favorites-count">0</span>
+                    </a>
                     <a href="carrito.html" class="nav-link cart-link ${activePage === 'carrito' ? 'active' : ''}">
                     <i class="fa-solid fa-cart-shopping"></i><span class="cart-count">0</span>
                     </a>
@@ -73,9 +76,26 @@ function initTemplate(activePage = '') {
     body.appendChild(footer);
 }
 
+// Actualizar contador de favoritos en el nav
+function actualizarContadorFavoritosGlobal() {
+    const favoritos = JSON.parse(localStorage.getItem('favorites')) || [];
+    const contadores = document.querySelectorAll('.favorites-count');
+    contadores.forEach(contador => {
+        contador.textContent = favoritos.length;
+        if (favoritos.length > 0) {
+            contador.style.display = 'flex';
+        } else {
+            contador.style.display = 'none';
+        }
+    });
+}
+
 // Auto-inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function () {
     // Detectar página activa desde el atributo data-page del body
     const activePage = document.body.getAttribute('data-page') || '';
     initTemplate(activePage);
+    
+    // Actualizar contador de favoritos
+    actualizarContadorFavoritosGlobal();
 });
