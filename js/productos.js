@@ -1,6 +1,6 @@
 // Base de datos de productos con galería de imágenes
 // Generado automáticamente desde Google Sheets
-// Última actualización: 22/3/2026, 11:03:19
+// Última actualización: 4/4/2026, 10:38:39
 
 const productos = [
     {
@@ -180,9 +180,13 @@ const productos = [
         descripcion: "Gorra de categoría 3",
         descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1gvdyzBOkhGZWdo8wH-WaiW03VVSoK_WA",
+        imagen: "https://lh3.googleusercontent.com/d/17aL-EWpvYWvHa_ViqJvZ0-uFIV1fdS5i",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1gvdyzBOkhGZWdo8wH-WaiW03VVSoK_WA"
+            "https://lh3.googleusercontent.com/d/17aL-EWpvYWvHa_ViqJvZ0-uFIV1fdS5i",
+            "https://lh3.googleusercontent.com/d/10Ik5qKi7Y-QJc6pFHqcJlAcOSp9xwKhD",
+            "https://lh3.googleusercontent.com/d/1CZiA3S_QnjSivi7Ixdp2kLxMZ4zjKsfY",
+            "https://lh3.googleusercontent.com/d/1lrWCFf-IBtynUVotrTH0ireF9zECabsI",
+            "https://lh3.googleusercontent.com/d/1-JBvtDf-dY1-JQ5VluZHpNWWHicAdcCB"
         ],
         categoria: "categoria3",
         stock: 200,
