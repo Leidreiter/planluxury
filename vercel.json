@@ -32,11 +32,5 @@
       "source": "/favoritos",
       "destination": "/favoritos.html"
     }
-  ],
-  "errors": [
-    {
-      "status": 404,
-      "destination": "/404.html"
-    }
   ]
 }
