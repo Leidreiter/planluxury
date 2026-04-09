@@ -1,6 +1,6 @@
 // Base de datos de productos con galería de imágenes
 // Generado automáticamente desde Google Sheets
-// Última actualización: 5/4/2026, 12:19:15
+// Última actualización: 9/4/2026, 01:12:17
 
 const productos = [
     {
@@ -9,13 +9,9 @@ const productos = [
         descripcion: "Gorra de categoría 1",
         descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/15_Ck7vyYsDelpxaiFxGy2st71Jkkiy1p",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/15_Ck7vyYsDelpxaiFxGy2st71Jkkiy1p",
-            "https://lh3.googleusercontent.com/d/1gUQvREIEWwOhuiuwEer5GQ01KB4rqJwH",
-            "https://lh3.googleusercontent.com/d/10Ycxl2cxTNnLGY_a2p_Ke1oNS8BbiBl4",
-            "https://lh3.googleusercontent.com/d/1B-iX_NIDHe0T_WyYlK3HTSXrU7IFADeS",
-            "https://lh3.googleusercontent.com/d/1zfKFg9iNy8TzzW78qhVgKe1d5RxVjUX8"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria1",
         stock: 200,
@@ -32,13 +28,9 @@ const productos = [
         descripcion: "Gorra de categoría 1",
         descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1Ifxs_XTgreF3-NtoZCBCQeua3wC3IJAs",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1Ifxs_XTgreF3-NtoZCBCQeua3wC3IJAs",
-            "https://lh3.googleusercontent.com/d/1AwhBVe4RvTTjX3_6ox1lvaALv_QHKhlj",
-            "https://lh3.googleusercontent.com/d/1keQ4cp0wvPWdWALReZlMYnHmOfWDaoeD",
-            "https://lh3.googleusercontent.com/d/1JCq_GaTiV6LWm64taAfEW9FKTsCkYJ1m",
-            "https://lh3.googleusercontent.com/d/17gvQ42huws6rnPYcUuaS4QCJR8N0QmQw"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria1",
         stock: 200,
@@ -55,13 +47,9 @@ const productos = [
         descripcion: "Gorra de categoría 1",
         descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1doHfuSpVkEGbzh1E-Ze6WbT-_rMUPHxv",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1doHfuSpVkEGbzh1E-Ze6WbT-_rMUPHxv",
-            "https://lh3.googleusercontent.com/d/1nwgHA_jGDdKWZ4luL7GYn5hedPmPGELS",
-            "https://lh3.googleusercontent.com/d/1BpRBDU4fwJBOYlvVuW9tduzYKcdV5MHC",
-            "https://lh3.googleusercontent.com/d/1JTkMZR7gln4qLiyK7CPy8TtF3LARXGNa",
-            "https://lh3.googleusercontent.com/d/1ogrhfETHCCftKCzyCnNVUoEddXMynakR"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria1",
         stock: 200,
@@ -78,13 +66,9 @@ const productos = [
         descripcion: "Gorra de categoría 1",
         descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/18xYPGb7zN43_J9mwOm5CP2hEQ9EiI8re",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/18xYPGb7zN43_J9mwOm5CP2hEQ9EiI8re",
-            "https://lh3.googleusercontent.com/d/1uJGjF0Xvt_cxiwQYrcgxle7jY4KQSN35",
-            "https://lh3.googleusercontent.com/d/18liHkmuHhoHHIA_LdUct4eQ4oovqCL77",
-            "https://lh3.googleusercontent.com/d/1XYGOtgZ6HR77GUEreOefxfGg_QOyuzbC",
-            "https://lh3.googleusercontent.com/d/1G6MNVyz06cncNjxYfsIh7u-SDOE-cksV"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria1",
         stock: 200,
@@ -101,13 +85,9 @@ const productos = [
         descripcion: "Gorra de categoría 2",
         descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1wxowuUlAGqz6Tx6Fm0Cyb46ovggy0iIP",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1wxowuUlAGqz6Tx6Fm0Cyb46ovggy0iIP",
-            "https://lh3.googleusercontent.com/d/1fLRqcz4NVl6JPIvC0EG68RpVXmv3ySox",
-            "https://lh3.googleusercontent.com/d/111nVPINu9gQEA5ep5oAjlXr3Bhs9VECc",
-            "https://lh3.googleusercontent.com/d/1rC925TRcFo7gkkBGDlxbJY_vtRMoCc22",
-            "https://lh3.googleusercontent.com/d/1s3n47M1VyqM520h4iWEWd8AREAqwTuDT"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria2",
         stock: 200,
@@ -124,13 +104,9 @@ const productos = [
         descripcion: "Gorra de categoría 2",
         descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1cnmBXvIZkRL5gN-YRvcLUmysd9acl4zR",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1cnmBXvIZkRL5gN-YRvcLUmysd9acl4zR",
-            "https://lh3.googleusercontent.com/d/1_Ti8ZaesbmDFtuU0AeqlJ2TR4_W8Yz9l",
-            "https://lh3.googleusercontent.com/d/1N0jALz-s1F8CZKENDbkZfw96TQbMD7gB",
-            "https://lh3.googleusercontent.com/d/1o43PUbmE_vEPvfDSJz75XRlPgcecazcu",
-            "https://lh3.googleusercontent.com/d/1wwfnAU_YnpmRilzDKmTJc-84a_XEJayX"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria2",
         stock: 200,
@@ -147,13 +123,9 @@ const productos = [
         descripcion: "Gorra de categoría 2",
         descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1vwoJhU6LBnvb27oKJVUSV6jIN01znts8",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1vwoJhU6LBnvb27oKJVUSV6jIN01znts8",
-            "https://lh3.googleusercontent.com/d/1ETD2U3d5xRpfn3fRkqRccowmrHxy6wpN",
-            "https://lh3.googleusercontent.com/d/1JcjMgsvTQrYJMmBlwYAsHi-1h6nZ36Nu",
-            "https://lh3.googleusercontent.com/d/1_2uOwepeySoqpWawpbrWGl78hPwEyhvu",
-            "https://lh3.googleusercontent.com/d/1qXMplY5aK_J80To09sEa-JycOlWJ-hO_"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria2",
         stock: 200,
@@ -170,13 +142,9 @@ const productos = [
         descripcion: "Gorra de categoría 2",
         descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1TLJ4RRQ68t-3bEj3AWGuJP8VGTwIuL33",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1TLJ4RRQ68t-3bEj3AWGuJP8VGTwIuL33",
-            "https://lh3.googleusercontent.com/d/1g3nWDiO5rZZOORVIiX--LIJVDOCGC7tX",
-            "https://lh3.googleusercontent.com/d/1i18-OGIeTMIIlkeA6qKJh-0wmBTnaSVS",
-            "https://lh3.googleusercontent.com/d/18DLF2ch6EE_4HcMp9-DKqMS8RmpJ_FhJ",
-            "https://lh3.googleusercontent.com/d/1gxOzs7t4VG2udxybJ4KsdLW8tgiCJlIt"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria2",
         stock: 200,
@@ -193,13 +161,9 @@ const productos = [
         descripcion: "Gorra de categoría 3",
         descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/12viSDXeUsDxm4NvjeRu1eKKHdWhJbwIT",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/12viSDXeUsDxm4NvjeRu1eKKHdWhJbwIT",
-            "https://lh3.googleusercontent.com/d/1xASZOYVkZ_dMleFI2qaOilwR8Y2gGC9x",
-            "https://lh3.googleusercontent.com/d/1aF0pcrKUw631w2bg6TNsr1iTRYO8jtIg",
-            "https://lh3.googleusercontent.com/d/1hEqL4CY92AS58CJzHlx308A2pl8-8PYi",
-            "https://lh3.googleusercontent.com/d/1nSXimpDElY9-q7Pt_ssEDeyhsArsNWaM"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria3",
         stock: 200,
@@ -216,13 +180,9 @@ const productos = [
         descripcion: "Gorra de categoría 3",
         descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/17aL-EWpvYWvHa_ViqJvZ0-uFIV1fdS5i",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/17aL-EWpvYWvHa_ViqJvZ0-uFIV1fdS5i",
-            "https://lh3.googleusercontent.com/d/10Ik5qKi7Y-QJc6pFHqcJlAcOSp9xwKhD",
-            "https://lh3.googleusercontent.com/d/1CZiA3S_QnjSivi7Ixdp2kLxMZ4zjKsfY",
-            "https://lh3.googleusercontent.com/d/1lrWCFf-IBtynUVotrTH0ireF9zECabsI",
-            "https://lh3.googleusercontent.com/d/1-JBvtDf-dY1-JQ5VluZHpNWWHicAdcCB"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria3",
         stock: 200,
@@ -239,13 +199,9 @@ const productos = [
         descripcion: "Gorra de categoría 3",
         descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1_KaDUqj-iwCs0wW5tKeyp532IBR9oLF3",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1_KaDUqj-iwCs0wW5tKeyp532IBR9oLF3",
-            "https://lh3.googleusercontent.com/d/1M_62Y0_5KIrKX3b7PHg2BzwszVKT3y41",
-            "https://lh3.googleusercontent.com/d/1RAN-966v9Et4HM_OJGHgyPd3cAzJp1xW",
-            "https://lh3.googleusercontent.com/d/1VMogxVtQIQIu-Jd6574svhDXNtD_8fUm",
-            "https://lh3.googleusercontent.com/d/1tBCrDlYrK29rnz1OIbEQ2LLjaJeBX_14"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria3",
         stock: 200,
@@ -262,13 +218,9 @@ const productos = [
         descripcion: "Gorra de categoría 3",
         descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1SnQnSKdJaut_JG6iwDilQsWk00erIaTj",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1SnQnSKdJaut_JG6iwDilQsWk00erIaTj",
-            "https://lh3.googleusercontent.com/d/1xZhfGT0kZVbwNNqxIjJiIfHidh71NeXI",
-            "https://lh3.googleusercontent.com/d/1OQBTLI1-ON9uIkZivSKqx6zDe5FIgWvo",
-            "https://lh3.googleusercontent.com/d/1THVRQC4njTIrnqJwbppzIMzfmAAuh3Tx",
-            "https://lh3.googleusercontent.com/d/16CuN1Rkfice77nQ4LdJ7FzOeocd9dJ7n"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria3",
         stock: 200,
@@ -285,13 +237,9 @@ const productos = [
         descripcion: "Gorra de categoría 4",
         descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1W3msjSqJxg22RGiNmO_WtnjD5sSRqwxA",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1W3msjSqJxg22RGiNmO_WtnjD5sSRqwxA",
-            "https://lh3.googleusercontent.com/d/1Mab0XANKrwkHFOIwzIztwZ9MXsBi2F7e",
-            "https://lh3.googleusercontent.com/d/1MSpUcKUoNuVCwvVumYK_dAMQTuaDhU58",
-            "https://lh3.googleusercontent.com/d/17MJanoLH2JjPhJvxv8dRjMUwlw3ba5zf",
-            "https://lh3.googleusercontent.com/d/1kKP5oNUzkYUllSutk3AB0XU9lME2_rkH"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria4",
         stock: 200,
@@ -308,13 +256,9 @@ const productos = [
         descripcion: "Gorra de categoría 4",
         descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1_T1cDoWLGEyWeOGSI1KqQnKLnTNBbGIy",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1_T1cDoWLGEyWeOGSI1KqQnKLnTNBbGIy",
-            "https://lh3.googleusercontent.com/d/1Gu6NGjrH9-fiP9MYk-5esySs4v_4ifZJ",
-            "https://lh3.googleusercontent.com/d/10-QoPROwCuvLqO2fEjR_IICNQUHRaei-",
-            "https://lh3.googleusercontent.com/d/16vrYALCQeQ3PRvT3b9qYwyU4EmPwYwVm",
-            "https://lh3.googleusercontent.com/d/1-fHo22AiwgNiFs6sXC4tBzWw6E62YBeu"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria4",
         stock: 200,
@@ -331,13 +275,9 @@ const productos = [
         descripcion: "Gorra de categoría 4",
         descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1X3d9gLCtu-BIzFrm4yWl7G6MjieeOXiD",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1X3d9gLCtu-BIzFrm4yWl7G6MjieeOXiD",
-            "https://lh3.googleusercontent.com/d/12oiY4DWul2OgYRx-Kty0_fLuyqw2irIm",
-            "https://lh3.googleusercontent.com/d/1kdF57Sl6bG1aFkpVOs-4SDdOtvDMkSMc",
-            "https://lh3.googleusercontent.com/d/1GfQxHSrow8dZkU7kCR_rkfUhc77TvNtF",
-            "https://lh3.googleusercontent.com/d/1poXkRQGZzlUiCcqaNeuVg656e--k332S"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria4",
         stock: 200,
@@ -354,13 +294,9 @@ const productos = [
         descripcion: "Gorra de categoría 4",
         descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
         precio: 8000,
-        imagen: "https://lh3.googleusercontent.com/d/1LkntxY_KCp650D0f8bxA4NtGLMfDYXFv",
+        imagen: "img/productos/placeholder.png",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1LkntxY_KCp650D0f8bxA4NtGLMfDYXFv",
-            "https://lh3.googleusercontent.com/d/1820th3Y1XZCTvNL6SJeO6xNiH7etrB1-",
-            "https://lh3.googleusercontent.com/d/1uyWiPUVG-ChxCjSynOMYRI6FR467LFN8",
-            "https://lh3.googleusercontent.com/d/1SeK8iJKF6O6ZAjoqWNj6scX94xiap-2u",
-            "https://lh3.googleusercontent.com/d/1zraXbYIgsIbBZfNGEP8KTNUjC66B6lUG"
+            "img/productos/placeholder.png"
         ],
         categoria: "categoria4",
         stock: 200,
