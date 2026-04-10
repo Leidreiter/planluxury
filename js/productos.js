@@ -1,310 +1,310 @@
 // Base de datos de productos con galería de imágenes
 // Generado automáticamente desde Google Sheets
-// Última actualización: 9/4/2026, 01:12:17
+// Última actualización: 9/4/2026, 10:52:23
 
 const productos = [
     {
         id: 1,
-        nombre: "gorro Dormir",
-        descripcion: "Gorra de categoría 1",
-        descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Botas cuero hombre",
+        descripcion: "Botas de cuero resistentes con estilo clásico masculino",
+        descripcionDetallada: "Botas de cuero genuino diseñadas para hombres que buscan durabilidad y presencia. Ideales para uso diario o salidas, combinan comodidad con un diseño robusto y elegante.",
+        precio: 114000,
+        imagen: "https://lh3.googleusercontent.com/d/1XRvBa52MEohlTqtFBu3XVTUp1MmelF8I",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1XRvBa52MEohlTqtFBu3XVTUp1MmelF8I"
         ],
-        categoria: "categoria1",
-        stock: 200,
+        categoria: "Calzado",
+        stock: 20,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Cuero genuino",
+            "Suela antideslizante",
+            "Interior acolchado",
+            "Alta durabilidad"
         ]
     },
     {
         id: 2,
-        nombre: "gorro Bruja",
-        descripcion: "Gorra de categoría 1",
-        descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Botitas lowtops mujer",
+        descripcion: "Botitas bajas modernas y versátiles para uso diario",
+        descripcionDetallada: "Botitas lowtops para mujer con diseño urbano, ideales para looks casuales. Livianas y cómodas, perfectas para acompañarte todo el día sin perder estilo.",
+        precio: 78000,
+        imagen: "https://lh3.googleusercontent.com/d/1bd_4VHX6smbYR5hyJo8fAnU_smX6Chb1",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1bd_4VHX6smbYR5hyJo8fAnU_smX6Chb1"
         ],
-        categoria: "categoria1",
-        stock: 200,
+        categoria: "Calzado",
+        stock: 25,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Diseño lowtop",
+            "Material sintético premium",
+            "Livianas",
+            "Suela flexible"
         ]
     },
     {
         id: 3,
-        nombre: "gorro Cumple",
-        descripcion: "Gorra de categoría 1",
-        descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Buzo canguro liso hombre",
+        descripcion: "Buzo canguro básico y cómodo para uso diario",
+        descripcionDetallada: "Buzo canguro liso para hombre, ideal para un look relajado. Fabricado con materiales suaves que brindan abrigo y confort en cualquier ocasión.",
+        precio: 54000,
+        imagen: "https://lh3.googleusercontent.com/d/1TnBSORvZT7buvqElpidZuh0PFgO2Ayjp",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1TnBSORvZT7buvqElpidZuh0PFgO2Ayjp"
         ],
-        categoria: "categoria1",
-        stock: 200,
+        categoria: "Indumentaria",
+        stock: 30,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Bolsillo frontal",
+            "Capucha ajustable",
+            "Tela suave",
+            "Corte regular"
         ]
     },
     {
         id: 4,
-        nombre: "gorra Lluvia",
-        descripcion: "Gorra de categoría 1",
-        descripcionDetallada: "Gorra de categoría 1 - Gorra de categoría 1",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Buzo canguro mujer",
+        descripcion: "Buzo canguro femenino cómodo y versátil",
+        descripcionDetallada: "Buzo canguro para mujer con diseño moderno, ideal para outfits casuales. Ofrece abrigo y estilo en una sola prenda.",
+        precio: 57600,
+        imagen: "https://lh3.googleusercontent.com/d/1kSYVlEOPb34gNCBL-hqaCZVlbTZ0WENc",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1kSYVlEOPb34gNCBL-hqaCZVlbTZ0WENc"
         ],
-        categoria: "categoria1",
-        stock: 200,
+        categoria: "Indumentaria",
+        stock: 10,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Capucha con cordón",
+            "Bolsillo frontal",
+            "Tela abrigada",
+            "Ajuste cómodo"
         ]
     },
     {
         id: 5,
-        nombre: "sombrero Maquinista",
-        descripcion: "Gorra de categoría 2",
-        descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Buzo liso mujer",
+        descripcion: "Buzo básico femenino, ideal para cualquier ocasión",
+        descripcionDetallada: "Buzo liso para mujer de diseño minimalista, fácil de combinar. Perfecto para looks casuales o deportivos.",
+        precio: 48000,
+        imagen: "https://lh3.googleusercontent.com/d/1Isnq45gffmO8MKfVNhsBakspc1qnzkGs",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1Isnq45gffmO8MKfVNhsBakspc1qnzkGs"
         ],
-        categoria: "categoria2",
-        stock: 200,
+        categoria: "Indumentaria",
+        stock: 35,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Diseño minimalista",
+            "Tela suave",
+            "Corte clásico",
+            "Fácil combinación"
         ]
     },
     {
         id: 6,
-        nombre: "gorro Pirata",
-        descripcion: "Gorra de categoría 2",
-        descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Buzo oversize mujer",
+        descripcion: "Buzo oversize con estilo relajado y moderno",
+        descripcionDetallada: "Buzo oversize para mujer, tendencia actual que combina comodidad y estilo urbano. Ideal para looks sueltos y descontracturados.",
+        precio: 62400,
+        imagen: "https://lh3.googleusercontent.com/d/1B7XDLlPvK2eWKX36mH-w9F4oYWZj7C4N",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1B7XDLlPvK2eWKX36mH-w9F4oYWZj7C4N"
         ],
-        categoria: "categoria2",
-        stock: 200,
+        categoria: "Indumentaria",
+        stock: 22,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Fit oversize",
+            "Tela gruesa",
+            "Estilo urbano",
+            "Máximo confort"
         ]
     },
     {
         id: 7,
-        nombre: "gorro Aprendiz",
-        descripcion: "Gorra de categoría 2",
-        descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Jean oscuro mujer",
+        descripcion: "Jean oscuro elegante y versátil",
+        descripcionDetallada: "Jean para mujer en tono oscuro, ideal para looks tanto casuales como formales. Ajuste cómodo que resalta la silueta.",
+        precio: 66000,
+        imagen: "https://lh3.googleusercontent.com/d/19dALGxH4xSTHUUgbLLLv0c-ixIe253iP",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/19dALGxH4xSTHUUgbLLLv0c-ixIe253iP"
         ],
-        categoria: "categoria2",
-        stock: 200,
+        categoria: "Pantalones",
+        stock: 27,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Color oscuro",
+            "Ajuste cómodo",
+            "Tela resistente",
+            "Diseño versátil"
         ]
     },
     {
         id: 8,
-        nombre: "gorro Plata",
-        descripcion: "Gorra de categoría 2",
-        descripcionDetallada: "Gorra de categoría 2 - Gorra de categoría 2",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Jeans clásicos hombre",
+        descripcion: "Jeans clásicos masculinos de uso diario",
+        descripcionDetallada: "Jeans para hombre con corte tradicional, ideales para cualquier ocasión. Duraderos y cómodos para el día a día.",
+        precio: 72000,
+        imagen: "https://lh3.googleusercontent.com/d/1oBuHoRoMNf8tga4-WERHhL59C2cPbgQ4",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1oBuHoRoMNf8tga4-WERHhL59C2cPbgQ4"
         ],
-        categoria: "categoria2",
-        stock: 200,
+        categoria: "Pantalones",
+        stock: 32,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Corte clásico",
+            "Denim resistente",
+            "Ajuste regular",
+            "Alta durabilidad"
         ]
     },
     {
         id: 9,
-        nombre: "gorra Marinero",
-        descripcion: "Gorra de categoría 3",
-        descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Jeans pata elefante mujer",
+        descripcion: "Jeans pata elefante con estilo retro",
+        descripcionDetallada: "Jeans para mujer con corte pata elefante, inspirados en tendencias vintage. Perfectos para destacar con un look único.",
+        precio: 69600,
+        imagen: "https://lh3.googleusercontent.com/d/15NTvnnD3QmAiTjqEebO3KcKO811p6ffv",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/15NTvnnD3QmAiTjqEebO3KcKO811p6ffv"
         ],
-        categoria: "categoria3",
-        stock: 200,
+        categoria: "Pantalones",
+        stock: 18,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Corte amplio",
+            "Estilo retro",
+            "Tela cómoda",
+            "Tiro medio/alto"
         ]
     },
     {
         id: 10,
-        nombre: "galera",
-        descripcion: "Gorra de categoría 3",
-        descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Jeans rotura hombre",
+        descripcion: "Jeans desgastados con roturas modernas",
+        descripcionDetallada: "Jeans para hombre con roturas estratégicas que aportan un look urbano y actual. Ideales para outfits informales.",
+        precio: 74400,
+        imagen: "https://lh3.googleusercontent.com/d/10v2Ba-w5B67DLYJIpwsimqo_HKTvDJDG",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/10v2Ba-w5B67DLYJIpwsimqo_HKTvDJDG"
         ],
-        categoria: "categoria3",
-        stock: 200,
+        categoria: "Pantalones",
+        stock: 24,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Diseño con roturas",
+            "Estilo urbano",
+            "Denim flexible",
+            "Ajuste moderno"
         ]
     },
     {
         id: 11,
-        nombre: "galera Cuero",
-        descripcion: "Gorra de categoría 3",
-        descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Remera calavera hombre",
+        descripcion: "Remera con diseño de calavera llamativo",
+        descripcionDetallada: "Remera para hombre con estampado de calavera, perfecta para un estilo rebelde y moderno.",
+        precio: 36000,
+        imagen: "https://lh3.googleusercontent.com/d/1tVjE7MdzZyOUJ38lEZ7PBERgcmmhzSfd",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1tVjE7MdzZyOUJ38lEZ7PBERgcmmhzSfd"
         ],
-        categoria: "categoria3",
-        stock: 200,
+        categoria: "Remeras",
+        stock: 10,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Estampa frontal",
+            "Algodón suave",
+            "Corte regular",
+            "Alta calidad de impresión"
         ]
     },
     {
         id: 12,
-        nombre: "sombreo Dama",
-        descripcion: "Gorra de categoría 3",
-        descripcionDetallada: "Gorra de categoría 3 - Gorra de categoría 3",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Remera game over mujer",
+        descripcion: "Remera gamer con diseño “Game Over”",
+        descripcionDetallada: "Remera para mujer con estampa divertida “Game Over”, ideal para fanáticas del gaming y el estilo casual.",
+        precio: 33600,
+        imagen: "https://lh3.googleusercontent.com/d/1_pj-RtbTVCGu6_-ou6bkLqeH3zCZSedA",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1_pj-RtbTVCGu6_-ou6bkLqeH3zCZSedA"
         ],
-        categoria: "categoria3",
-        stock: 200,
+        categoria: "Remeras",
+        stock: 5,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Diseño gamer",
+            "Tela liviana",
+            "Corte femenino",
+            "Estampa duradera"
         ]
     },
     {
         id: 13,
-        nombre: "sombrero Playero",
-        descripcion: "Gorra de categoría 4",
-        descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Remera tucán mujer",
+        descripcion: "Remera con estampa de tucán colorida",
+        descripcionDetallada: "Remera femenina con diseño de tucán vibrante, ideal para looks frescos y veraniegos",
+        precio: 32400,
+        imagen: "https://lh3.googleusercontent.com/d/1Nhz65hG73zpyQ56dq9oz3JswUAl3LsVe",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1Nhz65hG73zpyQ56dq9oz3JswUAl3LsVe"
         ],
-        categoria: "categoria4",
-        stock: 200,
+        categoria: "Remeras",
+        stock: 23,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Estampa tropical",
+            "Algodón liviano",
+            "Corte cómodo",
+            "Colores vivos"
         ]
     },
     {
         id: 14,
-        nombre: "sombrero Caballero",
-        descripcion: "Gorra de categoría 4",
-        descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Suéter traveller mujer",
+        descripcion: "Suéter cómodo ideal para viajes",
+        descripcionDetallada: "Suéter para mujer pensado para viajes y uso diario, combinando abrigo ligero con estilo moderno.",
+        precio: 60000,
+        imagen: "https://lh3.googleusercontent.com/d/1AXaBdEgw2esUfLxSNJL9H-Co1woqVLAj",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1AXaBdEgw2esUfLxSNJL9H-Co1woqVLAj"
         ],
-        categoria: "categoria4",
-        stock: 200,
+        categoria: "Remeras",
+        stock: 5,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Tela térmica ligera",
+            "Diseño versátil",
+            "Ajuste cómodo",
+            "Fácil de transportar"
         ]
     },
     {
         id: 15,
-        nombre: "gorrito Bebe",
-        descripcion: "Gorra de categoría 4",
-        descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Zapatillas hightop mujer",
+        descripcion: "Zapatillas high top con estilo urbano",
+        descripcionDetallada: "Zapatillas de caña alta para mujer, ideales para looks urbanos y modernos. Combinan diseño y comodidad.",
+        precio: 84000,
+        imagen: "https://lh3.googleusercontent.com/d/1dmKkLbPsFeqR_Me3wrv8DecFv7lffE01",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1dmKkLbPsFeqR_Me3wrv8DecFv7lffE01"
         ],
-        categoria: "categoria4",
-        stock: 200,
+        categoria: "Calzado",
+        stock: 20,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Caña alta",
+            "Diseño moderno",
+            "Suela resistente",
+            "Ajuste seguro"
         ]
     },
     {
         id: 16,
-        nombre: "gorra",
-        descripcion: "Gorra de categoría 4",
-        descripcionDetallada: "Gorra de categoría 4 - Gorra de categoría 4",
-        precio: 8000,
-        imagen: "img/productos/placeholder.png",
+        nombre: "Zapatillas urbanas mujer",
+        descripcion: "Zapatillas urbanas cómodas para el día a día",
+        descripcionDetallada: "Zapatillas para mujer con estilo urbano, pensadas para uso diario. Livianas, cómodas y fáciles de combinar.",
+        precio: 81600,
+        imagen: "https://lh3.googleusercontent.com/d/1OU1lieM-MY5siUCyM_klmpjnDJOIIfif",
         galeria: [
-            "img/productos/placeholder.png"
+            "https://lh3.googleusercontent.com/d/1OU1lieM-MY5siUCyM_klmpjnDJOIIfif"
         ],
-        categoria: "categoria4",
-        stock: 200,
+        categoria: "Calzado",
+        stock: 12,
         caracteristicas: [
-            "alogodón",
-            "industria nacional",
-            "estilizada",
-            "personalizable"
+            "Diseño urbano",
+            "Material liviano",
+            "Suela flexible",
+            "Uso diario"
         ]
     }
 ];
