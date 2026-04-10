@@ -1,6 +1,6 @@
 // Base de datos de productos con galería de imágenes
 // Generado automáticamente desde Google Sheets
-// Última actualización: 9/4/2026, 10:52:23
+// Última actualización: 9/4/2026, 11:09:01
 
 const productos = [
     {
@@ -11,7 +11,9 @@ const productos = [
         precio: 114000,
         imagen: "https://lh3.googleusercontent.com/d/1XRvBa52MEohlTqtFBu3XVTUp1MmelF8I",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1XRvBa52MEohlTqtFBu3XVTUp1MmelF8I"
+            "https://lh3.googleusercontent.com/d/1XRvBa52MEohlTqtFBu3XVTUp1MmelF8I",
+            "https://lh3.googleusercontent.com/d/162rcn298gX3Agq1xwsgEHWA8F7UhK0IO",
+            "https://lh3.googleusercontent.com/d/1irYSLUlSqsdrkwVBGUsl6JLVVm-an31y"
         ],
         categoria: "Calzado",
         stock: 20,
@@ -30,7 +32,9 @@ const productos = [
         precio: 78000,
         imagen: "https://lh3.googleusercontent.com/d/1bd_4VHX6smbYR5hyJo8fAnU_smX6Chb1",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1bd_4VHX6smbYR5hyJo8fAnU_smX6Chb1"
+            "https://lh3.googleusercontent.com/d/1bd_4VHX6smbYR5hyJo8fAnU_smX6Chb1",
+            "https://lh3.googleusercontent.com/d/1YN8dvR3vi_Xy-Ky6kJ0QZ7PvFfMxuusc",
+            "https://lh3.googleusercontent.com/d/1SypvaQtWzeo_LOqC60kFMF_M0rGrMNIP"
         ],
         categoria: "Calzado",
         stock: 25,
@@ -49,7 +53,9 @@ const productos = [
         precio: 54000,
         imagen: "https://lh3.googleusercontent.com/d/1TnBSORvZT7buvqElpidZuh0PFgO2Ayjp",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1TnBSORvZT7buvqElpidZuh0PFgO2Ayjp"
+            "https://lh3.googleusercontent.com/d/1TnBSORvZT7buvqElpidZuh0PFgO2Ayjp",
+            "https://lh3.googleusercontent.com/d/19VAjBhBAtseoL94UQHNB6FK5neC_f-BX",
+            "https://lh3.googleusercontent.com/d/1ArTpnrmpgfYA4LThJv1BoubT59EMJKmY"
         ],
         categoria: "Indumentaria",
         stock: 30,
@@ -68,7 +74,9 @@ const productos = [
         precio: 57600,
         imagen: "https://lh3.googleusercontent.com/d/1kSYVlEOPb34gNCBL-hqaCZVlbTZ0WENc",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1kSYVlEOPb34gNCBL-hqaCZVlbTZ0WENc"
+            "https://lh3.googleusercontent.com/d/1kSYVlEOPb34gNCBL-hqaCZVlbTZ0WENc",
+            "https://lh3.googleusercontent.com/d/1d4H8sfh0Zgsu6lDUOiswCX4aswmOMHAK",
+            "https://lh3.googleusercontent.com/d/1mNj6cNZgUPu-OMh4BKRcftqRe_07RhXz"
         ],
         categoria: "Indumentaria",
         stock: 10,
@@ -87,7 +95,9 @@ const productos = [
         precio: 48000,
         imagen: "https://lh3.googleusercontent.com/d/1Isnq45gffmO8MKfVNhsBakspc1qnzkGs",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1Isnq45gffmO8MKfVNhsBakspc1qnzkGs"
+            "https://lh3.googleusercontent.com/d/1Isnq45gffmO8MKfVNhsBakspc1qnzkGs",
+            "https://lh3.googleusercontent.com/d/19KbSdjEXuzp8KX5U2LyDY2Oh-yf6cBOW",
+            "https://lh3.googleusercontent.com/d/1iYRwLWK2D1s70W6JgEnZlG2W42y1Q6Vq"
         ],
         categoria: "Indumentaria",
         stock: 35,
@@ -106,7 +116,9 @@ const productos = [
         precio: 62400,
         imagen: "https://lh3.googleusercontent.com/d/1B7XDLlPvK2eWKX36mH-w9F4oYWZj7C4N",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1B7XDLlPvK2eWKX36mH-w9F4oYWZj7C4N"
+            "https://lh3.googleusercontent.com/d/1B7XDLlPvK2eWKX36mH-w9F4oYWZj7C4N",
+            "https://lh3.googleusercontent.com/d/1QKqzyDNwPNrhK5supsf4wKJzH_StxOce",
+            "https://lh3.googleusercontent.com/d/1N6hkCFJV9xThhiKWuroA1xQ-WLeGPS7j"
         ],
         categoria: "Indumentaria",
         stock: 22,
@@ -125,7 +137,9 @@ const productos = [
         precio: 66000,
         imagen: "https://lh3.googleusercontent.com/d/19dALGxH4xSTHUUgbLLLv0c-ixIe253iP",
         galeria: [
-            "https://lh3.googleusercontent.com/d/19dALGxH4xSTHUUgbLLLv0c-ixIe253iP"
+            "https://lh3.googleusercontent.com/d/19dALGxH4xSTHUUgbLLLv0c-ixIe253iP",
+            "https://lh3.googleusercontent.com/d/1rX7JTCO2KWZOB_PvdKLUooCiSVhyFWU_",
+            "https://lh3.googleusercontent.com/d/1F1Bu_qCbnKeEnG20jnmL8M4RuB3PLQxz"
         ],
         categoria: "Pantalones",
         stock: 27,
@@ -144,7 +158,9 @@ const productos = [
         precio: 72000,
         imagen: "https://lh3.googleusercontent.com/d/1oBuHoRoMNf8tga4-WERHhL59C2cPbgQ4",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1oBuHoRoMNf8tga4-WERHhL59C2cPbgQ4"
+            "https://lh3.googleusercontent.com/d/1oBuHoRoMNf8tga4-WERHhL59C2cPbgQ4",
+            "https://lh3.googleusercontent.com/d/1EU33b_C95nNRq_mp1AjV2MoArL0v-9MQ",
+            "https://lh3.googleusercontent.com/d/1LOwEpAaa98TxZkhNcfnqWXZFHEQeve1V"
         ],
         categoria: "Pantalones",
         stock: 32,
@@ -163,7 +179,9 @@ const productos = [
         precio: 69600,
         imagen: "https://lh3.googleusercontent.com/d/15NTvnnD3QmAiTjqEebO3KcKO811p6ffv",
         galeria: [
-            "https://lh3.googleusercontent.com/d/15NTvnnD3QmAiTjqEebO3KcKO811p6ffv"
+            "https://lh3.googleusercontent.com/d/15NTvnnD3QmAiTjqEebO3KcKO811p6ffv",
+            "https://lh3.googleusercontent.com/d/1uOoZKr-_xmuvrZP_I5Agv3j7NxV07uzh",
+            "https://lh3.googleusercontent.com/d/1kkuivo55iGiwbJZqDgTPAMo81ylyvyVn"
         ],
         categoria: "Pantalones",
         stock: 18,
@@ -182,7 +200,9 @@ const productos = [
         precio: 74400,
         imagen: "https://lh3.googleusercontent.com/d/10v2Ba-w5B67DLYJIpwsimqo_HKTvDJDG",
         galeria: [
-            "https://lh3.googleusercontent.com/d/10v2Ba-w5B67DLYJIpwsimqo_HKTvDJDG"
+            "https://lh3.googleusercontent.com/d/10v2Ba-w5B67DLYJIpwsimqo_HKTvDJDG",
+            "https://lh3.googleusercontent.com/d/1kHz_LUgCxGC2h4qqxyP56gjYduxwOHq5",
+            "https://lh3.googleusercontent.com/d/1Ym8j8r1eiyVTrT4fZJqvEXS8ScR-89lX"
         ],
         categoria: "Pantalones",
         stock: 24,
@@ -201,7 +221,9 @@ const productos = [
         precio: 36000,
         imagen: "https://lh3.googleusercontent.com/d/1tVjE7MdzZyOUJ38lEZ7PBERgcmmhzSfd",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1tVjE7MdzZyOUJ38lEZ7PBERgcmmhzSfd"
+            "https://lh3.googleusercontent.com/d/1tVjE7MdzZyOUJ38lEZ7PBERgcmmhzSfd",
+            "https://lh3.googleusercontent.com/d/1WTDGdF2c8RRMdS7y_ZdPGElwWe_RCUFU",
+            "https://lh3.googleusercontent.com/d/1hSwYcU2_m7QNsX28eMFAWmsEymCIuczQ"
         ],
         categoria: "Remeras",
         stock: 10,
@@ -220,7 +242,9 @@ const productos = [
         precio: 33600,
         imagen: "https://lh3.googleusercontent.com/d/1_pj-RtbTVCGu6_-ou6bkLqeH3zCZSedA",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1_pj-RtbTVCGu6_-ou6bkLqeH3zCZSedA"
+            "https://lh3.googleusercontent.com/d/1_pj-RtbTVCGu6_-ou6bkLqeH3zCZSedA",
+            "https://lh3.googleusercontent.com/d/1x-ByWMkrZOWdg40mg2G-iUbU4_-p_tjh",
+            "https://lh3.googleusercontent.com/d/1ztJRqoEio2OArP2j1DjvxFJ4avHlGdOJ"
         ],
         categoria: "Remeras",
         stock: 5,
@@ -239,7 +263,9 @@ const productos = [
         precio: 32400,
         imagen: "https://lh3.googleusercontent.com/d/1Nhz65hG73zpyQ56dq9oz3JswUAl3LsVe",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1Nhz65hG73zpyQ56dq9oz3JswUAl3LsVe"
+            "https://lh3.googleusercontent.com/d/1Nhz65hG73zpyQ56dq9oz3JswUAl3LsVe",
+            "https://lh3.googleusercontent.com/d/1Bjke89phz-O_n7LYvvO2qFhjiVOYsE59",
+            "https://lh3.googleusercontent.com/d/1jVnTH65FZbVt8xkDx4S1Zht-wkTyJwIa"
         ],
         categoria: "Remeras",
         stock: 23,
@@ -258,7 +284,9 @@ const productos = [
         precio: 60000,
         imagen: "https://lh3.googleusercontent.com/d/1AXaBdEgw2esUfLxSNJL9H-Co1woqVLAj",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1AXaBdEgw2esUfLxSNJL9H-Co1woqVLAj"
+            "https://lh3.googleusercontent.com/d/1AXaBdEgw2esUfLxSNJL9H-Co1woqVLAj",
+            "https://lh3.googleusercontent.com/d/14R0p-shBJIsrGLoQ3p88qT91q6rq_2w6",
+            "https://lh3.googleusercontent.com/d/1L3o5R30K31tnCQPw-TrfFFLKOZ744ZjN"
         ],
         categoria: "Remeras",
         stock: 5,
@@ -277,7 +305,9 @@ const productos = [
         precio: 84000,
         imagen: "https://lh3.googleusercontent.com/d/1dmKkLbPsFeqR_Me3wrv8DecFv7lffE01",
         galeria: [
-            "https://lh3.googleusercontent.com/d/1dmKkLbPsFeqR_Me3wrv8DecFv7lffE01"
+            "https://lh3.googleusercontent.com/d/1dmKkLbPsFeqR_Me3wrv8DecFv7lffE01",
+            "https://lh3.googleusercontent.com/d/1HtziFT4dEIz3lgnYuJf1deQOaanGkLR8",
+            "https://lh3.googleusercontent.com/d/1P88iVgijw_ICuRBz7hFmbvVfBCYJybKl"
         ],
         categoria: "Calzado",
         stock: 20,
