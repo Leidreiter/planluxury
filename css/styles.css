@@ -217,7 +217,7 @@ html {
 }
 
 .banner-img1 {
-    background-image: url("../img/banners/banner1.jpg");
+    background-image: url("../img/banners/banner2.jpg");
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -225,7 +225,7 @@ html {
 }
 
 .banner-img2 {
-    background-image: url("../img/banners/banner2.jpg");
+    background-image: url("../img/banners/banner3.jpg");
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -291,7 +291,7 @@ body {
 /* Header y Navegación */
 .logo {
     display: block;
-    width: 160px;
+    width: 120px;
     margin: 10px 0;
 }
 
@@ -3080,7 +3080,7 @@ body.zoom-active {
 .hero-slider {
     position: relative;
     width: 100%;
-    height: 500px;
+    height: 600px;
     overflow: hidden;
     background: #000;
 }

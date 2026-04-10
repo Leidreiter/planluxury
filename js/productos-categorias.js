@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     renderizarProductosPorCategoria('Remeras', 'gridCat1');
-    renderizarProductosPorCategoria('BuzosyCamperas', 'gridCat2');
+    renderizarProductosPorCategoria('Abrigos', 'gridCat2');
     renderizarProductosPorCategoria('Pantalones', 'gridCat3');
     renderizarProductosPorCategoria('Calzado', 'gridCat4');
 });
