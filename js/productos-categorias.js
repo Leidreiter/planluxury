@@ -1,10 +1,10 @@
 // Renderizar productos por categorías en el index
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderizarProductosPorCategoria('categoria1', 'gridCat1');
-    renderizarProductosPorCategoria('categoria2', 'gridCat2');
-    renderizarProductosPorCategoria('categoria3', 'gridCat3');
-    renderizarProductosPorCategoria('categoria4', 'gridCat4');
+    renderizarProductosPorCategoria('Remeras', 'gridCat1');
+    renderizarProductosPorCategoria('BuzosyCamperas', 'gridCat2');
+    renderizarProductosPorCategoria('Pantalones', 'gridCat3');
+    renderizarProductosPorCategoria('Calzado', 'gridCat4');
 });
 
 function renderizarProductosPorCategoria(categoria, gridId) {
