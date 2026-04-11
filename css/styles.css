@@ -291,13 +291,13 @@ body {
 /* Header y Navegación */
 .logo {
     display: block;
-    width: 120px;
+    width: 100px;
     margin: 10px 0;
 }
 
 @media (max-width: 768px) {
     .logo {
-        width: 120px;
+        width: 80px;
         margin: 0;
     }
 }
