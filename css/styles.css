@@ -4152,3 +4152,136 @@ body.zoom-active {
         justify-content: center;
     }
 }
+
+/* ===================================
+   Popup salida (exit intent)
+   =================================== */
+
+html.exit-intent-locked,
+html.exit-intent-locked body {
+    overflow: hidden;
+}
+
+.exit-intent-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.exit-intent-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.exit-intent-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+}
+
+.exit-intent-dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    color: var(--text-color);
+    border-radius: 16px;
+    padding: 2rem 1.75rem 1.75rem;
+    box-shadow: var(--shadow-lg), 0 25px 50px rgba(0, 0, 0, 0.15);
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.35s ease;
+}
+
+.exit-intent-modal.active .exit-intent-dialog {
+    transform: translateY(0) scale(1);
+}
+
+.exit-intent-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    background: var(--bg-color);
+    color: var(--secondary-color);
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.exit-intent-close:hover {
+    background: var(--border-color);
+    color: var(--text-color);
+}
+
+.exit-intent-dialog h2 {
+    font-size: 1.35rem;
+    margin: 0 2rem 0.75rem 0;
+    line-height: 1.25;
+}
+
+.exit-intent-dialog p {
+    margin: 0 0 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--secondary-color);
+}
+
+.exit-intent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.exit-intent__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1.25rem;
+    background: var(--primary-color);
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.exit-intent__cta:hover {
+    background: var(--primary-hover);
+}
+
+.exit-intent__secondary {
+    padding: 0.65rem 1rem;
+    background: transparent;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.exit-intent__secondary:hover {
+    border-color: var(--secondary-color);
+    color: var(--text-color);
+}
