@@ -148,6 +148,7 @@ html {
     .banner_info {
         align-items: center;
         justify-content: center;
+        padding: 20px;
     }
 
     .banner_info_copy {
@@ -155,8 +156,15 @@ html {
     }
 
     .banner_info_copy h2 {
-        font-size: 22px;
+        font-size: 18px;
         margin: .4rem 0;
+    }
+    .banner_info_copy h4 {
+        font-size: 14px;
+        margin: .4rem 0;
+    }
+    .banner_info_copy a {
+        font-size: 12px;
     }
 
     .banner_info_icono {
@@ -208,6 +216,12 @@ html {
 @media (max-width: 768px) {
     .banner-promo-info {
         padding: 20px;
+    }
+    .banner-promo-info h2{
+    font-size: 18px;
+    }
+    .banner-promo-info h4{
+        font-size: 14px;
     }
 }
 
@@ -1291,7 +1305,55 @@ footer p {
 
 @media (max-width: 480px) {
     .products-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem 0.65rem;
+    }
+
+    .product-card {
+        min-width: 0;
+    }
+
+    .product-image {
+        height: clamp(132px, 40vw, 168px);
+    }
+
+    .product-gallery-container {
+        height: clamp(132px, 40vw, 168px);
+    }
+
+    .product-info {
+        padding: 0.65rem 0.6rem;
+    }
+
+    .product-title {
+        font-size: clamp(0.78rem, 3.4vw, 0.92rem);
+        line-height: 1.25;
+        margin-bottom: 0.35rem;
+    }
+
+    .product-description {
+        font-size: clamp(0.65rem, 2.9vw, 0.74rem);
+        line-height: 1.3;
+        margin-bottom: 0.45rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-price {
+        font-size: clamp(0.82rem, 3.6vw, 1rem);
+    }
+
+    .product-actions {
+        padding: 0 0.6rem 0.65rem;
+        gap: 0.45rem;
+    }
+
+    .add-to-cart-btn {
+        padding: 0.5rem 0.35rem;
+        font-size: clamp(0.62rem, 2.7vw, 0.76rem);
+        line-height: 1.2;
     }
 
     .nav-menu {
@@ -3239,7 +3301,7 @@ body.zoom-active {
                 rgba(0, 0, 0, 0.7) 60%,
                 rgba(0, 0, 0, 0.85) 100%);
         align-items: flex-end;
-        padding-bottom: 3rem;
+        padding-bottom: 2rem;
     }
 
     .slider-text {
