@@ -284,10 +284,10 @@ function mostrarEstadisticas() {
 function configurarSecretos() {
   const scriptProperties = PropertiesService.getScriptProperties();
   scriptProperties.setProperties({
-    'GITHUB_TOKEN': 'TU_TOKEN_AQUI',
-    'GITHUB_OWNER': 'TU_USUARIO_AQUI',
-    'GITHUB_REPO': 'TU_REPO_AQUI',
-    'DRIVE_FOLDER_ID': 'TU_ID_DE_CARPETA_AQUI'
+    'GITHUB_TOKEN': 'ghp_tu_token_personal_aqui',
+    'GITHUB_OWNER': 'tu_usuario_github',
+    'GITHUB_REPO': 'nombre_del_repositorio',
+    'DRIVE_FOLDER_ID': 'id_de_la_carpeta_raiz_en_drive'
   });
   Logger.log('✅ Propiedades configuradas correctamente. Ya puedes borrar los valores de esta función.');
 }
