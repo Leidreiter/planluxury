@@ -1019,6 +1019,12 @@ body {
     margin-top: 0.5rem;
 }
 
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .qty-btn {
     width: 30px;
     height: 30px;
@@ -1363,21 +1369,25 @@ footer p {
     }
 
     .cart-item {
-        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
     }
 
     .item-image {
-        width: 100%;
-        height: 200px;
+        width: 80px;
+        height: 80px;
     }
 
     .item-controls {
-        flex-wrap: wrap;
+        width: 100%;
+        justify-content: space-between;
     }
 
     .remove-btn {
         margin-left: 0;
-        width: 100%;
+        width: auto;
+        padding: 0.6rem 1rem;
     }
 
     .grid {

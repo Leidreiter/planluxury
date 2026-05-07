@@ -47,12 +47,16 @@ function renderizarCarrito() {
                 ${sinStock ? `<p style="color: var(--danger-color); font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem;">⚠️ Este producto se agotó. Debes eliminarlo para continuar.</p>` : ''}
                 ${stockBajo ? `<p style="color: #f59e0b; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem;">⚠️ ¡Últimas unidades disponibles! (Quedan ${productoRef.stock})</p>` : ''}
                 <p class="item-price">$${formatearPrecio(item.precio)}</p>
-                <div class="item-controls">
+            </div>
+            <div class="item-controls">
+                <div class="quantity-controls">
                     <button class="qty-btn" onclick="actualizarCantidad(${item.id}, -1)" aria-label="Disminuir cantidad" ${sinStock ? 'disabled' : ''}>-</button>
                     <span class="qty-display">${item.quantity}</span>
                     <button class="qty-btn" onclick="actualizarCantidad(${item.id}, 1)" aria-label="Aumentar cantidad" ${sinStock ? 'disabled' : ''}>+</button>
-                    <button class="remove-btn" onclick="eliminarDelCarrito(${item.id})" aria-label="Eliminar ${item.nombre}">Eliminar</button>
                 </div>
+                <button class="remove-btn" onclick="eliminarDelCarrito(${item.id})" aria-label="Eliminar ${item.nombre}">
+                    <i class="fa-solid fa-trash-can"></i> Eliminar
+                </button>
             </div>
         </div>
     `;

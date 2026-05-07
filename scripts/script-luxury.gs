@@ -50,31 +50,47 @@ function doPost(e) {
         // Si la hoja de pedidos no existe, la creamos con encabezados
         if (!sheet) {
             sheet = ss.insertSheet(CONFIG.PEDIDOS_SHEET_NAME);
-            sheet.appendRow([
-                'Fecha', 'Nombre', 'Teléfono', 'Email', 'Dirección', 
-                'Ciudad', 'Provincia', 'CP', 'Productos', 'Subtotal', 'Descuento', 'Total', 'Notas'
-            ]);
-            sheet.getRange(1, 1, 1, 13).setFontWeight('bold').setBackground('#f3f3f3');
+            const headers = [
+                'N° Pedido', 'Fecha', 'Hora', 'Nombre', 'Teléfono', 'Email', 
+                'Dirección', 'Ciudad', 'Provincia', 'CP', 'Productos', 'Cant.', 
+                'Cupón', 'Descuento', 'Subtotal', 'Total', 'Notas', 'Estado'
+            ];
+            sheet.appendRow(headers);
+            sheet.getRange(1, 1, 1, 18).setFontWeight('bold').setBackground('#f3f3f3');
         }
 
-        // Formatear el resumen de productos para una sola celda
-        const resumenProductos = data.productos.map(p => `${p.nombre} (x${p.quantity})`).join('\n');
+        // 1. Generar número de pedido (basado en la última fila)
+        const nPedido = sheet.getLastRow(); 
+
+        // 2. Formatear Fecha y Hora por separado
+        const ahora = new Date();
+        const fecha = Utilities.formatDate(ahora, "GMT-3", "dd/MM/yyyy");
+        const hora = Utilities.formatDate(ahora, "GMT-3", "HH:mm:ss");
+
+        // 3. Preparar strings para productos y cantidades por separado
+        const nombresProductos = data.productos.map(p => p.nombre).join("\n");
+        const cantidadesProductos = data.productos.map(p => p.quantity).join("\n");
 
         // Insertar la nueva fila de pedido
         sheet.appendRow([
-            new Date(),
-            data.cliente.nombre,
-            "'" + data.cliente.telefono, // Forzamos texto para evitar formato científico
-            data.cliente.email,
-            data.cliente.direccion,
-            data.cliente.ciudad,
-            data.cliente.provincia,
-            data.cliente.codigoPostal,
-            resumenProductos,
-            data.subtotal,
-            data.descuento,
-            data.total,
-            data.cliente.notas
+            nPedido,                  // A: N° Pedido
+            fecha,                    // B: Fecha
+            hora,                     // C: Hora
+            data.cliente.nombre,      // D: Nombre
+            "'" + data.cliente.telefono, // E: Teléfono (forzado como texto)
+            data.cliente.email,       // F: Email
+            data.cliente.direccion,   // G: Dirección
+            data.cliente.ciudad,      // H: Ciudad
+            data.cliente.provincia,   // I: Provincia
+            data.cliente.codigoPostal,// J: CP
+            nombresProductos,         // K: Productos
+            cantidadesProductos,      // L: Cant.
+            data.cupon,               // M: Cupón
+            data.descuento,           // N: Descuento
+            data.subtotal,            // O: Subtotal
+            data.total,               // P: Total
+            data.cliente.notas,       // Q: Notas
+            "Pendiente"               // R: Estado
         ]);
 
         // Descontar stock automáticamente de la hoja "Productos"
@@ -128,8 +144,10 @@ function sanitizarYValidarPedido(data) {
         cliente: clienteSanitizado,
         productos: productos.map(p => ({
             nombre: cleanString(p.nombre),
-            quantity: Math.max(1, parseInt(p.quantity) || 1)
+            quantity: Math.max(1, parseInt(p.quantity) || 1),
+            precio: parseFloat(p.precio) || 0
         })),
+        cupon: cleanString(data.cupon) || 'NINGUNO',
         subtotal: Math.max(0, parseFloat(data.subtotal) || 0),
         descuento: Math.max(0, parseFloat(data.descuento) || 0),
         total: Math.max(0, parseFloat(data.total) || 0)
