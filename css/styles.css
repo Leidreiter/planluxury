@@ -13,6 +13,7 @@ html {
 }
 
 :root {
+    /* Colores */
     --primary-color: #2563eb;
     --primary-hover: #1d4ed8;
     --secondary-color: #64748b;
@@ -21,15 +22,33 @@ html {
     --bg-color: #f5f5f5;
     --text-color: #1e293b;
     --border-color: #e2e8f0;
+
+    /* Sombras */
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+    /* Capas (Z-Index) */
+    --z-back: -1;
+    --z-base: 1;
+    --z-nav: 1000;
+    --z-marquee: 1010;
+    --z-notif: 2000;
+    --z-modal: 3000;
+    --z-overlay: 3010;
+
+    /* Espaciado */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 2rem;
+    --space-lg: 4rem;
+
+    --container-max-width: 1200px;
 }
 
 .contenedor {
-    width: 100%;
-    max-width: 1400px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 var(--space-sm);
 }
 
 @media (max-width: 768px) {
@@ -246,20 +265,33 @@ html {
     border-radius: 0 16px 16px 0;
 }
 
-.btn {
-    padding: 0.75rem 2rem;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-    font-weight: 500;
+/* Componente de Botón Base */
+.btn, 
+.btn-primary,
+.btn-secondary,
+.add-to-cart-btn,
+.view-product-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
     text-decoration: none;
-    margin-top: 2rem;
-    align-self: flex-start;
-    text-transform: uppercase;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--success-color);
+    color: white;
 }
 
 .btn:hover {
@@ -321,7 +353,7 @@ body {
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: var(--z-nav);
 }
 
 .nav-container {
@@ -758,12 +790,6 @@ body {
     padding: 0.75rem;
     background: var(--primary-color);
     color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-    font-weight: 500;
 }
 
 .add-to-cart-btn:hover {
@@ -2592,7 +2618,7 @@ body.searching .products-section {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 10000;
+    z-index: var(--z-modal);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -3884,7 +3910,7 @@ body.zoom-active {
     white-space: nowrap;
     width: 100%;
     position: relative;
-    z-index: 1001;
+    z-index: var(--z-marquee);
     padding: 10px 0;
     font-size: 0.9rem;
     font-weight: 500;
@@ -4233,7 +4259,7 @@ html.exit-intent-locked body {
 .exit-intent-modal {
     position: fixed;
     inset: 0;
-    z-index: 10002;
+    z-index: var(--z-overlay);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4367,7 +4393,7 @@ html.exit-intent-locked body {
     padding: 1rem 1.5rem;
     border-radius: 5px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 9999;
+    z-index: var(--z-notif);
     animation: slideIn 0.3s ease-out;
 }
 
@@ -4385,7 +4411,7 @@ html.exit-intent-locked body {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10000;
+    z-index: var(--z-modal);
     animation: fadeIn 0.3s ease-out;
 }
 
