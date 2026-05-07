@@ -12,7 +12,7 @@ function obtenerCarrito() {
 // Guardar carrito en localStorage
 function guardarCarrito(cart) {
     localStorage.setItem('cart', JSON.stringify(cart));
-    actualizarContadorCarrito();
+    if (window.actualizarContadorCarrito) window.actualizarContadorCarrito();
 }
 
 // Renderizar items del carrito

@@ -127,6 +127,20 @@ function actualizarContadorFavoritosGlobal() {
     });
 }
 
+// Actualizar contador del carrito en el nav
+function actualizarContadorCarrito() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const contadores = document.querySelectorAll('.cart-count');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    contadores.forEach(contador => {
+        contador.textContent = totalItems;
+        if (totalItems > 0) {
+            contador.style.display = 'flex';
+        } else {
+            contador.style.display = 'none';
+        }
+    });
+}
 // Auto-inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function () {
     // Detectar página activa desde el atributo data-page del body
@@ -135,10 +149,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Actualizar contador de favoritos
     actualizarContadorFavoritosGlobal();
+    // Actualizar contador del carrito
+    actualizarContadorCarrito();
 
     // Hacer que la función de actualizar favoritos sea accesible para otros módulos
     // sin tener que duplicar el código en cada archivo.
     window.actualizarContadorFavoritosGlobal = actualizarContadorFavoritosGlobal;
+    // Hacer que la función de actualizar carrito sea accesible para otros módulos
+    window.actualizarContadorCarrito = actualizarContadorCarrito;
 
     // Registrar Service Worker para PWA
     if ('serviceWorker' in navigator) {

@@ -599,7 +599,7 @@ function agregarAlCarritoDetalle(id) {
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    actualizarContadorCarrito();
+    if (window.actualizarContadorCarrito) window.actualizarContadorCarrito();
     mostrarNotificacion(`${cantidadSeleccionada} ${cantidadSeleccionada === 1 ? 'producto agregado' : 'productos agregados'} al carrito`);
     
     // Mostrar botón "Ir al Carrito"
