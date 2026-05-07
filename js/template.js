@@ -100,17 +100,6 @@ function initTemplate(activePage = '') {
     // Insertar footer al final del body
     const footer = renderFooter();
     body.appendChild(footer);
-
-    // Ajustar scroll-padding-top dinámicamente según la altura real del navbar sticky
-    const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        const observer = new ResizeObserver(entries => {
-            for (let entry of entries) {
-                document.documentElement.style.setProperty('--header-height', entry.target.offsetHeight + 'px');
-            }
-        });
-        observer.observe(navbar);
-    }
 }
 
 // Actualizar contador de favoritos en el nav

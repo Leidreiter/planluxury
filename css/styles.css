@@ -1,7 +1,6 @@
 html {
     box-sizing: border-box;
     scroll-behavior: smooth;
-    scroll-padding-top: var(--header-height, 80px); /* Ajuste dinámico exacto */
 }
 
 /* Reset y Variables */

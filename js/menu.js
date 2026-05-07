@@ -47,18 +47,4 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.overflow = '';
         }
     });
-
-    // Actualizar contador del carrito
-    actualizarContadorCarrito();
 });
-
-function actualizarContadorCarrito() {
-    const cartCountElements = document.querySelectorAll('.cart-count');
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    
-    cartCountElements.forEach(element => {
-        element.textContent = totalItems;
-    });
-}
-window.actualizarContadorCarrito = actualizarContadorCarrito;

@@ -94,7 +94,12 @@ function doPost(e) {
         ]);
 
         // Descontar stock automáticamente de la hoja "Productos"
-        actualizarStockTrasPedido(data.productos);
+        const huboAgotados = actualizarStockTrasPedido(data.productos);
+
+        // Si algún producto se agotó, publicamos automáticamente a GitHub para actualizar la web
+        if (huboAgotados) {
+            ejecutarSincronizacionSilenciosa();
+        }
 
         // Enviar notificación por email al dueño
         enviarEmailNotificacion(data);
@@ -160,9 +165,12 @@ function actualizarStockTrasPedido(productosComprados) {
   const sheet = ss.getSheetByName(CONFIG.SHEET_NAME);
   const lastRow = sheet.getLastRow();
   
+  if (lastRow < 2) return false;
+  
   // Obtener todos los IDs y Stocks actuales de una vez para ser eficiente
   const range = sheet.getRange(2, 1, lastRow - 1, CONFIG.COLUMNAS.STOCK + 1);
   const values = range.getValues();
+  let algunProductoAgotado = false;
 
   productosComprados.forEach(item => {
     // El item.nombre viene sanitizado, pero buscamos por coincidencia de texto
@@ -178,14 +186,13 @@ function actualizarStockTrasPedido(productosComprados) {
         // Si el stock llega a 0, podemos marcar la fila de algún color
         if (nuevoStock === 0) {
           sheet.getRange(i + 2, 1, 1, sheet.getLastColumn()).setBackground('#fff5f5');
+          algunProductoAgotado = true;
         }
         break;
       }
     }
   });
-  
-  // Importante: Esto no dispara la subida a GitHub automáticamente.
-  // El dueño deberá darle a "Publicar" para que la web refleje el nuevo stock.
+  return algunProductoAgotado;
 }
 
 // ============ NOTIFICACIÓN POR EMAIL ============
@@ -228,33 +235,8 @@ function configurarSecretos() {
 // ============ FUNCIÓN PRINCIPAL ============
 function actualizarProductosEnGitHub() {
     try {
-        Logger.log('🚀 Iniciando actualización de productos...');
-        const cache = CacheService.getScriptCache();
-        const cacheKey = 'productos_procesados';
-        
-        // Intentar obtener de caché (opcional, útil si hay procesos que solo consultan)
-        // Para la subida a GitHub normalmente queremos data fresca, 
-        // pero esto ilustra cómo podrías usarlo en otras funciones.
-
-        const productos = leerProductosDeSheet();
-        Logger.log(`✅ ${productos.length} productos leídos de Google Sheets`);
-
-        const carpetasCreadas = validarYCrearCarpetas(productos);
-
-        const productosConImagenes = procesarImagenesDesdeGDrive(productos);
-        Logger.log(`✅ Imágenes procesadas desde Google Drive`);
-
-        // Guardar en caché por 1 hora (3600 segundos) para uso interno
-        cache.put(cacheKey, JSON.stringify(productosConImagenes), 3600);
-
-        const contenidoJSON = JSON.stringify(productosConImagenes, null, 2); // Generar JSON
-        Logger.log(`✅ Archivo productos.json generado`);
-
-        subirArchivoAGitHub(contenidoJSON, 'application/json; charset=utf-8'); // Subir JSON
-        Logger.log(`✅ Archivo subido exitosamente a GitHub`);
-
-        mostrarResultadoConCarpetas(productosConImagenes.length, carpetasCreadas);
-
+        const resultado = sincronizarTodoCore();
+        mostrarResultadoConCarpetas(resultado.cantidad, resultado.carpetas);
     } catch (error) {
         Logger.log(`❌ Error: ${error.message}`);
         SpreadsheetApp.getUi().alert(
@@ -263,6 +245,29 @@ function actualizarProductosEnGitHub() {
             SpreadsheetApp.getUi().ButtonSet.OK
         );
     }
+}
+
+function ejecutarSincronizacionSilenciosa() {
+    try {
+        sincronizarTodoCore();
+        Logger.log('✅ Sincronización automática completada.');
+    } catch (error) {
+        Logger.log(`❌ Error en sincronización silenciosa: ${error.message}`);
+    }
+}
+
+function sincronizarTodoCore() {
+    const productos = leerProductosDeSheet();
+    const carpetasCreadas = validarYCrearCarpetas(productos);
+    const productosConImagenes = procesarImagenesDesdeGDrive(productos);
+    const contenidoJSON = JSON.stringify(productosConImagenes, null, 2);
+    
+    subirArchivoAGitHub(contenidoJSON, 'application/json; charset=utf-8');
+    
+    return {
+        cantidad: productosConImagenes.length,
+        carpetas: carpetasCreadas
+    };
 }
 
 // ============ LEER DATOS DE GOOGLE SHEETS ============

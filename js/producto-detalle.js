@@ -739,6 +739,3 @@ window.cambiarCantidad = cambiarCantidad;
 window.agregarAlCarritoDetalle = agregarAlCarritoDetalle;
 window.comprarAhora = comprarAhora;
 window.copiarEnlace = copiarEnlace;
-window.agregarAlCarrito = (id) => { 
-    agregarAlCarritoBase(id, productos);
-};
