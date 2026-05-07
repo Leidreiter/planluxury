@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "nombre": "Botas cuero hombre",
+    "nombre": "Botas de cuero hombre",
     "descripcion": "Botas de cuero resistentes con estilo clásico masculino",
     "descripcionDetallada": "Botas de cuero genuino diseñadas para hombres que buscan durabilidad y presencia. Ideales para uso diario o salidas, combinan comodidad con un diseño robusto y elegante.",
     "precio": 114000,
@@ -221,7 +221,7 @@
   },
   {
     "id": 11,
-    "nombre": "Remera calavera hombre",
+    "nombre": "Remera de calavera hombre",
     "descripcion": "Remera con diseño de calavera llamativo",
     "descripcionDetallada": "Remera para hombre con estampado de calavera, perfecta para un estilo rebelde y moderno.",
     "precio": 36000,
