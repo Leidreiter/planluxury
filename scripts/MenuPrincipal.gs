@@ -12,7 +12,7 @@ function onOpen() {
     
     // Menú principal de Productos
     ui.createMenu('🚀 Actualizar Web')
-        .addItem('📤 Publicar productos a GitHub', 'actualizarProductosEnGitHub')
+        .addItem('📤 Publicar productos', 'actualizarProductosEnGitHub')
         .addSeparator()
         .addItem('📁 Crear carpetas en Drive', 'crearCarpetasProductos')
         .addSeparator()

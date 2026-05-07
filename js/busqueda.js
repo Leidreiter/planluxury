@@ -1,7 +1,8 @@
 // Sistema de búsqueda de productos en tiempo real - Compatible con categorías
-import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase } from './utils.js';
+import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, normalizarTexto } from './utils.js';
 
 let productos = [];
+let debounceTimer;
 
 document.addEventListener('DOMContentLoaded', async function() {
     // Cargar productos usando el sistema centralizado
@@ -24,8 +25,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             clearButton.classList.remove('visible');
         }
         
-        // Realizar búsqueda
-        buscarProductos(query);
+        // Realizar búsqueda con debounce para rendimiento
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => buscarProductos(query), 300);
     });
 
     // Limpiar búsqueda
@@ -98,18 +100,6 @@ function renderizarProductosFiltrados(productosFiltrados) {
     if (!grid) return;
 
     grid.innerHTML = productosFiltrados.map(p => generarHTMLTarjetaProducto(p)).join('');
-}
-
-function agregarAlCarrito(id) {
-    agregarAlCarritoBase(id, productos);
-}
-
-// Normalizar texto (quitar acentos y convertir a minúsculas)
-function normalizarTexto(texto) {
-    return texto
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '');
 }
 
 // Limpiar búsqueda

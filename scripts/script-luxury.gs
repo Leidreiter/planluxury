@@ -172,35 +172,37 @@ function sanitizarYValidarPedido(data) {
 function actualizarStockTrasPedido(productosComprados) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getSheetByName(CONFIG.SHEET_NAME);
-  const lastRow = sheet.getLastRow();
-  
-  if (lastRow < 2) return false;
-  
-  // Obtener todos los IDs y Stocks actuales de una vez para ser eficiente
-  const range = sheet.getRange(2, 1, lastRow - 1, CONFIG.COLUMNAS.STOCK + 1);
+  const range = sheet.getDataRange();
   const values = range.getValues();
+  const stockColIdx = CONFIG.COLUMNAS.STOCK;
+  const nombreColIdx = CONFIG.COLUMNAS.NOMBRE;
+  
   let algunProductoAgotado = false;
+  let huboCambios = false;
 
   productosComprados.forEach(item => {
-    // El item.nombre viene sanitizado, pero buscamos por coincidencia de texto
-    // Lo ideal sería enviar el ID desde el formulario, pero como enviamos nombre:
     for (let i = 0; i < values.length; i++) {
-      if (values[i][CONFIG.COLUMNAS.NOMBRE] === item.nombre) {
-        const stockActual = parseInt(values[i][CONFIG.COLUMNAS.STOCK]) || 0;
+      if (values[i][nombreColIdx] === item.nombre) {
+        const stockActual = parseInt(values[i][stockColIdx]) || 0;
         const nuevoStock = Math.max(0, stockActual - item.quantity);
         
-        // Actualizar solo la celda necesaria (Fila i+2, Columna STOCK+1)
-        sheet.getRange(i + 2, CONFIG.COLUMNAS.STOCK + 1).setValue(nuevoStock);
-        
-        // Si el stock llega a 0, podemos marcar la fila de algún color
-        if (nuevoStock === 0) {
-          sheet.getRange(i + 2, 1, 1, sheet.getLastColumn()).setBackground('#fff5f5');
-          algunProductoAgotado = true;
+        if (stockActual !== nuevoStock) {
+            values[i][stockColIdx] = nuevoStock;
+            huboCambios = true;
+            if (nuevoStock === 0) {
+              sheet.getRange(i + 1, 1, 1, values[0].length).setBackground('#fff5f5');
+              algunProductoAgotado = true;
+            }
         }
         break;
       }
     }
   });
+
+  if (huboCambios) {
+      const stockData = values.slice(1).map(row => [row[stockColIdx]]);
+      sheet.getRange(2, stockColIdx + 1, stockData.length, 1).setValues(stockData);
+  }
   return algunProductoAgotado;
 }
 
@@ -450,13 +452,21 @@ function crearCarpetasProductos() {
 
 // ============ PROCESAR IMÁGENES DESDE GOOGLE DRIVE ============
 function procesarImagenesDesdeGDrive(productos) {
-    const carpetaProductos = DriveApp.getFolderById(CONFIG.DRIVE_FOLDER_ID);
+    const mainFolder = DriveApp.getFolderById(CONFIG.DRIVE_FOLDER_ID);
+    
+    // Optimizamos: Mapeamos todas las carpetas de una vez en lugar de buscar una por una
+    const folderMap = {};
+    const folders = mainFolder.getFolders();
+    while (folders.hasNext()) {
+        const folder = folders.next();
+        folderMap[folder.getName()] = folder;
+    }
 
     return productos.map(producto => {
         try {
-            const carpetasProducto = carpetaProductos.getFoldersByName(producto.carpetaImagenes);
+            const carpeta = folderMap[producto.carpetaImagenes];
 
-            if (!carpetasProducto.hasNext()) {
+            if (!carpeta) {
                 Logger.log(`⚠️ Advertencia: No se encontró carpeta "${producto.carpetaImagenes}" para producto ID ${producto.id}`);
                 return {
                     ...producto,
@@ -465,7 +475,6 @@ function procesarImagenesDesdeGDrive(productos) {
                 };
             }
 
-            const carpeta = carpetasProducto.next();
             const archivos = carpeta.getFiles();
             const imagenes = [];
             let imagenPrincipal = null;

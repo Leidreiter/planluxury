@@ -48,32 +48,11 @@ function enviarContactoWhatsApp(e) {
 function mostrarConfirmacion() {
     // Crear overlay de confirmación
     const overlay = document.createElement('div');
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        animation: fadeIn 0.3s ease-out;
-    `;
+    overlay.className = 'confirmacion-overlay';
     
     // Crear mensaje de confirmación
     const mensaje = document.createElement('div');
-    mensaje.style.cssText = `
-        background: white;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        text-align: center;
-        max-width: 400px;
-        margin: 1rem;
-        animation: slideUp 0.3s ease-out;
-    `;
+    mensaje.className = 'confirmacion-modal';
     
     mensaje.innerHTML = `
         <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>

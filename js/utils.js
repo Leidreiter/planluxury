@@ -151,21 +151,10 @@ export function formatearPrecio(precio) {
 }
 
 // Mostrar notificación
-export function mostrarNotificacion(mensaje) {
+export function mostrarNotificacion(mensaje, tipo = 'success') {
     const notif = document.createElement('div');
     notif.textContent = mensaje;
-    notif.style.cssText = `
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        background: #22c55e;
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 5px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 9999;
-        animation: slideIn 0.3s ease-out;
-    `;
+    notif.className = `notificacion-toast ${tipo === 'error' ? 'error' : ''}`;
 
     document.body.appendChild(notif);
 
@@ -173,6 +162,15 @@ export function mostrarNotificacion(mensaje) {
         notif.style.animation = 'slideOut 0.3s ease-out';
         setTimeout(() => notif.remove(), 300);
     }, 2000);
+}
+
+// Normalizar texto (quitar acentos y convertir a minúsculas)
+export function normalizarTexto(texto) {
+    if (!texto) return '';
+    return texto
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
 }
 
 // Estilos de animación para notificaciones (se pueden mover a styles.css si se prefiere)

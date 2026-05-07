@@ -45,6 +45,38 @@ function cargarDetalleProducto() {
     
     // Renderizar detalle del producto
     renderizarDetalleProducto(producto);
+
+    // Sugerencia: Inyectar Datos Estructurados para SEO (Google Rich Snippets)
+    inyectarDatosEstructurados(producto);
+}
+
+function inyectarDatosEstructurados(producto) {
+    const schemaData = {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": producto.nombre,
+        "image": producto.imagen,
+        "description": producto.descripcion,
+        "sku": `PROD-${producto.id}`,
+        "offers": {
+            "@type": "Offer",
+            "url": window.location.href,
+            "priceCurrency": "ARS",
+            "price": producto.precio,
+            "availability": producto.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "itemCondition": "https://schema.org/NewCondition"
+        }
+    };
+
+    // Eliminar esquema previo si existe
+    const oldScript = document.getElementById('product-schema');
+    if (oldScript) oldScript.remove();
+
+    const script = document.createElement('script');
+    script.id = 'product-schema';
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(schemaData);
+    document.head.appendChild(script);
 }
 
 // Renderizar el detalle completo del producto
@@ -332,6 +364,7 @@ function cerrarZoom() {
             document.body.style.overflow = '';
             zoomActivo = false;
         }, 300);
+        document.body.classList.remove('zoom-active');
     }
     document.removeEventListener('keydown', manejarTeclasZoom);
 }
@@ -410,6 +443,24 @@ function habilitarZoomInteractivo(img) {
     let isDragging = false;
     let startX = 0;
     let startY = 0;
+
+    // Referencias para poder remover los listeners luego
+    const onMouseMove = (e) => {
+        if (isDragging && zoomed) {
+            posX = e.clientX - startX;
+            posY = e.clientY - startY;
+            img.style.transform = `scale(2) translate(${posX}px, ${posY}px)`;
+        }
+    };
+
+    const onMouseUp = () => {
+        if (isDragging) {
+            isDragging = false;
+            img.style.cursor = 'zoom-out';
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        }
+    };
     
     img.addEventListener('click', function(e) {
         e.stopPropagation();
