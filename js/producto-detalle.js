@@ -37,19 +37,6 @@ function cargarDetalleProducto() {
     // Actualizar título de la página
     document.title = `${producto.nombre} - Mi Tienda Online`;
     
-    // Actualizar Meta Tags para compartir (SEO/Social)
-    const updateMeta = (property, content) => {
-        const el = document.querySelector(`meta[property="${property}"]`) || 
-                   document.querySelector(`meta[name="${property}"]`);
-        if (el) el.setAttribute('content', content);
-    };
-
-    updateMeta('og:title', `${producto.nombre} - Mi Tienda Online`);
-    updateMeta('og:description', producto.descripcion);
-    updateMeta('og:image', producto.imagen);
-    updateMeta('twitter:title', producto.nombre);
-    updateMeta('twitter:image', producto.imagen);
-    
     // Actualizar breadcrumb
     const breadcrumbProduct = document.getElementById('breadcrumbProduct');
     if (breadcrumbProduct) {
@@ -83,10 +70,6 @@ function renderizarDetalleProducto(producto) {
     const prevProduct = productos.find(p => p.id === producto.id - 1);
     const nextProduct = productos.find(p => p.id === producto.id + 1);
     
-    // URL especial para que redes sociales vean los metadatos estáticos
-    const baseUrl = window.location.origin + window.location.pathname.replace('producto.html', '');
-    const seoShareUrl = `${baseUrl}share/p${producto.id}.html`;
-
     // Usar galería si existe, sino usar imagen principal
     const imagenesGaleria = producto.galeria && producto.galeria.length > 0 
         ? producto.galeria 
@@ -184,25 +167,6 @@ function renderizarDetalleProducto(producto) {
                     </button>
                 </div>
                 
-                <div class="share-buttons">
-                    <span class="share-label">Compartir:</span>
-                    <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(producto.nombre + ' - ' + seoShareUrl)}" 
-                       target="_blank" rel="noopener" class="share-btn whatsapp" aria-label="Compartir en WhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(seoShareUrl)}" 
-                       target="_blank" rel="noopener" class="share-btn facebook" aria-label="Compartir en Facebook">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(producto.nombre)}&url=${encodeURIComponent(seoShareUrl)}" 
-                       target="_blank" rel="noopener" class="share-btn twitter" aria-label="Compartir en X/Twitter">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-                    <button class="share-btn copy-link" onclick="copiarEnlace()" aria-label="Copiar enlace">
-                        <i class="fa-solid fa-link"></i>
-                    </button>
-                </div>
-
                 <div class="product-navigation">
                     ${prevProduct ? `
                         <a href="producto.html?id=${prevProduct.id}" class="nav-product-btn prev">
@@ -711,22 +675,6 @@ function toggleFavorito(id) {
     }
 }
 
-// Copiar enlace al portapapeles
-function copiarEnlace() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-        mostrarNotificacion('Enlace copiado al portapapeles');
-    }).catch(() => {
-        // Fallback para navegadores que no soportan clipboard API
-        const input = document.createElement('input');
-        input.value = window.location.href;
-        document.body.appendChild(input);
-        input.select();
-        document.execCommand('copy');
-        document.body.removeChild(input);
-        mostrarNotificacion('Enlace copiado al portapapeles');
-    });
-}
-
 // Exponer funciones a window para que funcionen con onclick en el HTML (necesario en módulos)
 window.toggleZoom = toggleZoom;
 window.cerrarZoom = cerrarZoom;
@@ -738,4 +686,3 @@ window.toggleFavorito = toggleFavorito;
 window.cambiarCantidad = cambiarCantidad;
 window.agregarAlCarritoDetalle = agregarAlCarritoDetalle;
 window.comprarAhora = comprarAhora;
-window.copiarEnlace = copiarEnlace;
