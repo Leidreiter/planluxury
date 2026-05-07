@@ -1,12 +1,22 @@
 // Página de detalle de producto con galería de imágenes y zoom
 
+import { formatearPrecio, mostrarNotificacion, obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase } from './utils.js';
+
 let imagenActualIndex = 0;
 let zoomActivo = false;
+let productos = []; // Se cargará dinámicamente
 
 document.addEventListener('DOMContentLoaded', function() {
-    cargarDetalleProducto();
-    cargarProductosRelacionados();
+    cargarTodosLosProductos().then(() => {
+        cargarDetalleProducto();
+        cargarProductosRelacionados();
+    });
 });
+
+// Cargar todos los productos desde el JSON
+async function cargarTodosLosProductos() {
+    productos = await obtenerProductos();
+};
 
 // Obtener el ID del producto desde la URL
 function obtenerIdProducto() {
@@ -26,6 +36,19 @@ function cargarDetalleProducto() {
     
     // Actualizar título de la página
     document.title = `${producto.nombre} - Mi Tienda Online`;
+    
+    // Actualizar Meta Tags para compartir (SEO/Social)
+    const updateMeta = (property, content) => {
+        const el = document.querySelector(`meta[property="${property}"]`) || 
+                   document.querySelector(`meta[name="${property}"]`);
+        if (el) el.setAttribute('content', content);
+    };
+
+    updateMeta('og:title', `${producto.nombre} - Mi Tienda Online`);
+    updateMeta('og:description', producto.descripcion);
+    updateMeta('og:image', producto.imagen);
+    updateMeta('twitter:title', producto.nombre);
+    updateMeta('twitter:image', producto.imagen);
     
     // Actualizar breadcrumb
     const breadcrumbProduct = document.getElementById('breadcrumbProduct');
@@ -60,6 +83,10 @@ function renderizarDetalleProducto(producto) {
     const prevProduct = productos.find(p => p.id === producto.id - 1);
     const nextProduct = productos.find(p => p.id === producto.id + 1);
     
+    // URL especial para que redes sociales vean los metadatos estáticos
+    const baseUrl = window.location.origin + window.location.pathname.replace('producto.html', '');
+    const seoShareUrl = `${baseUrl}share/p${producto.id}.html`;
+
     // Usar galería si existe, sino usar imagen principal
     const imagenesGaleria = producto.galeria && producto.galeria.length > 0 
         ? producto.galeria 
@@ -159,15 +186,15 @@ function renderizarDetalleProducto(producto) {
                 
                 <div class="share-buttons">
                     <span class="share-label">Compartir:</span>
-                    <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(producto.nombre + ' - ' + window.location.href)}" 
+                    <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(producto.nombre + ' - ' + seoShareUrl)}" 
                        target="_blank" rel="noopener" class="share-btn whatsapp" aria-label="Compartir en WhatsApp">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" 
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(seoShareUrl)}" 
                        target="_blank" rel="noopener" class="share-btn facebook" aria-label="Compartir en Facebook">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
-                    <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(producto.nombre)}&url=${encodeURIComponent(window.location.href)}" 
+                    <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(producto.nombre)}&url=${encodeURIComponent(seoShareUrl)}" 
                        target="_blank" rel="noopener" class="share-btn twitter" aria-label="Compartir en X/Twitter">
                         <i class="fa-brands fa-x-twitter"></i>
                     </a>
@@ -192,6 +219,9 @@ function renderizarDetalleProducto(producto) {
             </div>
         </div>
     `;
+
+    // Inicializar controles de cantidad según stock real
+    setTimeout(() => cambiarCantidad(0), 0);
 }
 
 // Cambiar imagen en la galería
@@ -512,19 +542,33 @@ let cantidadSeleccionada = 1;
 function cambiarCantidad(cambio) {
     const productoId = obtenerIdProducto();
     const producto = productos.find(p => p.id === productoId);
-    
     if (!producto) return;
-    
-    cantidadSeleccionada += cambio;
-    
-    // Limitar entre 1 y stock disponible
-    if (cantidadSeleccionada < 1) cantidadSeleccionada = 1;
-    if (cantidadSeleccionada > producto.stock) cantidadSeleccionada = producto.stock;
-    
+
+    // Calcular stock disponible real (total - lo que ya está en el carrito)
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const itemEnCarrito = cart.find(item => item.id === producto.id);
+    const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.quantity : 0;
+    const stockDisponibleReal = producto.stock - cantidadEnCarrito;
+
+    if (stockDisponibleReal <= 0) {
+        cantidadSeleccionada = 0;
+    } else {
+        if (cambio === 0) {
+            // Inicialización o reset: asegurar que cantidadSeleccionada esté en rango
+            cantidadSeleccionada = Math.min(Math.max(1, cantidadSeleccionada), stockDisponibleReal);
+        } else {
+            cantidadSeleccionada += cambio;
+        }
+
+        // Limitar entre 1 y el stock disponible real
+        if (cantidadSeleccionada < 1) cantidadSeleccionada = 1;
+        if (cantidadSeleccionada > stockDisponibleReal) cantidadSeleccionada = stockDisponibleReal;
+    }
+
     // Actualizar display
     const quantityDisplay = document.getElementById('quantityValue');
     if (quantityDisplay) {
-        quantityDisplay.textContent = cantidadSeleccionada;
+        quantityDisplay.textContent = stockDisponibleReal <= 0 ? '0' : cantidadSeleccionada;
     }
 }
 
@@ -536,7 +580,13 @@ function agregarAlCarritoDetalle(id) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const existingItem = cart.find(item => item.id === id);
 
+    const currentInCart = existingItem ? existingItem.quantity : 0;
+
     if (existingItem) {
+        if (currentInCart + cantidadSeleccionada > producto.stock) {
+            mostrarNotificacion('No puedes agregar más de este producto (límite de stock)', 'error');
+            return;
+        }
         existingItem.quantity += cantidadSeleccionada;
     } else {
         cart.push({
@@ -563,10 +613,7 @@ function agregarAlCarritoDetalle(id) {
     
     // Resetear cantidad
     cantidadSeleccionada = 1;
-    const quantityDisplay = document.getElementById('quantityValue');
-    if (quantityDisplay) {
-        quantityDisplay.textContent = '1';
-    }
+    cambiarCantidad(0);
 }
 
 // Comprar ahora
@@ -600,23 +647,7 @@ function cargarProductosRelacionados() {
     const grid = document.getElementById('relatedProducts');
     if (!grid) return;
     
-    grid.innerHTML = relacionados.map(producto => `
-        <article class="product-card">
-            <a href="producto.html?id=${producto.id}" class="product-link">
-                <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" loading="lazy">
-                <div class="product-info">
-                    <h3 class="product-title">${producto.nombre}</h3>
-                    <p class="product-description">${producto.descripcion}</p>
-                    <p class="product-price">$${formatearPrecio(producto.precio)}</p>
-                </div>
-            </a>
-            <div class="product-actions">
-                <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})" aria-label="Agregar ${producto.nombre} al carrito">
-                    Agregar al Carrito
-                </button>
-            </div>
-        </article>
-    `).join('');
+    grid.innerHTML = relacionados.map(p => generarHTMLTarjetaProducto(p)).join('');
 }
 
 // Mostrar producto no encontrado
@@ -631,31 +662,6 @@ function mostrarProductoNoEncontrado() {
             <a href="index.html" class="shop-btn">Volver a la tienda</a>
         </div>
     `;
-}
-
-// Notificación
-function mostrarNotificacion(mensaje) {
-    const notif = document.createElement('div');
-    notif.textContent = mensaje;
-    notif.style.cssText = `
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        background: #22c55e;
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 5px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 9999;
-        animation: slideIn 0.3s ease-out;
-    `;
-
-    document.body.appendChild(notif);
-
-    setTimeout(() => {
-        notif.style.animation = 'slideOut 0.3s ease-out';
-        setTimeout(() => notif.remove(), 300);
-    }, 2000);
 }
 
 // ===== FAVORITOS =====
@@ -699,22 +705,10 @@ function toggleFavorito(id) {
         }
     }
     
-    // Actualizar contador en el nav
-    actualizarContadorFavoritos();
-}
-
-// Actualizar contador de favoritos en el nav
-function actualizarContadorFavoritos() {
-    const favoritos = obtenerFavoritos();
-    const contadores = document.querySelectorAll('.favorites-count');
-    contadores.forEach(contador => {
-        contador.textContent = favoritos.length;
-        if (favoritos.length > 0) {
-            contador.style.display = 'flex';
-        } else {
-            contador.style.display = 'none';
-        }
-    });
+    // Actualizar contador en el nav usando la función global centralizada
+    if (typeof window.actualizarContadorFavoritosGlobal === 'function') {
+        window.actualizarContadorFavoritosGlobal();
+    }
 }
 
 // Copiar enlace al portapapeles
@@ -733,10 +727,18 @@ function copiarEnlace() {
     });
 }
 
-// Formatear precio
-function formatearPrecio(precio) {
-    return precio.toLocaleString('es-AR', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    });
-}
+// Exponer funciones a window para que funcionen con onclick en el HTML (necesario en módulos)
+window.toggleZoom = toggleZoom;
+window.cerrarZoom = cerrarZoom;
+window.cambiarImagen = cambiarImagen;
+window.seleccionarImagen = seleccionarImagen;
+window.cambiarImagenZoom = cambiarImagenZoom;
+window.seleccionarImagenZoom = seleccionarImagenZoom;
+window.toggleFavorito = toggleFavorito;
+window.cambiarCantidad = cambiarCantidad;
+window.agregarAlCarritoDetalle = agregarAlCarritoDetalle;
+window.comprarAhora = comprarAhora;
+window.copiarEnlace = copiarEnlace;
+window.agregarAlCarrito = (id) => { 
+    agregarAlCarritoBase(id, productos);
+};

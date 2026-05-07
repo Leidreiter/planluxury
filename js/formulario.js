@@ -1,5 +1,7 @@
 // Gestión del formulario de envío y WhatsApp
 
+import { formatearPrecio, mostrarNotificacion, calcularTotales } from './utils.js';
+
 // ============ CONFIGURACIÓN ============
 const CONFIG_PEDIDOS = {
     // URL del Web App de Google Apps Script
@@ -42,8 +44,11 @@ async function enviarPedidoWhatsApp(e) {
         return;
     }
     
-    // Calcular total
-    const total = cart.reduce((sum, item) => sum + (item.precio * item.quantity), 0);
+    // Obtener cupón aplicado
+    const cupon = sessionStorage.getItem('appliedCoupon');
+
+    // Calcular totales con cupón
+    const { subtotal, descuento, total, esCupon } = calcularTotales(cart, cupon);
     
     // Guardar el total en localStorage para mostrarlo en la página de gracias
     localStorage.setItem('orderTotal', total.toString());
@@ -52,14 +57,18 @@ async function enviarPedidoWhatsApp(e) {
     await enviarPedidoGoogleSheets({
         cliente: datosCliente,
         productos: cart,
+        subtotal: subtotal,
+        descuento: descuento,
+        cupon: esCupon ? cupon : 'NINGUNO',
         total: total
     });
     
     // ============ ENVIAR POR WHATSAPP ============
-    enviarPorWhatsApp(datosCliente, cart, total);
+    enviarPorWhatsApp(datosCliente, cart, subtotal, descuento, total, esCupon ? cupon : null);
     
     // Limpiar carrito y redirigir a página de gracias
     localStorage.removeItem('cart');
+    sessionStorage.removeItem('appliedCoupon');
     
     // Redirigir a la página de agradecimiento
     window.location.href = 'gracias.html';
@@ -77,17 +86,17 @@ async function enviarPedidoGoogleSheets(pedido) {
             body: JSON.stringify(pedido)
         });
         
-        console.log('✅ Pedido registrado en Google Sheets');
+        console.log('✅ Pedido registrado en Google Sheets (respuesta no-cors no disponible)');
         
     } catch (error) {
-        console.error('❌ Error al enviar a Google Sheets:', error);
+        mostrarNotificacion('❌ Error al registrar el pedido. Por favor, inténtalo de nuevo o contáctanos por WhatsApp.', 'error');
         // No bloqueamos el proceso si falla Google Sheets
         // El pedido se enviará igualmente por WhatsApp
     }
 }
 
 // ============ ENVIAR POR WHATSAPP ============
-function enviarPorWhatsApp(datos, cart, total) {
+function enviarPorWhatsApp(datos, cart, subtotal, descuento, total, cupon) {
     // Construir mensaje para WhatsApp
     let mensaje = `*NUEVO PEDIDO*\n\n`;
     mensaje += `*Datos del Cliente:*\n`;
@@ -109,6 +118,11 @@ function enviarPorWhatsApp(datos, cart, total) {
         mensaje += `   Subtotal: $${formatearPrecio(item.precio * item.quantity)}\n\n`;
     });
     
+    if (descuento > 0) {
+        mensaje += `*Subtotal: $${formatearPrecio(subtotal)}*\n`;
+        const etiqueta = cupon ? `Cupón (${cupon})` : 'Descuento Automático';
+        mensaje += `*${etiqueta}: -$${formatearPrecio(descuento)}*\n`;
+    }
     mensaje += `*TOTAL: $${formatearPrecio(total)}*\n\n`;
     mensaje += `*Notas adicionales:*\n${datos.notas}`;
     
@@ -120,11 +134,4 @@ function enviarPorWhatsApp(datos, cart, total) {
     
     // Abrir WhatsApp en nueva ventana
     window.open(urlWhatsApp, '_blank');
-}
-
-function formatearPrecio(precio) {
-    return precio.toLocaleString('es-AR', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    });
 }

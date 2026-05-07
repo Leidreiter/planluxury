@@ -1,5 +1,7 @@
 // Gestión del formulario de contacto - WhatsApp
 
+import { mostrarNotificacion, WHATSAPP_CONFIG } from './utils.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     
@@ -30,11 +32,8 @@ function enviarContactoWhatsApp(e) {
     // Codificar mensaje para URL
     const mensajeCodificado = encodeURIComponent(mensajeWhatsApp);
     
-    // Número de WhatsApp
-    const numeroWhatsApp = '543515957014';
-    
     // Crear URL de WhatsApp
-    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`;
+    const urlWhatsApp = `https://wa.me/${WHATSAPP_CONFIG.number}?text=${mensajeCodificado}`;
     
     // Abrir WhatsApp en nueva ventana
     window.open(urlWhatsApp, '_blank');
@@ -111,26 +110,6 @@ function mostrarConfirmacion() {
     });
 }
 
-// Agregar estilos de animación
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
-    @keyframes slideUp {
-        from {
-            transform: translateY(30px);
-            opacity: 0;
-        }
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-`;
-document.head.appendChild(style);
+// Si `mostrarNotificacion` se mueve a `utils.js`, los estilos de animación `fadeIn`, `fadeOut`, `slideUp`
+// deberían permanecer en `styles.css` o ser gestionados de forma centralizada.
+// Por ahora, se asume que `mostrarNotificacion` en `utils.js` ya maneja sus propios estilos o los espera en `styles.css`.

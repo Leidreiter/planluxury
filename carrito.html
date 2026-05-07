@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +9,35 @@
     <title>Mi Tienda Online - Productos de Calidad</title>
     <link rel="stylesheet" href="css/styles.css">
 
+    <!-- Favicon -->
+    <link rel="icon" href="img/lemora.svg" type="image/svg+xml">
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tusitio.com/carrito.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tusitio.com/carrito.html">
+    <meta property="og:title" content="Carrito de Compras - Mi Tienda Online">
+    <meta property="og:description" content="Revisá tu pedido y finalizá tu compra. Envíos a todo el país.">
+    <meta property="og:image" content="https://tusitio.com/img/imagen-preview.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://tusitio.com/carrito.html">
+    <meta name="twitter:title" content="Carrito de Compras - Mi Tienda Online">
+    <meta name="twitter:description" content="Revisá tu pedido y finalizá tu compra. Envíos a todo el país.">
+    <meta name="twitter:image" content="https://tusitio.com/img/imagen-preview.jpg">
+
     <!-- CDN Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"/>
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body data-page="carrito">
     <!-- Header se cargará dinámicamente -->
 
@@ -42,13 +64,22 @@
         </section>
 
         <h1>Tu Carrito de Compras</h1>
-        
+
         <div class="cart-container">
+
             <div class="cart-items" id="cartItems">
                 <!-- Los items se cargarán dinámicamente -->
             </div>
-            
+
             <div class="cart-summary">
+                
+                <h2>Cupón de Descuento</h2>
+                <div class="coupon-section">
+                    <input type="text" id="couponInput" placeholder="Código de cupón">
+                    <button onclick="aplicarCupon()" id="applyCouponBtn">Aplicar</button>
+                    <button onclick="eliminarCupon()" id="removeCouponBtn" class="remove-coupon-btn" style="display: none;">Eliminar Cupón</button>
+                </div>
+
                 <h2>Resumen del Pedido</h2>
                 <div class="summary-row">
                     <span>Subtotal:</span>
@@ -57,6 +88,10 @@
                 <div class="summary-row">
                     <span>Envío:</span>
                     <span id="shipping">A calcular</span>
+                </div>
+                <div class="summary-row" id="descuentoRow" style="display: none;">
+                    <span>Descuento:</span>
+                    <span id="descuento" style="color: var(--danger-color); font-weight: 600;">$0,00</span>
                 </div>
                 <div class="summary-row total">
                     <span>Total:</span>
@@ -73,42 +108,42 @@
                     <label for="nombre">Nombre Completo *</label>
                     <input type="text" id="nombre" name="nombre" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="telefono">Teléfono *</label>
                     <input type="tel" id="telefono" name="telefono" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="email">Email *</label>
                     <input type="email" id="email" name="email" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="direccion">Dirección *</label>
                     <input type="text" id="direccion" name="direccion" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="ciudad">Ciudad *</label>
                     <input type="text" id="ciudad" name="ciudad" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="provincia">Provincia *</label>
                     <input type="text" id="provincia" name="provincia" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="codigoPostal">Código Postal *</label>
                     <input type="text" id="codigoPostal" name="codigoPostal" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="notas">Notas adicionales</label>
                     <textarea id="notas" name="notas" rows="3"></textarea>
                 </div>
-                
+
                 <button type="submit" class="submit-btn">Enviar Pedido por WhatsApp</button>
 
                 <p class="seguro">
@@ -120,11 +155,11 @@
 
     <!-- Footer se cargará dinámicamente -->
 
-    <script src="js/template.js"></script>
-    <script src="js/marquee.js"></script>
+    <script src="js/template.js" defer type="module"></script>
     <script src="js/menu.js"></script>
     <script src="js/salida-popup.js"></script>
     <script src="js/carrito.js"></script>
     <script src="js/formulario.js"></script>
 </body>
+
 </html>

@@ -1,10 +1,12 @@
 // Template dinámico para Header y Footer
 
+import { WHATSAPP_CONFIG } from './utils.js';
+
 // Renderizar Header
 function renderHeader(activePage = '') {
-    const header = document.createElement('header');
+    const header = document.createElement('div');
+    header.className = 'header-wrapper';
     header.innerHTML = `
-    <header>
         <div class="redes">
             <div class="cont1200">
                 <a href="https://www.facebook.com/p/" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -43,9 +45,7 @@ function renderHeader(activePage = '') {
                 </div>
             </div>
         </nav>
-    </header>
     `;
-
     return header;
 }
 
@@ -55,7 +55,7 @@ function renderFooter() {
     footer.innerHTML = `
         <p>&copy; 2026 Mi Tienda Online. Todos los derechos reservados. Hecho con ♥️ por <a href="https://lemora.lat" target="_blank"><img src="img/lemora.svg" alt="Diseño y Desarrollo por Lemora" class="devBy"></a></p>
         <div class="whatsapp">
-        <a href="https://wa.me/+5493515957014?text=Hola, quería consultar ">
+        <a href="https://wa.me/${WHATSAPP_CONFIG.number}?text=${encodeURIComponent(WHATSAPP_CONFIG.defaultMessage)}">
             <img loading="lazy" src="img/whatsapp.png" alt="whatsapp logo">
         </a>
     </div>
@@ -64,16 +64,53 @@ function renderFooter() {
     return footer;
 }
 
+// Función para inicializar el Marquee (integrada para evitar conflictos de orden)
+function initMarquee() {
+    const textos = [
+        '🔥 ¡20% OFF en toda la tienda con el código PROMO20!',
+        '🚚 Envío gratis en compras mayores a $100.000',
+        '⭐ Nuevos productos disponibles — ¡Descubrí las novedades!'
+    ];
+
+    const marqueeBar = document.createElement('div');
+    marqueeBar.className = 'marquee-bar';
+
+    const marqueeTrack = document.createElement('div');
+    marqueeTrack.className = 'marquee-track';
+
+    const contenido = textos.map(t => `<span class="marquee-item">${t}</span>`).join('');
+    marqueeTrack.innerHTML = contenido + contenido; // Duplicado para loop infinito
+
+    marqueeBar.appendChild(marqueeTrack);
+    return marqueeBar;
+}
+
 // Inicializar template
 function initTemplate(activePage = '') {
-    // Insertar header al inicio del body
     const body = document.body;
+    
+    // 1. Insertar Marquee (siempre primero)
+    const marquee = initMarquee();
+    body.insertBefore(marquee, body.firstChild);
+
+    // 2. Insertar Header (después del marquee)
     const header = renderHeader(activePage);
-    body.insertBefore(header, body.firstChild);
+    body.insertBefore(header, marquee.nextSibling);
 
     // Insertar footer al final del body
     const footer = renderFooter();
     body.appendChild(footer);
+
+    // Ajustar scroll-padding-top dinámicamente según la altura real del navbar sticky
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        const observer = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                document.documentElement.style.setProperty('--header-height', entry.target.offsetHeight + 'px');
+            }
+        });
+        observer.observe(navbar);
+    }
 }
 
 // Actualizar contador de favoritos en el nav
@@ -98,4 +135,17 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Actualizar contador de favoritos
     actualizarContadorFavoritosGlobal();
+
+    // Hacer que la función de actualizar favoritos sea accesible para otros módulos
+    // sin tener que duplicar el código en cada archivo.
+    window.actualizarContadorFavoritosGlobal = actualizarContadorFavoritosGlobal;
+
+    // Registrar Service Worker para PWA
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => console.log('SW registrado:', registration))
+                .catch(registrationError => console.log('SW registro fallido:', registrationError));
+        });
+    }
 });

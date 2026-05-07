@@ -1,5 +1,7 @@
 // Página de agradecimiento - mostrar monto total y funcionalidad de copiar alias
 
+import { formatearPrecio, calcularTotales } from './utils.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     mostrarMontoTotal();
 });
@@ -23,6 +25,20 @@ function mostrarMontoTotal() {
         totalAmountElement.textContent = `$${formatearPrecio(total)}`;
     }
 }
+
+// Exponer a window para el onclick del HTML
+window.copiarAlias = function() {
+    const alias = 'hola.mundo.2023';
+    const copyBtn = document.querySelector('.copy-btn');
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(alias)
+            .then(() => mostrarExitoCopia(copyBtn))
+            .catch(() => copiarConFallback(alias, copyBtn));
+    } else {
+        copiarConFallback(alias, copyBtn);
+    }
+};
 
 // Copiar alias al portapapeles
 function copiarAlias() {
@@ -72,12 +88,4 @@ function mostrarExitoCopia(btn) {
         btn.textContent = originalText;
         btn.classList.remove('copied');
     }, 2000);
-}
-
-// Formatear precio
-function formatearPrecio(precio) {
-    return precio.toLocaleString('es-AR', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    });
 }

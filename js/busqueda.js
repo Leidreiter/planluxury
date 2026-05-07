@@ -1,6 +1,12 @@
 // Sistema de búsqueda de productos en tiempo real - Compatible con categorías
+import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase } from './utils.js';
 
-document.addEventListener('DOMContentLoaded', function() {
+let productos = [];
+
+document.addEventListener('DOMContentLoaded', async function() {
+    // Cargar productos usando el sistema centralizado
+    productos = await obtenerProductos();
+
     const searchInput = document.getElementById('searchInput');
     const clearButton = document.getElementById('clearSearch');
     const searchResults = document.getElementById('searchResults');
@@ -91,27 +97,11 @@ function renderizarProductosFiltrados(productosFiltrados) {
     const grid = document.getElementById('productsGrid');
     if (!grid) return;
 
-    grid.innerHTML = productosFiltrados.map(producto => `
-        <article class="product-card">
-            <a href="producto.html?id=${producto.id}" class="product-link">
-                <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" loading="lazy">
-                <div class="product-info">
-                    <h3 class="product-title">${producto.nombre}</h3>
-                    <p class="product-description">${producto.descripcion}</p>
-                    <p class="product-price">$${formatearPrecio(producto.precio)}</p>
-                </div>
-            </a>
-            <div class="product-actions">
-                <button class="add-to-cart-btn" onclick="window.location.href='producto.html?id=${producto.id}'" aria-label="Ver detalles de ${producto.nombre}">
-                    Ver producto
-                </button>
-                
-                <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})" aria-label="Agregar ${producto.nombre} al carrito">
-                    Agregar al Carrito
-                </button>
-            </div>
-        </article>
-    `).join('');
+    grid.innerHTML = productosFiltrados.map(p => generarHTMLTarjetaProducto(p)).join('');
+}
+
+function agregarAlCarrito(id) {
+    agregarAlCarritoBase(id, productos);
 }
 
 // Normalizar texto (quitar acentos y convertir a minúsculas)
@@ -141,10 +131,5 @@ function limpiarBusqueda() {
     if (searchInput) searchInput.focus();
 }
 
-// Formatear precio
-function formatearPrecio(precio) {
-    return precio.toLocaleString('es-AR', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    });
-}
+// Exponer funciones globalmente
+window.limpiarBusqueda = limpiarBusqueda;

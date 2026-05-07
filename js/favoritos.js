@@ -1,5 +1,9 @@
 // Página de Mis Favoritos
 
+import { obtenerProductos, formatearPrecio } from './utils.js';
+
+let productosCatalogo = [];
+
 document.addEventListener('DOMContentLoaded', function() {
     cargarFavoritos();
 });
@@ -10,7 +14,7 @@ function obtenerFavoritos() {
 }
 
 // Cargar y renderizar favoritos
-function cargarFavoritos() {
+async function cargarFavoritos() {
     const favoritos = obtenerFavoritos();
     const container = document.getElementById('favoritosContainer');
     
@@ -20,10 +24,12 @@ function cargarFavoritos() {
         mostrarFavoritosVacios(container);
         return;
     }
+
+    productosCatalogo = await obtenerProductos();
     
     // Filtrar productos que existen en el catálogo
     const productosFavoritos = favoritos
-        .map(id => productos.find(p => p.id === id))
+        .map(id => productosCatalogo.find(p => p.id === id))
         .filter(p => p !== undefined);
     
     if (productosFavoritos.length === 0) {
@@ -100,32 +106,16 @@ function eliminarFavorito(id) {
         
         setTimeout(() => {
             cargarFavoritos();
-            actualizarContadorFavoritosNav();
+            if (typeof window.actualizarContadorFavoritosGlobal === 'function') {
+                window.actualizarContadorFavoritosGlobal();
+            }
         }, 300);
     } else {
         cargarFavoritos();
-        actualizarContadorFavoritosNav();
+        if (typeof window.actualizarContadorFavoritosGlobal === 'function') {
+            window.actualizarContadorFavoritosGlobal();
+        }
     }
 }
 
-// Actualizar contador de favoritos en el nav
-function actualizarContadorFavoritosNav() {
-    const favoritos = obtenerFavoritos();
-    const contadores = document.querySelectorAll('.favorites-count');
-    contadores.forEach(contador => {
-        contador.textContent = favoritos.length;
-        if (favoritos.length > 0) {
-            contador.style.display = 'flex';
-        } else {
-            contador.style.display = 'none';
-        }
-    });
-}
-
-// Formatear precio
-function formatearPrecio(precio) {
-    return precio.toLocaleString('es-AR', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    });
-}
+window.eliminarFavorito = eliminarFavorito;

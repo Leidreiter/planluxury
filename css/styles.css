@@ -1,6 +1,7 @@
 html {
     box-sizing: border-box;
     scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height, 80px); /* Ajuste dinámico exacto */
 }
 
 /* Reset y Variables */
@@ -582,6 +583,7 @@ body {
 }
 
 .product-card {
+    position: relative;
     background: white;
     border-radius: 8px;
     overflow: hidden;
@@ -595,6 +597,25 @@ body {
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
+}
+
+.product-card.out-of-stock .product-image {
+    filter: grayscale(0.8);
+    opacity: 0.7;
+}
+
+.out-of-stock-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--danger-color);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 10;
+    text-transform: uppercase;
 }
 
 .product-gallery-container {
@@ -1045,6 +1066,67 @@ body {
 .cart-summary h2 {
     margin-bottom: 1rem;
     font-size: 1.5rem;
+}
+
+/* Coupon Section */
+.coupon-section {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.coupon-section input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.coupon-section input:focus {
+    border-color: var(--primary-color);
+}
+
+.coupon-section button {
+    padding: 0.75rem 1.25rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.coupon-section button:hover {
+    background: var(--primary-hover);
+}
+
+.coupon-section button:disabled {
+    background: var(--secondary-color);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.coupon-section .remove-coupon-btn {
+    background: var(--danger-color);
+}
+
+.coupon-section .remove-coupon-btn:hover {
+    background: #dc2626;
+}
+
+@keyframes couponFadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.coupon-animate {
+    animation: couponFadeIn 0.4s ease-out forwards;
 }
 
 .summary-row {
