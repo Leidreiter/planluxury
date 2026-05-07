@@ -260,14 +260,41 @@ function sincronizarTodoCore() {
     const productos = leerProductosDeSheet();
     const carpetasCreadas = validarYCrearCarpetas(productos);
     const productosConImagenes = procesarImagenesDesdeGDrive(productos);
+
+    // 1. Subir el JSON principal de productos
     const contenidoJSON = JSON.stringify(productosConImagenes, null, 2);
-    
-    subirArchivoAGitHub(contenidoJSON, 'application/json; charset=utf-8');
-    
+    subirArchivoAGitHub(contenidoJSON, 'application/json; charset=utf-8', CONFIG.GITHUB_FILE_PATH);
+
+    // 2. Generar y subir archivos HTML individuales para compartido (SEO)
+    Logger.log(`⏳ Generando páginas SEO para ${productosConImagenes.length} productos...`);
+    productosConImagenes.forEach(p => {
+        const htmlSEO = generarHtmlSEO(p);
+        subirArchivoAGitHub(htmlSEO, 'text/html; charset=utf-8', `share/p${p.id}.html`);
+    });
+
     return {
         cantidad: productosConImagenes.length,
         carpetas: carpetasCreadas
     };
+}
+
+// ============ GENERAR HTML PARA REDES SOCIALES ============
+function generarHtmlSEO(producto) {
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>${producto.nombre}</title>
+    <meta property="og:title" content="${producto.nombre}">
+    <meta property="og:description" content="${producto.descripcion}">
+    <meta property="og:image" content="${producto.imagen}">
+    <meta property="og:type" content="product">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="${producto.imagen}">
+    <script>window.location.href = '../producto.html?id=${producto.id}';</script>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding-top: 50px;">Redirigiendo al producto...</body>
+</html>`;
 }
 
 // ============ LEER DATOS DE GOOGLE SHEETS ============
@@ -461,8 +488,8 @@ function obtenerUrlPublicaGDrive(fileId) {
 }
 
 // ============ SUBIR ARCHIVO A GITHUB ============
-function subirArchivoAGitHub(contenido, contentType) {
-    const url = `https://api.github.com/repos/${CONFIG.GITHUB_OWNER}/${CONFIG.GITHUB_REPO}/contents/${CONFIG.GITHUB_FILE_PATH}`;
+function subirArchivoAGitHub(contenido, contentType, path) {
+    const url = `https://api.github.com/repos/${CONFIG.GITHUB_OWNER}/${CONFIG.GITHUB_REPO}/contents/${path}`;
 
     let sha = null;
     try {
