@@ -59,8 +59,10 @@ function doPost(e) {
             sheet.getRange(1, 1, 1, 18).setFontWeight('bold').setBackground('#f3f3f3');
         }
 
-        // 1. Generar número de pedido (basado en la última fila)
-        const nPedido = sheet.getLastRow(); 
+        // 1. Generar número de pedido formateado (PED-0001)
+        const ultimaFila = sheet.getLastRow();
+        const nPedidoNum = ultimaFila <= 1 ? 1 : parseInt(sheet.getRange(ultimaFila, 1).getValue().toString().replace('PED-', '')) + 1;
+        const nPedido = 'PED-' + nPedidoNum.toString().padStart(4, '0');
 
         // 2. Formatear Fecha y Hora por separado
         const ahora = new Date();
@@ -92,6 +94,13 @@ function doPost(e) {
             data.cliente.notas,       // Q: Notas
             "Pendiente"               // R: Estado
         ]);
+
+        // 4. Aplicar formato visual a la nueva fila
+        const nuevaFilaIndex = sheet.getLastRow();
+        sheet.getRange(nuevaFilaIndex, 1, 1, 18).setVerticalAlignment('top');
+        sheet.getRange(nuevaFilaIndex, 11, 1, 2).setWrap(true); // Wrap en productos y cantidades
+        sheet.getRange(nuevaFilaIndex, 16).setNumberFormat('#,##0'); // Formato moneda en Total
+        sheet.getRange(nuevaFilaIndex, 18).setBackground('#fff3cd').setHorizontalAlignment('center'); // Estado amarillo
 
         // Descontar stock automáticamente de la hoja "Productos"
         const huboAgotados = actualizarStockTrasPedido(data.productos);
@@ -218,6 +227,55 @@ function enviarEmailNotificacion(data) {
         subject: asunto,
         htmlBody: cuerpo
     });
+}
+
+// ============ GESTIÓN DE ESTADOS (Incorporado de RegistroPedidos) ============
+function actualizarEstadoPedido(numeroPedido, nuevoEstado) {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName(CONFIG.PEDIDOS_SHEET_NAME);
+    if (!sheet) return;
+
+    const datos = sheet.getDataRange().getValues();
+    const colores = {
+        'Pendiente': '#fff3cd',
+        'Procesando': '#cfe2ff',
+        'Enviado': '#d1e7dd',
+        'Entregado': '#a3cfbb',
+        'Cancelado': '#f8d7da'
+    };
+
+    for (let i = 1; i < datos.length; i++) {
+        if (datos[i][0] === numeroPedido) {
+            const celdaEstado = sheet.getRange(i + 1, 18);
+            celdaEstado.setValue(nuevoEstado);
+            celdaEstado.setBackground(colores[nuevoEstado] || '#ffffff');
+            return;
+        }
+    }
+}
+
+function mostrarEstadisticas() {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.PEDIDOS_SHEET_NAME);
+    if (!sheet) return;
+    
+    const datos = sheet.getDataRange().getValues();
+    let totalVentas = 0;
+    let estados = { 'Pendiente': 0, 'Procesando': 0, 'Enviado': 0, 'Entregado': 0, 'Cancelado': 0 };
+    
+    for (let i = 1; i < datos.length; i++) {
+        totalVentas += parseFloat(datos[i][15]) || 0;
+        const est = datos[i][17];
+        if (estados.hasOwnProperty(est)) estados[est]++;
+    }
+    
+    const mensaje = `📊 RESUMEN DE VENTAS\n\n` +
+                    `Total Pedidos: ${datos.length - 1}\n` +
+                    `Ventas Totales: $${totalVentas.toLocaleString('es-AR')}\n\n` +
+                    `⏳ Pendientes: ${estados['Pendiente']}\n` +
+                    `🚚 Enviados: ${estados['Enviado']}\n` +
+                    `✅ Entregados: ${estados['Entregado']}`;
+    
+    SpreadsheetApp.getUi().alert('Estadísticas', mensaje, SpreadsheetApp.getUi().ButtonSet.OK);
 }
 
 // ============ FUNCIÓN PARA CONFIGURAR SECRETOS (Ejecutar una vez) ============
