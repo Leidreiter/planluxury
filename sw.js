@@ -29,7 +29,6 @@ const urlsToCache = [
     '/img/lemora.svg',
     '/img/imagen-preview.jpg',
     '/img/logo.svg',
-    '/img/whatsapp.png',
     '/img/banners/banner1.jpg',
     '/img/banners/banner2.jpg',
     '/img/banners/banner3.jpg',
