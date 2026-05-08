@@ -97,6 +97,11 @@ export async function obtenerProductos() {
 // Generar el HTML de una tarjeta de producto (estándar para toda la web)
 export function generarHTMLTarjetaProducto(producto) {
     const esAgotado = producto.stock === 0;
+    
+    // Construir URL absoluta para compartir (asumiendo estructura del sitio)
+    const shareUrl = `${window.location.origin}${window.location.pathname.replace(/\/[^\/]*$/, '')}/producto.html?id=${producto.id}`;
+    const shareText = encodeURIComponent(`¡Mirá este producto! ${producto.nombre}`);
+
     return `
         <article class="product-card ${esAgotado ? 'out-of-stock' : ''}">
             ${esAgotado ? '<span class="out-of-stock-badge">Sin Stock</span>' : ''}
@@ -118,6 +123,16 @@ export function generarHTMLTarjetaProducto(producto) {
                     aria-label="Agregar ${producto.nombre} al carrito">
                     ${esAgotado ? 'Agotado' : 'Agregar al Carrito'}
                 </button>
+                
+                <div class="card-share-row">
+                    <span style="font-size: 0.7rem; color: var(--secondary-color); margin-right: 5px;">Compartir:</span>
+                    <a href="https://wa.me/?text=${shareText}%20${encodeURIComponent(shareUrl)}" class="card-share-btn whatsapp" target="_blank" rel="noopener" title="Compartir en WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}" class="card-share-btn facebook" target="_blank" rel="noopener" title="Compartir en Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
             </div>
         </article>
     `;

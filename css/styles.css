@@ -1355,17 +1355,48 @@ footer p {
 }
 
 /* Whatsapp */
-.whatsapp img {
-    width: 50px;
+.whatsapp {
     position: fixed;
     bottom: 20px;
     left: 20px;
+    z-index: var(--z-nav);
+    animation: fadeInBtn 1s ease-out forwards;
+}
+
+.whatsapp a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    background-color: #25d366;
+    color: white;
+    border-radius: 50%;
+    font-size: 2.2rem;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.whatsapp a:hover {
+    transform: scale(1.1);
+    background-color: #20ba5a;
+}
+
+@keyframes fadeInBtn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 768px) {
-    .whatsapp img {
-        bottom: 10px;
-        left: 10px;
+    .whatsapp {
+        bottom: 15px;
+        left: 15px;
+    }
+    .whatsapp a {
+        width: 50px;
+        height: 50px;
+        font-size: 1.8rem;
     }
 }
 
@@ -2062,6 +2093,95 @@ footer p {
 
     .nav-product-btn {
         justify-content: center;
+    }
+}
+
+/* ===================================
+   BOTONES DE COMPARTIR
+   =================================== */
+
+.product-share {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.product-share h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+    text-transform: none;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.share-btn.facebook { background-color: #1877f2; }
+.share-btn.twitter { background-color: #000000; }
+.share-btn.whatsapp { background-color: #25d366; }
+.share-btn.copy { background-color: var(--secondary-color); }
+
+/* Compartir en Tarjetas (Cards) */
+.card-share-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dotted var(--border-color);
+}
+
+.card-share-btn {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    text-decoration: none;
+    padding: 0.25rem;
+}
+
+.card-share-btn:hover {
+    color: var(--primary-color);
+}
+
+.card-share-btn.whatsapp:hover { color: #25d366; }
+.card-share-btn.facebook:hover { color: #1877f2; }
+
+@media (max-width: 480px) {
+    .product-share {
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+    .share-buttons {
+        justify-content: center;
+    }
+    .share-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1.1rem;
     }
 }
 

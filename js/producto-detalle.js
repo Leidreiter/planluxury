@@ -199,6 +199,27 @@ function renderizarDetalleProducto(producto) {
                     </button>
                 </div>
                 
+                <div class="product-share">
+                    <h3>Compartir este producto:</h3>
+                    <div class="share-buttons">
+                        <a href="https://wa.me/?text=${encodeURIComponent('¡Mirá este producto! ' + producto.nombre + ' ' + window.location.href)}" 
+                           class="share-btn whatsapp" target="_blank" rel="noopener" aria-label="Compartir en WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" 
+                           class="share-btn facebook" target="_blank" rel="noopener" aria-label="Compartir en Facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent('¡Mirá lo que encontré! ' + producto.nombre)}&url=${encodeURIComponent(window.location.href)}" 
+                           class="share-btn twitter" target="_blank" rel="noopener" aria-label="Compartir en Twitter">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <button class="share-btn copy" onclick="copiarEnlace()" title="Copiar enlace">
+                            <i class="fa-solid fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+                
                 <div class="product-navigation">
                     ${prevProduct ? `
                         <a href="producto.html?id=${prevProduct.id}" class="nav-product-btn prev">
@@ -725,6 +746,18 @@ function toggleFavorito(id) {
         window.actualizarContadorFavoritosGlobal();
     }
 }
+
+// Función para copiar el enlace al portapapeles
+window.copiarEnlace = function() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        mostrarNotificacion('¡Enlace copiado al portapapeles!', 'success');
+    }).catch(err => {
+        console.error('Error al copiar: ', err);
+        // Fallback para navegadores antiguos
+        mostrarNotificacion('No se pudo copiar el enlace', 'error');
+    });
+};
 
 // Exponer funciones a window para que funcionen con onclick en el HTML (necesario en módulos)
 window.toggleZoom = toggleZoom;

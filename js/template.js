@@ -59,10 +59,13 @@ function renderFooter() {
     footer.innerHTML = `
         <p>&copy; 2026 Mi Tienda Online. Todos los derechos reservados. Hecho con ♥️ por <a href="https://lemora.lat" target="_blank"><img src="img/lemora.svg" alt="Diseño y Desarrollo por Lemora" class="devBy"></a></p>
         <div class="whatsapp">
-        <a href="https://wa.me/${WHATSAPP_CONFIG.number}?text=${encodeURIComponent(WHATSAPP_CONFIG.defaultMessage)}">
-            <img loading="lazy" src="img/whatsapp.png" alt="whatsapp logo">
-        </a>
-    </div>
+            <a href="https://wa.me/${WHATSAPP_CONFIG.number}?text=${encodeURIComponent(WHATSAPP_CONFIG.defaultMessage)}" 
+               target="_blank" 
+               rel="noopener" 
+               aria-label="Contactar por WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+        </div>
         `;
 
     return footer;
