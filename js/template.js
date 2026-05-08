@@ -8,7 +8,7 @@ function renderHeader(activePage = '') {
     header.className = 'header-wrapper';
     header.innerHTML = `
         <div class="redes">
-            <div class="nav-container">
+            <div class="contenedor">
                 <a href="https://www.facebook.com/p/" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                 <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://www.tiktok.com/@" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
@@ -37,10 +37,14 @@ function renderHeader(activePage = '') {
                     <!-- <a href="index.html#contacto" class="nav-link ${activePage === 'contacto' ? 'active' : ''}">Contacto</a>-->
                     <a href="contacto.html" class="nav-link ${activePage === 'contacto' ? 'active' : ''}">Contacto</a> 
                     <a href="favoritos.html" class="nav-link favorites-link ${activePage === 'favoritos' ? 'active' : ''}" aria-label="Mis Favoritos">
-                        <i class="fa-solid fa-heart"></i><span class="favorites-count">0</span>
+                        <i class="fa-solid fa-heart"></i>
+                        <span class="nav-label">Favoritos</span>
+                        <span class="favorites-count">0</span>
                     </a>
                     <a href="carrito.html" class="nav-link cart-link ${activePage === 'carrito' ? 'active' : ''}">
-                    <i class="fa-solid fa-cart-shopping"></i><span class="cart-count">0</span>
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="nav-label">Carrito</span>
+                        <span class="cart-count">0</span>
                     </a>
                 </div>
             </div>

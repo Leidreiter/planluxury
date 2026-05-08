@@ -274,7 +274,7 @@ html {
 .add-to-cart-btn,
 .view-product-btn {
     display: inline-flex;
-    align-items: center;
+    align-items: center; 
     justify-content: center;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
@@ -394,9 +394,17 @@ body {
     font-weight: 500;
 }
 
+.nav-label {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .nav-link {
         font-size: 24px;
+    }
+
+    .nav-label {
+        display: inline;
     }
 }
 
@@ -528,6 +536,16 @@ body {
     background: transparent;
 }
 
+.search-icon {
+    position: absolute;
+    right: 1.5rem;
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    pointer-events: none; /* Permite hacer clic a través del icono */
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
 .search-input::placeholder {
     color: var(--secondary-color);
 }
@@ -560,6 +578,12 @@ body {
 
 .clear-search.visible {
     display: flex;
+    z-index: 2; /* Se posiciona sobre la lupa cuando aparece */
+}
+
+/* Oculta la lupa cuando el botón de limpiar está visible para evitar solapamiento */
+.clear-search.visible ~ .search-icon {
+    opacity: 0;
 }
 
 .search-results {
@@ -762,18 +786,10 @@ body {
 
 .view-product-btn {
     width: 100%;
-    padding: 0.75rem;
     background: white;
     color: var(--primary-color);
     border: 2px solid var(--primary-color);
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-weight: 500;
-    text-decoration: none;
-    text-align: center;
-    display: block;
+    /* Hereda padding, border-radius y font-weight de la base */
 }
 
 .view-product-btn:hover {
@@ -783,9 +799,9 @@ body {
 
 .add-to-cart-btn {
     width: 100%;
-    padding: 0.75rem;
     background: var(--primary-color);
     color: white;
+    border: 2px solid transparent; /* Para igualar la altura con el botón de borde */
 }
 
 .add-to-cart-btn:hover {
@@ -1494,7 +1510,8 @@ footer p {
         gap: 0.45rem;
     }
 
-    .add-to-cart-btn {
+    .add-to-cart-btn,
+    .view-product-btn {
         padding: 0.5rem 0.35rem;
         font-size: clamp(0.62rem, 2.7vw, 0.76rem);
         line-height: 1.2;
@@ -2997,6 +3014,12 @@ body.zoom-active {
     position: absolute;
     top: -8px;
     right: -10px;
+}
+
+@media (max-width: 768px) {
+    .favorites-count {
+        position: static;
+    }
 }
 
 /* ===================================
