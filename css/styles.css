@@ -246,6 +246,11 @@ html {
     }
 }
 
+.banner-promo-info .btn {
+    margin-top: 1.5rem;
+    align-self: flex-start;
+}
+
 .banner-promo-info h2,
 .banner-promo-info h4 {
     text-transform: uppercase;
@@ -286,6 +291,7 @@ html {
     gap: 0.5rem;
 }
 
+.btn,
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
@@ -301,7 +307,11 @@ html {
 }
 
 @media (max-width: 768px) {
-    .btn {
+    .btn,
+    .btn-primary,
+    .btn-secondary,
+    .add-to-cart-btn,
+    .view-product-btn {
         padding: .8rem 1rem;
     }
 }
