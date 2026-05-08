@@ -8,7 +8,7 @@ function renderHeader(activePage = '') {
     header.className = 'header-wrapper';
     header.innerHTML = `
         <div class="redes">
-            <div class="cont1200">
+            <div class="nav-container">
                 <a href="https://www.facebook.com/p/" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                 <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://www.tiktok.com/@" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>

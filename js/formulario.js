@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
 async function enviarPedidoWhatsApp(e) {
     e.preventDefault();
     
+    // Activar animación de carga en el botón
+    const btnSubmit = e.target.querySelector('.submit-btn');
+    if (btnSubmit) btnSubmit.classList.add('loading');
+
     // Obtener datos del formulario
     const formData = new FormData(e.target);
     const datosCliente = {

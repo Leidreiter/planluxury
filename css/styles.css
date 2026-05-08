@@ -1253,6 +1253,36 @@ body {
     background: #16a34a;
 }
 
+.submit-btn.loading {
+    position: relative;
+    background-color: #e2e8f0 !important; /* Gris claro de fondo */
+    color: var(--text-color) !important;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.submit-btn.loading span {
+    position: relative;
+    z-index: 2;
+}
+
+.submit-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: var(--success-color);
+    animation: fillProgress 2.5s ease-in-out forwards;
+    z-index: 1;
+}
+
+@keyframes fillProgress {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
 .seguro {
     text-align: center;
     color: var(--secondary-color);
