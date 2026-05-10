@@ -19,21 +19,32 @@ function renderizarCategoriasAutomaticas() {
     // Extraer categorías únicas de los productos
     const categorias = [...new Set(productos.map(p => p.categoria))].filter(Boolean);
 
-    // Generar el HTML para cada sección de categoría de forma dinámica
-    container.innerHTML = categorias.map(categoria => {
+    let htmlFinal = '';
+
+    categorias.forEach((categoria, index) => {
         const productosFiltrados = productos.filter(p => p.categoria === categoria);
-        
-        if (productosFiltrados.length === 0) return '';
+        if (productosFiltrados.length === 0) return;
 
-        return `
+        // Agregar la sección de productos de la categoría
+        htmlFinal += `
             <section class="category-section" id="cat-${categoria.toLowerCase().replace(/\s+/g, '-')}">
-
                 <div class="products-grid">
                     ${productosFiltrados.map(p => generarHTMLTarjetaProducto(p)).join('')}
                 </div>
             </section>
         `;
-    }).join('');
+
+        // Intercalar los banners (banner1, banner2, banner3) entre las categorías
+        const bannerId = `banner${index + 1}`;
+        const bannerElement = document.getElementById(bannerId);
+        
+        if (bannerElement && index < 3) {
+            htmlFinal += bannerElement.outerHTML;
+            bannerElement.remove(); // Eliminar el original del fondo de la página para evitar duplicados
+        }
+    });
+
+    container.innerHTML = htmlFinal;
 }
 
 // Lógica para agregar al carrito desde las tarjetas de esta página
