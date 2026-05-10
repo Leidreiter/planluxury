@@ -348,25 +348,5 @@
     "galeria": [
       "https://lh3.googleusercontent.com/d/1OU1lieM-MY5siUCyM_klmpjnDJOIIfif"
     ]
-  },
-  {
-    "id": 16,
-    "nombre": "Zapatillas urbanas mujer OFERTA",
-    "descripcion": "Zapatillas urbanas cómodas para el día a día",
-    "descripcionDetallada": "Zapatillas para mujer con estilo urbano, pensadas para uso diario. Livianas, cómodas y fáciles de combinar.",
-    "precio": 80000,
-    "categoria": "Calzado mujer",
-    "stock": 12,
-    "caracteristicas": [
-      "Diseño urbano",
-      "Material liviano",
-      "Suela flexible",
-      "Uso diario"
-    ],
-    "carpetaImagenes": "Zapatillas urbanas mujer",
-    "imagen": "https://lh3.googleusercontent.com/d/1OU1lieM-MY5siUCyM_klmpjnDJOIIfif",
-    "galeria": [
-      "https://lh3.googleusercontent.com/d/1OU1lieM-MY5siUCyM_klmpjnDJOIIfif"
-    ]
   }
 ]
