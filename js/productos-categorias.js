@@ -8,21 +8,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     productos = await obtenerProductos();
     
     if (productos.length > 0) {
-        renderizarProductosPorCategoria('Remeras', 'gridCat1');
-        renderizarProductosPorCategoria('Abrigos', 'gridCat2');
-        renderizarProductosPorCategoria('Pantalones', 'gridCat3');
-        renderizarProductosPorCategoria('Calzado', 'gridCat4');
+        renderizarCategoriasAutomaticas();
     }
 });
 
-function renderizarProductosPorCategoria(categoria, gridId) {
-    const grid = document.getElementById(gridId);
-    if (!grid) return;
+function renderizarCategoriasAutomaticas() {
+    const container = document.getElementById('tienda');
+    if (!container) return;
 
-    const productosFiltrados = productos.filter(p => p.categoria === categoria);
+    // Extraer categorías únicas de los productos
+    const categorias = [...new Set(productos.map(p => p.categoria))].filter(Boolean);
 
-    // Mostrar todos los productos de la categoría
-    grid.innerHTML = productosFiltrados.map(p => generarHTMLTarjetaProducto(p)).join('');
+    // Generar el HTML para cada sección de categoría de forma dinámica
+    container.innerHTML = categorias.map(categoria => {
+        const productosFiltrados = productos.filter(p => p.categoria === categoria);
+        
+        if (productosFiltrados.length === 0) return '';
+
+        return `
+            <section class="category-section" id="cat-${categoria.toLowerCase().replace(/\s+/g, '-')}">
+
+                <div class="products-grid">
+                    ${productosFiltrados.map(p => generarHTMLTarjetaProducto(p)).join('')}
+                </div>
+            </section>
+        `;
+    }).join('');
 }
 
 // Lógica para agregar al carrito desde las tarjetas de esta página
