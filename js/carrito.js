@@ -1,6 +1,6 @@
 // Gestión del carrito de compras
 
-import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones } from './utils.js';
 
 let productosGlobales = [];
 
@@ -249,6 +249,7 @@ async function cargarProductosReferencia() {
 // Event listener para el botón de checkout
 document.addEventListener('DOMContentLoaded', async function() {
     await cargarProductosReferencia();
+    await obtenerCupones();
     renderizarCarrito();
     
     // Alerta inicial si hay productos que se quedaron sin stock

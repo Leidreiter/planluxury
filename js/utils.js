@@ -7,11 +7,7 @@ export const CONFIG_DESCUENTO = {
 };
 
 // Cupones manuales válidos
-export const CONFIG_CUPONES = {
-    'PROMO20': { porcentaje: 20, expira: '2026-12-31' },
-    'BIENVENIDA': { porcentaje: 15, expira: '2026-06-30' },
-    'LUXURY10': { porcentaje: 10, expira: '2026-05-15' }
-};
+export let CONFIG_CUPONES = {};
 
 // Configuración de WhatsApp centralizada
 export const WHATSAPP_CONFIG = {
@@ -91,6 +87,46 @@ export async function obtenerProductos() {
         if (cachedData) return JSON.parse(cachedData); // Fallback al cache si falla la red
         mostrarNotificacion('No pudimos cargar el catálogo. Por favor, recarga la página.', 'error');
         return [];
+    }
+}
+
+// Cargar cupones desde JSON dinámico
+export async function obtenerCupones() {
+    const cachedData = sessionStorage.getItem('cache_cupones');
+    const cachedVersion = sessionStorage.getItem('cache_cupones_version');
+
+    try {
+        const headResponse = await fetch('js/cupones.json', { method: 'HEAD' });
+        const serverVersion = headResponse.headers.get('Last-Modified') || headResponse.headers.get('ETag');
+
+        if (cachedData && cachedVersion === serverVersion) {
+            CONFIG_CUPONES = JSON.parse(cachedData);
+            return CONFIG_CUPONES;
+        }
+
+        const response = await fetch('js/cupones.json');
+        if (!response.ok) throw new Error('Error al cargar cupones');
+        const cuponesArray = await response.json();
+
+        // Transformar array de Sheets [{codigo, porcentaje, expira}] a objeto de configuración
+        const transformado = {};
+        cuponesArray.forEach(c => {
+            if (c.codigo && c.porcentaje) {
+                transformado[c.codigo.toUpperCase().trim()] = {
+                    porcentaje: parseInt(c.porcentaje),
+                    expira: c.expira // Espera formato YYYY-MM-DD
+                };
+            }
+        });
+
+        CONFIG_CUPONES = transformado;
+        sessionStorage.setItem('cache_cupones', JSON.stringify(transformado));
+        if (serverVersion) sessionStorage.setItem('cache_cupones_version', serverVersion);
+
+        return transformado;
+    } catch (error) {
+        if (cachedData) CONFIG_CUPONES = JSON.parse(cachedData);
+        return CONFIG_CUPONES;
     }
 }
 

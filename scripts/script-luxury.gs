@@ -12,12 +12,14 @@ const CONFIG = {
     GITHUB_REPO: PropertiesService.getScriptProperties().getProperty('GITHUB_REPO'),
     GITHUB_BRANCH: 'main', // O la rama que uses para tu sitio web
     GITHUB_FILE_PATH: 'js/productos.json', // Cambiado a JSON
+    GITHUB_CUPONES_FILE_PATH: 'js/cupones.json',
 
     // Google Drive - También guardado por seguridad
     DRIVE_FOLDER_ID: PropertiesService.getScriptProperties().getProperty('DRIVE_FOLDER_ID'),
 
     // Google Sheets
     SHEET_NAME: 'Productos',
+    CUPONES_SHEET_NAME: 'Cupones',
     PEDIDOS_SHEET_NAME: 'Pedidos',
 
     // Estructura de columnas
@@ -296,7 +298,7 @@ function configurarSecretos() {
 function actualizarProductosEnGitHub() {
     try {
         const resultado = sincronizarTodoCore();
-        mostrarResultadoConCarpetas(resultado.cantidad, resultado.carpetas);
+        mostrarResultadoConCarpetas(resultado);
     } catch (error) {
         Logger.log(`❌ Error: ${error.message}`);
         SpreadsheetApp.getUi().alert(
@@ -317,17 +319,51 @@ function ejecutarSincronizacionSilenciosa() {
 }
 
 function sincronizarTodoCore() {
+    // 1. Sincronizar Productos
     const productos = leerProductosDeSheet();
     const carpetasCreadas = validarYCrearCarpetas(productos);
     const productosConImagenes = procesarImagenesDesdeGDrive(productos);
+    const contenidoProductosJSON = JSON.stringify(productosConImagenes, null, 2);
+    subirArchivoAGitHub(contenidoProductosJSON, 'application/json; charset=utf-8', CONFIG.GITHUB_FILE_PATH);
 
-    // 1. Subir el JSON principal de productos
-    const contenidoJSON = JSON.stringify(productosConImagenes, null, 2);
-    subirArchivoAGitHub(contenidoJSON, 'application/json; charset=utf-8', CONFIG.GITHUB_FILE_PATH);
+    // 2. Sincronizar Cupones (Nueva lógica)
+    const cupones = leerCuponesDeSheet();
+    let cantidadCupones = 0;
+    if (cupones.length > 0) {
+        const contenidoCuponesJSON = JSON.stringify(cupones, null, 2);
+        subirArchivoAGitHub(contenidoCuponesJSON, 'application/json; charset=utf-8', CONFIG.GITHUB_CUPONES_FILE_PATH);
+        cantidadCupones = cupones.length;
+    }
+
     return {
         cantidad: productosConImagenes.length,
-        carpetas: carpetasCreadas
+        carpetas: carpetasCreadas,
+        cantidadCupones: cantidadCupones
     };
+}
+
+// ============ LEER CUPONES DE GOOGLE SHEETS ============
+function leerCuponesDeSheet() {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName(CONFIG.CUPONES_SHEET_NAME);
+
+    if (!sheet) {
+        Logger.log(`⚠️ No se encontró la hoja "${CONFIG.CUPONES_SHEET_NAME}". Saltando sincronización de cupones.`);
+        return [];
+    }
+
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return [];
+
+    const datos = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
+
+    return datos
+        .filter(fila => fila[0]) // Filtrar filas que no tengan código
+        .map(fila => ({
+            codigo: fila[0].toString().trim(),
+            porcentaje: fila[1],
+            expira: fila[2] instanceof Date ? Utilities.formatDate(fila[2], "GMT-3", "yyyy-MM-dd") : fila[2].toString().trim()
+        }));
 }
 
 // ============ LEER DATOS DE GOOGLE SHEETS ============
@@ -587,12 +623,16 @@ function subirArchivoAGitHub(contenido, contentType, path) {
 }
 
 // ============ MOSTRAR RESULTADO ============
-function mostrarResultadoConCarpetas(cantidadProductos, carpetasCreadas) {
+function mostrarResultadoConCarpetas(resultado) {
     const ui = SpreadsheetApp.getUi();
-    let mensaje = `Se actualizaron ${cantidadProductos} productos en GitHub.\n\n`;
+    let mensaje = `Se actualizaron ${resultado.cantidad} productos en GitHub.\n`;
 
-    if (carpetasCreadas > 0) {
-        mensaje += `📁 Se crearon ${carpetasCreadas} carpetas nuevas en Google Drive.\n`;
+    if (resultado.cantidadCupones > 0) {
+        mensaje += `✅ Se actualizaron ${resultado.cantidadCupones} cupones.\n`;
+    }
+
+    if (resultado.carpetas > 0) {
+        mensaje += `📁 Se crearon ${resultado.carpetas} carpetas nuevas en Google Drive.\n`;
         mensaje += `Ahora puedes subir las imágenes correspondientes.\n\n`;
     }
 

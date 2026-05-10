@@ -1,6 +1,6 @@
 // Gestión del formulario de envío y WhatsApp
 
-import { formatearPrecio, mostrarNotificacion, calcularTotales } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, calcularTotales, obtenerCupones } from './utils.js';
 
 // ============ CONFIGURACIÓN ============
 const CONFIG_PEDIDOS = {
@@ -50,6 +50,9 @@ async function enviarPedidoWhatsApp(e) {
     
     // Obtener cupón aplicado
     const cupon = sessionStorage.getItem('appliedCoupon');
+
+    // Asegurar que los cupones estén cargados para el cálculo final
+    await obtenerCupones();
 
     // Calcular totales con cupón
     const { subtotal, descuento, total, esCupon } = calcularTotales(cart, cupon);
