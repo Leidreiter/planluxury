@@ -1,11 +1,21 @@
 // Template dinámico para Header y Footer
 
-import { WHATSAPP_CONFIG } from './utils.js';
+import { WHATSAPP_CONFIG, obtenerProductos } from './utils.js';
 
 // Renderizar Header
-function renderHeader(activePage = '') {
+function renderHeader(activePage = '', categorias = []) {
     const header = document.createElement('div');
     header.className = 'header-wrapper';
+
+    // Generar HTML del submenú de categorías
+    const submenuHTML = categorias.length > 0 ? `
+        <ul class="submenu">
+            ${categorias.map(cat => `
+                <li><a href="index.html#cat-${cat.toLowerCase().replace(/\s+/g, '-')}">${cat}</a></li>
+            `).join('')}
+        </ul>
+    ` : '';
+
     header.innerHTML = `
         <div class="redes">
             <div class="contenedor">
@@ -31,7 +41,10 @@ function renderHeader(activePage = '') {
                 
                 <div class="nav-menu">
                     <a href="index.html" class="nav-link ${activePage === 'inicio' ? 'active' : ''}">Inicio</a>
-                    <a href="index.html#tienda" class="nav-link ${activePage === 'productos' ? 'active' : ''}">Productos</a>
+                    <div class="nav-item-dropdown">
+                        <a href="index.html#tienda" class="nav-link ${activePage === 'productos' ? 'active' : ''}">Productos <i class="fa-solid fa-chevron-down"></i></a>
+                        ${submenuHTML}
+                    </div>
                     <a href="nosotros.html" class="nav-link ${activePage === 'nosotros' ? 'active' : ''}">Nosotros</a>
                     <a href="faq.html" class="nav-link ${activePage === 'faq' ? 'active' : ''}">Preguntas</a> 
                     <!-- <a href="index.html#contacto" class="nav-link ${activePage === 'contacto' ? 'active' : ''}">Contacto</a>-->
@@ -93,15 +106,22 @@ function initMarquee() {
 }
 
 // Inicializar template
-function initTemplate(activePage = '') {
+async function initTemplate(activePage = '') {
     const body = document.body;
     
+    // Obtener categorías dinámicas
+    let categorias = [];
+    try {
+        const productos = await obtenerProductos();
+        categorias = [...new Set(productos.map(p => p.categoria))].filter(Boolean);
+    } catch (e) { console.error("Error cargando categorías para el menú", e); }
+
     // 1. Insertar Marquee (siempre primero)
     const marquee = initMarquee();
     body.insertBefore(marquee, body.firstChild);
 
     // 2. Insertar Header (después del marquee)
-    const header = renderHeader(activePage);
+    const header = renderHeader(activePage, categorias);
     body.insertBefore(header, marquee.nextSibling);
 
     // Insertar footer al final del body
@@ -138,10 +158,10 @@ function actualizarContadorCarrito() {
     });
 }
 // Auto-inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     // Detectar página activa desde el atributo data-page del body
     const activePage = document.body.getAttribute('data-page') || '';
-    initTemplate(activePage);
+    await initTemplate(activePage);
     
     // Actualizar contador de favoritos
     actualizarContadorFavoritosGlobal();
