@@ -18,7 +18,7 @@ const CONFIG = {
     DRIVE_FOLDER_ID: PropertiesService.getScriptProperties().getProperty('DRIVE_FOLDER_ID'),
 
     // Google Sheets
-    SHEET_NAME: 'Productos',
+    SHEET_NAME: 'ProductosLuxury',
     CUPONES_SHEET_NAME: 'Cupones',
     PEDIDOS_SHEET_NAME: 'Pedidos',
 
@@ -55,10 +55,10 @@ function doPost(e) {
             const headers = [
                 'N° Pedido', 'Fecha', 'Hora', 'Nombre', 'Teléfono', 'Email', 
                 'Dirección', 'Ciudad', 'Provincia', 'CP', 'Productos', 'Cant.', 
-                'Cupón', 'Descuento', 'Subtotal', 'Total', 'Notas', 'Estado'
+                'Cupón', 'Subtotal', 'Descuento', '% Dcto', 'Total', 'Notas', 'Estado'
             ];
             sheet.appendRow(headers);
-            sheet.getRange(1, 1, 1, 18).setFontWeight('bold').setBackground('#f3f3f3');
+            sheet.getRange(1, 1, 1, 19).setFontWeight('bold').setBackground('#f3f3f3');
         }
 
         // 1. Generar número de pedido formateado (PED-0001)
@@ -90,19 +90,20 @@ function doPost(e) {
             nombresProductos,         // K: Productos
             cantidadesProductos,      // L: Cant.
             data.cupon,               // M: Cupón
-            data.descuento,           // N: Descuento
-            data.subtotal,            // O: Subtotal
-            data.total,               // P: Total
-            data.cliente.notas,       // Q: Notas
-            "Pendiente"               // R: Estado
+            data.subtotal,            // N: Subtotal
+            data.descuento,           // O: Descuento
+            data.porcentaje + '%',    // P: % Dcto
+            data.total,               // Q: Total
+            data.cliente.notas,       // R: Notas
+            "Pendiente"               // S: Estado
         ]);
 
         // 4. Aplicar formato visual a la nueva fila
         const nuevaFilaIndex = sheet.getLastRow();
-        sheet.getRange(nuevaFilaIndex, 1, 1, 18).setVerticalAlignment('top');
+        sheet.getRange(nuevaFilaIndex, 1, 1, 19).setVerticalAlignment('top');
         sheet.getRange(nuevaFilaIndex, 11, 1, 2).setWrap(true); // Wrap en productos y cantidades
-        sheet.getRange(nuevaFilaIndex, 16).setNumberFormat('#,##0'); // Formato moneda en Total
-        sheet.getRange(nuevaFilaIndex, 18).setBackground('#fff3cd').setHorizontalAlignment('center'); // Estado amarillo
+        sheet.getRange(nuevaFilaIndex, 14, 1, 4).setNumberFormat('#,##0'); // Formato moneda en precios
+        sheet.getRange(nuevaFilaIndex, 19).setBackground('#fff3cd').setHorizontalAlignment('center'); // Estado amarillo
 
         // Descontar stock automáticamente de la hoja "Productos"
         const huboAgotados = actualizarStockTrasPedido(data.productos);
@@ -166,6 +167,7 @@ function sanitizarYValidarPedido(data) {
         cupon: cleanString(data.cupon) || 'NINGUNO',
         subtotal: Math.max(0, parseFloat(data.subtotal) || 0),
         descuento: Math.max(0, parseFloat(data.descuento) || 0),
+        porcentaje: parseInt(data.porcentaje) || 0,
         total: Math.max(0, parseFloat(data.total) || 0)
     };
 }
@@ -214,13 +216,16 @@ function enviarEmailNotificacion(data) {
     const asunto = `🛍️ Nuevo Pedido de ${data.cliente.nombre}`;
     
     const productosHtml = data.productos.map(p => `<li>${p.nombre} (x${p.quantity})</li>`).join('');
+    const dctoEtiqueta = data.cupon !== 'NINGUNO' ? `Cupón (${data.cupon})` : 'Descuento';
     
     const cuerpo = `
         <h2>Detalles del Pedido</h2>
         <p><strong>Cliente:</strong> ${data.cliente.nombre}</p>
         <p><strong>Email:</strong> ${data.cliente.email}</p>
         <p><strong>Teléfono:</strong> ${data.cliente.telefono}</p>
-        <p><strong>Total:</strong> $${data.total}</p>
+        <p><strong>Subtotal:</strong> $${data.subtotal.toLocaleString('es-AR')}</p>
+        <p><strong>${dctoEtiqueta}:</strong> -$${data.descuento.toLocaleString('es-AR')} (${data.porcentaje}%)</p>
+        <p><strong>TOTAL A PAGAR:</strong> $${data.total.toLocaleString('es-AR')}</p>
         <h3>Productos:</h3>
         <ul>${productosHtml}</ul>
         <p>Revisa la hoja de cálculo para más detalles.</p>

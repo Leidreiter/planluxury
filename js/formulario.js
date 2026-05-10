@@ -55,7 +55,7 @@ async function enviarPedidoWhatsApp(e) {
     await obtenerCupones();
 
     // Calcular totales con cupón
-    const { subtotal, descuento, total, esCupon } = calcularTotales(cart, cupon);
+    const { subtotal, descuento, total, esCupon, porcentaje } = calcularTotales(cart, cupon);
     
     // Guardar el total en localStorage para mostrarlo en la página de gracias
     localStorage.setItem('orderTotal', total.toString());
@@ -66,6 +66,7 @@ async function enviarPedidoWhatsApp(e) {
         productos: cart,
         subtotal: subtotal,
         descuento: descuento,
+        porcentaje: porcentaje,
         cupon: esCupon ? cupon : 'NINGUNO',
         total: total
     });
