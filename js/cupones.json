@@ -1,0 +1,17 @@
+[
+  {
+    "codigo": "Sun May 10 2026 00:00:00 GMT-0300 (hora estándar de Argentina)",
+    "porcentaje": 10,
+    "expira": "2026-05-31"
+  },
+  {
+    "codigo": "black20",
+    "porcentaje": 20,
+    "expira": "2026-12-31"
+  },
+  {
+    "codigo": "navidad",
+    "porcentaje": 25,
+    "expira": "2026-12-31"
+  }
+]
