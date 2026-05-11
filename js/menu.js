@@ -8,8 +8,18 @@ document.addEventListener('click', function(e) {
     if (!navMenu || !menuToggle) return;
 
     const isToggle = e.target.closest('.menu-toggle');
-    const isLink = e.target.closest('.nav-link, .submenu a');
+    const isDropdownToggle = e.target.closest('.nav-item-dropdown > .nav-link');
+    const isSubmenuLink = e.target.closest('.submenu a');
+    const isRegularLink = e.target.closest('.nav-link') && !isDropdownToggle;
     const isClickInsideMenu = navMenu.contains(e.target);
+
+    // 0. Click en el desplegable de Productos (Móvil)
+    if (isDropdownToggle && window.innerWidth <= 768) {
+        e.preventDefault(); // Evitar scroll inmediato al ancla
+        const parent = isDropdownToggle.parentElement;
+        parent.classList.toggle('active');
+        return;
+    }
 
     // 1. Click en el botón hamburguesa (Toggle)
     if (isToggle) {
@@ -22,7 +32,7 @@ document.addEventListener('click', function(e) {
     }
 
     // 2. Cerrar menú al hacer click en un enlace (en móvil)
-    if (isLink && window.innerWidth <= 768) {
+    if ((isRegularLink || isSubmenuLink) && window.innerWidth <= 768) {
         navMenu.classList.remove('active');
         menuToggle.classList.remove('active');
         document.body.style.overflow = '';

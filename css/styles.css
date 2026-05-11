@@ -349,13 +349,13 @@ body {
 /* Header y Navegación */
 .logo {
     display: block;
-    width: 140px;
+    width: 180px;
     margin: 10px 0;
 }
 
 @media (max-width: 768px) {
     .logo {
-        width: 100px;
+        width: 120px;
         margin: 0;
     }
 }
@@ -1500,16 +1500,26 @@ footer p {
 
     .submenu {
         position: static;
-        opacity: 1;
-        visibility: visible;
+        opacity: 0;
+        visibility: hidden;
+        max-height: 0;
+        overflow: hidden;
         transform: none;
         box-shadow: none;
-        padding-left: 20px;
+        padding: 0 0 0 20px;
         display: block;
+        transition: max-height 0.4s ease-in-out, opacity 0.3s ease, padding 0.4s ease;
     }
 
-    .nav-item-dropdown .nav-link i {
-        display: none;
+    .nav-item-dropdown.active .submenu {
+        max-height: 500px; /* Un valor mayor al contenido esperado para permitir el deslizamiento */
+        opacity: 1;
+        visibility: visible;
+        padding: 10px 0 10px 20px;
+    }
+
+    .nav-item-dropdown.active .nav-link i {
+        transform: rotate(180deg);
     }
 
     .nav-menu.active {
