@@ -50,7 +50,7 @@ html {
 .contenedor {
     max-width: var(--container-lg);
     margin: 0 auto;
-    padding: var(--space-sm);
+    padding: 0 var(--space-sm);
 }
 
 @media (max-width: 768px) {
