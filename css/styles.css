@@ -349,13 +349,13 @@ body {
 /* Header y Navegación */
 .logo {
     display: block;
-    width: 100px;
+    width: 140px;
     margin: 10px 0;
 }
 
 @media (max-width: 768px) {
     .logo {
-        width: 80px;
+        width: 100px;
         margin: 0;
     }
 }
