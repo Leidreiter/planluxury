@@ -6,8 +6,7 @@ import { formatearPrecio, mostrarNotificacion, calcularTotales, obtenerCupones }
 const CONFIG_PEDIDOS = {
     // URL del Web App de Google Apps Script
     // Después de desplegar el script, reemplaza esta URL
-    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxVFEwoX7Mfbp5w2TrmDKsNvpwe0J4yQm3DvnyxZzUhRox-RjyEcfc-gtWfBSLtHUgf/exec',
-    
+    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxVFEwoX7Mfbp5w2TrmDKsNvpwe0J4yQm3DvnyxZzUhRox-RjyEcfc-gtWfBSLtHUgf/exec',    
     // Número de WhatsApp (sin espacios ni símbolos, con código de país)
     WHATSAPP_NUMBER: '543515957014'
 };

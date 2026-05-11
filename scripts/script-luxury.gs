@@ -47,19 +47,7 @@ function doPost(e) {
         const data = sanitizarYValidarPedido(rawData);
 
         const ss = SpreadsheetApp.getActiveSpreadsheet();
-        let sheet = ss.getSheetByName(CONFIG.PEDIDOS_SHEET_NAME);
-
-        // Si la hoja de pedidos no existe, la creamos con encabezados
-        if (!sheet) {
-            sheet = ss.insertSheet(CONFIG.PEDIDOS_SHEET_NAME);
-            const headers = [
-                'N° Pedido', 'Fecha', 'Hora', 'Nombre', 'Teléfono', 'Email', 
-                'Dirección', 'Ciudad', 'Provincia', 'CP', 'Productos', 'Cant.', 
-                'Cupón', 'Subtotal', 'Descuento', '% Dcto', 'Total', 'Notas', 'Estado'
-            ];
-            sheet.appendRow(headers);
-            sheet.getRange(1, 1, 1, 19).setFontWeight('bold').setBackground('#f3f3f3');
-        }
+        let sheet = garantizarHojaPedidos(ss);
 
         // 1. Generar número de pedido formateado (PED-0001)
         const ultimaFila = sheet.getLastRow();
@@ -90,10 +78,10 @@ function doPost(e) {
             nombresProductos,         // K: Productos
             cantidadesProductos,      // L: Cant.
             data.cupon,               // M: Cupón
-            data.subtotal,            // N: Subtotal
-            data.descuento,           // O: Descuento
-            data.porcentaje + '%',    // P: % Dcto
-            data.total,               // Q: Total
+            Number(data.subtotal),    // N: Subtotal
+            Number(data.descuento),   // O: Descuento
+            data.porcentaje + "%",    // P: % Dcto
+            Number(data.total),       // Q: Total
             data.cliente.notas,       // R: Notas
             "Pendiente"               // S: Estado
         ]);
@@ -102,8 +90,10 @@ function doPost(e) {
         const nuevaFilaIndex = sheet.getLastRow();
         sheet.getRange(nuevaFilaIndex, 1, 1, 19).setVerticalAlignment('top');
         sheet.getRange(nuevaFilaIndex, 11, 1, 2).setWrap(true); // Wrap en productos y cantidades
-        sheet.getRange(nuevaFilaIndex, 14, 1, 4).setNumberFormat('#,##0'); // Formato moneda en precios
+        sheet.getRange(nuevaFilaIndex, 14, 1, 2).setNumberFormat('$ #,##0'); // Subtotal y Descuento
+        sheet.getRange(nuevaFilaIndex, 17).setNumberFormat('$ #,##0'); // Total
         sheet.getRange(nuevaFilaIndex, 19).setBackground('#fff3cd').setHorizontalAlignment('center'); // Estado amarillo
+        SpreadsheetApp.flush(); // Forzar cambios en la interfaz
 
         // Descontar stock automáticamente de la hoja "Productos"
         const huboAgotados = actualizarStockTrasPedido(data.productos);
@@ -120,6 +110,43 @@ function doPost(e) {
     } catch (error) {
         return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: error.toString() })).setMimeType(ContentService.MimeType.JSON);
     }
+}
+
+/**
+ * Garantiza que la hoja de pedidos exista y tenga las columnas correctas.
+ * Si las columnas son antiguas, las actualiza.
+ */
+function garantizarHojaPedidos(ss) {
+    let sheet = ss.getSheetByName(CONFIG.PEDIDOS_SHEET_NAME);
+    const headers = [
+        'N° Pedido', 'Fecha', 'Hora', 'Nombre', 'Teléfono', 'Email', 
+        'Dirección', 'Ciudad', 'Provincia', 'CP', 'Productos', 'Cant.', 
+        'Cupón', 'Subtotal', 'Descuento', '% Dcto', 'Total', 'Notas', 'Estado'
+    ];
+
+    if (!sheet) {
+        sheet = ss.insertSheet(CONFIG.PEDIDOS_SHEET_NAME);
+    }
+
+    // Verificar si la hoja tiene suficientes columnas, si no, agregarlas
+    const columnasActuales = sheet.getMaxColumns();
+    if (columnasActuales < headers.length) {
+        sheet.insertColumnsAfter(columnasActuales, headers.length - columnasActuales);
+    }
+    
+    // Forzar siempre los encabezados en la fila 1 para asegurar la estructura
+    sheet.getRange(1, 1, 1, headers.length)
+         .setValues([headers])
+         .setFontWeight('bold')
+         .setBackground('#f3f3f3')
+         .setHorizontalAlignment('center')
+         .setVerticalAlignment('middle');
+
+    // Congelar la primera fila para que siempre sea visible
+    if (sheet.getFrozenRows() === 0) sheet.setFrozenRows(1);
+    
+    SpreadsheetApp.flush();
+    return sheet;
 }
 
 // ============ VALIDACIÓN Y SANITIZACIÓN ============
@@ -255,7 +282,7 @@ function actualizarEstadoPedido(numeroPedido, nuevoEstado) {
 
     for (let i = 1; i < datos.length; i++) {
         if (datos[i][0] === numeroPedido) {
-            const celdaEstado = sheet.getRange(i + 1, 18);
+            const celdaEstado = sheet.getRange(i + 1, 19); // Columna S (19)
             celdaEstado.setValue(nuevoEstado);
             celdaEstado.setBackground(colores[nuevoEstado] || '#ffffff');
             return;
@@ -272,8 +299,8 @@ function mostrarEstadisticas() {
     let estados = { 'Pendiente': 0, 'Procesando': 0, 'Enviado': 0, 'Entregado': 0, 'Cancelado': 0 };
     
     for (let i = 1; i < datos.length; i++) {
-        totalVentas += parseFloat(datos[i][15]) || 0;
-        const est = datos[i][17];
+        totalVentas += parseFloat(datos[i][16]) || 0; // Columna Q (index 16) es el Total
+        const est = datos[i][18]; // Columna S (index 18) es el Estado
         if (estados.hasOwnProperty(est)) estados[est]++;
     }
     

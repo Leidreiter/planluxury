@@ -12,26 +12,60 @@ function onOpen() {
     
     // Menú principal de Productos
     ui.createMenu('🚀 Actualizar Web')
-        .addItem('📤 Publicar productos', 'actualizarProductosEnGitHub')
+        .addItem('📤 Publicar Web (GitHub)', 'actualizarProductosEnGitHub')
         .addSeparator()
-        .addItem('📁 Crear carpetas en Drive', 'crearCarpetasProductos')
+        .addItem('📁 Crear Carpetas Drive', 'crearCarpetasProductos')
         .addSeparator()
-        .addItem('⚙️ Configurar credenciales', 'mostrarConfiguracion')
+        .addItem('📊 Ver Estadísticas', 'mostrarEstadisticas')
+        .addItem('⚙️ Ver Configuración', 'mostrarConfiguracion')
         .addItem('📋 Ver estructura de Drive', 'mostrarEstructuraDrive')
         .addItem('❓ Ayuda', 'mostrarAyuda')
         .addToUi();
     
     // Menú de Gestión de Pedidos
     ui.createMenu('📦 Gestión de Pedidos')
-        .addItem('📊 Ver estadísticas', 'mostrarEstadisticas')
-        .addSeparator()
         .addSubMenu(ui.createMenu('🔄 Cambiar Estado')
-            .addItem('⏳ Marcar como Procesando', 'marcarComoProcesando')
-            .addItem('🚚 Marcar como Enviado', 'marcarComoEnviado')
-            .addItem('✅ Marcar como Entregado', 'marcarComoEntregado')
-            .addItem('❌ Marcar como Cancelado', 'marcarComoCancelado'))
+            .addItem('⏳ Pendiente', 'menuMarcarPendiente')
+            .addItem('⚙️ Procesando', 'menuMarcarProcesando')
+            .addItem('🚚 Enviado', 'menuMarcarEnviado')
+            .addItem('✅ Entregado', 'menuMarcarEntregado')
+            .addItem('❌ Cancelado', 'menuMarcarCancelado'))
         .addSeparator()
-        .addItem('🔧 Crear hoja de pedidos', 'testCrearHojaPedidos')
-        .addItem('🧪 Registrar pedido de prueba', 'testRegistrarPedido')
+        .addItem('🔧 Reparar/Crear hoja de pedidos', 'repararHojaPedidos')
         .addToUi();
+}
+
+// ============ FUNCIONES PUENTE PARA EL MENÚ ============
+
+function menuMarcarPendiente() { cambiarEstadoSeleccionado('Pendiente'); }
+function menuMarcarProcesando() { cambiarEstadoSeleccionado('Procesando'); }
+function menuMarcarEnviado() { cambiarEstadoSeleccionado('Enviado'); }
+function menuMarcarEntregado() { cambiarEstadoSeleccionado('Entregado'); }
+function menuMarcarCancelado() { cambiarEstadoSeleccionado('Cancelado'); }
+
+/**
+ * Detecta el N° de Pedido de la fila activa y cambia su estado
+ */
+function cambiarEstadoSeleccionado(nuevoEstado) {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getActiveSheet();
+    
+    if (sheet.getName() !== CONFIG.PEDIDOS_SHEET_NAME) {
+        SpreadsheetApp.getUi().alert('⚠️ Error', 'Debes estar en la hoja "Pedidos" para usar esta función.', SpreadsheetApp.getUi().ButtonSet.OK);
+        return;
+    }
+
+    const fila = sheet.getActiveCell().getRow();
+    if (fila < 2) return; // Evitar cabeceras
+
+    const nPedido = sheet.getRange(fila, 1).getValue(); // Columna A: N° Pedido
+    if (!nPedido) return;
+
+    actualizarEstadoPedido(nPedido, nuevoEstado);
+}
+
+function repararHojaPedidos() {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    garantizarHojaPedidos(ss);
+    SpreadsheetApp.getUi().alert('🚀 Estructura Verificada', 'Se han validado las 19 columnas y el formato de la hoja de Pedidos.', SpreadsheetApp.getUi().ButtonSet.OK);
 }
