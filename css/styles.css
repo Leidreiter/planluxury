@@ -50,7 +50,7 @@ html {
 .contenedor {
     max-width: var(--container-lg);
     margin: 0 auto;
-    padding: 0 var(--space-sm);
+    padding: var(--space-sm);
 }
 
 @media (max-width: 768px) {
@@ -349,13 +349,13 @@ body {
 /* Header y Navegación */
 .logo {
     display: block;
-    width: 180px;
+    width: 160px;
     margin: 10px 0;
 }
 
 @media (max-width: 768px) {
     .logo {
-        width: 120px;
+        width: 140px;
         margin: 0;
     }
 }
@@ -518,7 +518,7 @@ body {
 
 /* Hero Section */
 .hero {
-    height: 420px;
+    height: 380px;
     padding: 4rem 1rem;
     color: white;
 
@@ -1509,6 +1509,10 @@ footer p {
         padding: 0 0 0 20px;
         display: block;
         transition: max-height 0.4s ease-in-out, opacity 0.3s ease, padding 0.4s ease;
+    }
+
+    .submenu li a {
+        font-size: 20px;
     }
 
     .nav-item-dropdown.active .submenu {
