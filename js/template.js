@@ -157,6 +157,24 @@ function actualizarContadorCarrito() {
         }
     });
 }
+
+// Actualizar elementos de WhatsApp en el contenido de la página
+function actualizarElementosWhatsApp() {
+    const links = document.querySelectorAll('.wa-link');
+    const numbers = document.querySelectorAll('.wa-number');
+    
+    const url = `https://wa.me/${WHATSAPP_CONFIG.number}?text=${encodeURIComponent(WHATSAPP_CONFIG.defaultMessage)}`;
+    
+    links.forEach(link => {
+        link.href = url;
+    });
+    
+    numbers.forEach(el => {
+        // Se muestra el número con un formato simple para el usuario
+        el.textContent = `+${WHATSAPP_CONFIG.number}`;
+    });
+}
+
 // Auto-inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', async function () {
     // Detectar página activa desde el atributo data-page del body
@@ -167,6 +185,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     actualizarContadorFavoritosGlobal();
     // Actualizar contador del carrito
     actualizarContadorCarrito();
+
+    // Actualizar enlaces y textos de WhatsApp dinámicos
+    actualizarElementosWhatsApp();
 
     // Hacer que la función de actualizar favoritos sea accesible para otros módulos
     // sin tener que duplicar el código en cada archivo.
