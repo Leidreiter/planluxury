@@ -42,12 +42,12 @@ html {
     --space-md: 2rem;
     --space-lg: 4rem;
 
-    --container-lg: 1200px;
+    --container-lg: 1400px;
     --container-sm: 900px;
 }
 
 .contenedor {
-    max-width: var(--container-lg);
+    width: min(92%, var(--container-lg));
     margin: 0 auto;
     padding: 0 var(--space-sm);
 }
