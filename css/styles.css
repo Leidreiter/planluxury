@@ -24,8 +24,8 @@ html {
     --border-color: #e2e8f0;
 
     /* Sombras */
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
 
     /* Capas (Z-Index) */
     --z-back: -1;
@@ -42,8 +42,7 @@ html {
     --space-md: 2rem;
     --space-lg: 4rem;
 
-    --container-lg: 1400px;
-    --container-md: 1200px;
+    --container-lg: 1200px;
     --container-sm: 900px;
 }
 
@@ -1060,7 +1059,7 @@ body {
 
 /* Cart Page */
 .cart-page {
-    max-width: var(--container-md);
+    max-width: var(--container-lg);
     margin: 2rem auto;
     padding: 0 1rem;
 }
@@ -1885,7 +1884,7 @@ footer p {
 
 /* Product Detail Page */
 .product-detail-page {
-    max-width: var(--container-md);
+    max-width: var(--container-lg);
     margin: 2rem auto;
     padding: 0;
 }
@@ -3494,7 +3493,7 @@ body.zoom-active {
 }
 
 .slider-text {
-    max-width: var(--container-md);
+    max-width: var(--container-lg);
     width: 100%;
     padding: 0 2rem;
     color: white;
