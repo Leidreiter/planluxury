@@ -518,6 +518,18 @@ function crearCarpetasProductos() {
     }
 }
 
+function convertirImagenEnWebP(blob) {
+  const url = "https://planluxury.lemora.lat/api/optimize-image";
+
+  const response = UrlFetchApp.fetch(url, {
+    method: "post",
+    payload: blob.getBytes(),
+    contentType: "application/octet-stream"
+  });
+
+  return response.getBlob();
+}
+
 // ============ PROCESAR IMÁGENES DESDE GOOGLE DRIVE ============
 function procesarImagenesDesdeGDrive(productos) {
     const mainFolder = DriveApp.getFolderById(CONFIG.DRIVE_FOLDER_ID);
@@ -552,14 +564,39 @@ function procesarImagenesDesdeGDrive(productos) {
                 const nombre = archivo.getName().toLowerCase();
 
                 if (nombre.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
+                    if (nombre.endsWith(".webp")) {
                     const urlPublica = obtenerUrlPublicaGDrive(archivo.getId());
+                    if (nombre.includes("principal")) {
+                        imagenPrincipal = urlPublica;
+                    }
+                    imagenes.push({
+                        nombre: nombre,
+                        url: urlPublica
+                    });
+                    continue;
+                }
 
-                    if (nombre === 'principal.jpg' || nombre === 'principal.png' || nombre === 'principal.webp') {
+                    const blobOriginal = archivo.getBlob();
+
+                    // convertir imagen usando Vercel
+                    const blobWebp = convertirImagenEnWebP(blobOriginal);
+
+                    // guardar dentro de la MISMA carpeta del producto
+                    blobWebp.setName(
+                    nombre.replace(/\.(jpg|jpeg|png)$/i, ".webp")
+                    );
+
+                    const archivoNuevo = carpeta.createFile(blobWebp);
+
+                    // generar URL pública
+                    const urlPublica = obtenerUrlPublicaGDrive(archivoNuevo.getId());
+
+                    if (nombre.includes("principal")) {
                         imagenPrincipal = urlPublica;
                     }
 
                     imagenes.push({
-                        nombre: nombre,
+                        nombre: archivoNuevo.getName(),
                         url: urlPublica
                     });
                 }
