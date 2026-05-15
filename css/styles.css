@@ -1882,7 +1882,7 @@ footer p {
 
 /* Product Detail Page */
 .product-detail-page {
-    max-width: var(--container-lg);
+    width: min(92%, var(--container-lg));
     margin: 2rem auto;
     padding: 0;
 }
