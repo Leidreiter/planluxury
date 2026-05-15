@@ -3498,6 +3498,7 @@ body.zoom-active {
 
 /* Overlay con gradiente para mejor legibilidad del texto */
 .slider-content {
+    padding: 1rem 2rem;
     position: absolute;
     inset: 0;
     display: flex;
