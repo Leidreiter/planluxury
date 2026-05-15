@@ -49,7 +49,7 @@ html {
 .contenedor {
     width: min(92%, var(--container-lg));
     margin: 0 auto;
-    padding: 0 var(--space-sm);
+    padding: 0 var(--space-xs);
 }
 
 @media (max-width: 768px) {
@@ -325,7 +325,6 @@ body {
 
 .redes {
     background-color: var(--primary-color);
-    padding: 0.4rem;
     text-align: right;
 }
 
@@ -369,8 +368,6 @@ body {
 }
 
 .nav-container {
-    max-width: var(--container-lg);
-    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;

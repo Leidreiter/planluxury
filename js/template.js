@@ -25,7 +25,7 @@ function renderHeader(activePage = '', categorias = []) {
             </div>
         </div>
         <nav class="navbar">
-            <div class="nav-container">
+            <div class="nav-container contenedor">
                 <!--
                 <a href="index.html" class="logo">Mi Tienda</a>
                 -->
