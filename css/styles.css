@@ -326,6 +326,7 @@ body {
 .redes {
     background-color: var(--primary-color);
     text-align: right;
+    padding: 0.4rem 0;
 }
 
 .redes a {
