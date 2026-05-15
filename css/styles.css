@@ -879,7 +879,7 @@ body {
 }
 
 .contact-page {
-    max-width: var(--container-lg);
+    width: min(92%, var(--container-lg));
     margin: 3rem auto;
     padding: 0 1rem;
 }
