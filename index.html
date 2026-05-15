@@ -50,24 +50,47 @@
                 <p>Descubre productos de calidad al mejor precio</p>
                 </div>
             </div>
-        </section>--> 
+        </section>-->
 
 
         <section class="hero-slider">
             <div class="slider-track">
 
                 <div class="slider-slide active">
-                    <img src="img/sliders/slider1.jpg" alt="Promoción 1">
-                    <div class="slider-content">
-                        <div class="slider-text contenedor">
+
+                    <picture>
+                        <!-- MOBILE -->
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider1.webp" type="image/webp">
+
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider1.jpg" type="image/jpeg">
+
+                        <!-- DESKTOP -->
+                        <source srcset="img/sliders/slider1.webp" type="image/webp">
+
+                        <!-- FALLBACK -->
+                        <img src="img/sliders/slider1.jpg" alt="Promoción 1">
+                    </picture>
+
+                    <div class="slider-content contenedor">
+                        <div class="slider-text">
                             <h1>Bienvenido a Nuestra Tienda</h1>
                             <p>Descubre productos de calidad al mejor precio</p>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="slider-slide">
-                    <img src="img/sliders/slider2.jpg" alt="Promoción 2">
+
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider2.webp" type="image/webp">
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider2.jpg" type="image/jpeg">
+
+                        <source srcset="img/sliders/slider2.webp" type="image/webp">
+
+                        <img src="img/sliders/slider2.jpg" alt="Promoción 2">
+                    </picture>
+
                     <div class="slider-content">
                         <div class="slider-text contenedor">
                             <h1>Nuevas Colecciones</h1>
@@ -76,51 +99,91 @@
                     </div>
                 </div>
 
+
                 <div class="slider-slide">
-                    <img src="img/sliders/slider3.jpg" alt="Promoción 3">
+
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider3.webp" type="image/webp">
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider3.jpg" type="image/jpeg">
+
+                        <source srcset="img/sliders/slider3.webp" type="image/webp">
+
+                        <img src="img/sliders/slider3.jpg" alt="Promoción 3">
+                    </picture>
+
                     <div class="slider-content">
-                        <div class="slider-text contenedor">
+                        <div class="slider-text">
                             <h1>Ofertas Exclusivas</h1>
                             <p>Hasta 50% de descuento en productos seleccionados</p>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="slider-slide">
-                    <img src="img/sliders/slider4.jpg" alt="Promoción 4">
+
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider4.webp" type="image/webp">
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider4.jpg" type="image/jpeg">
+
+                        <source srcset="img/sliders/slider4.webp" type="image/webp">
+
+                        <img src="img/sliders/slider4.jpg" alt="Promoción 4">
+                    </picture>
+
                     <div class="slider-content">
-                        <div class="slider-text contenedor">
+                        <div class="slider-text">
                             <h1>Envíos a Todo el País</h1>
                             <p>Compra desde la comodidad de tu hogar</p>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="slider-slide">
-                    <img src="img/sliders/slider5.jpg" alt="Promoción 4">
+
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider5.webp" type="image/webp">
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider5.jpg" type="image/jpeg">
+
+                        <source srcset="img/sliders/slider5.webp" type="image/webp">
+
+                        <img src="img/sliders/slider5.jpg" alt="Promoción 5">
+                    </picture>
+
                     <div class="slider-content">
-                        <div class="slider-text contenedor">
+                        <div class="slider-text">
                             <h1>Envíos a Todo el País</h1>
                             <p>Compra desde la comodidad de tu hogar</p>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="slider-slide">
-                    <img src="img/sliders/slider6.jpg" alt="Promoción 4">
+
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider6.webp" type="image/webp">
+                        <source media="(max-width: 768px)" srcset="img/sliders/mobile/slider6.jpg" type="image/jpeg">
+
+                        <source srcset="img/sliders/slider6.webp" type="image/webp">
+
+                        <img src="img/sliders/slider6.jpg" alt="Promoción 6">
+                    </picture>
+
                     <div class="slider-content">
-                        <div class="slider-text contenedor">
+                        <div class="slider-text">
                             <h1>Envíos a Todo el País</h1>
                             <p>Compra desde la comodidad de tu hogar</p>
                         </div>
                     </div>
                 </div>
+
             </div>
-
 
             <button class="slider-nav prev" aria-label="Slide anterior">‹</button>
             <button class="slider-nav next" aria-label="Slide siguiente">›</button>
-            
+
         </section>
 
 
@@ -151,38 +214,55 @@
 
         <div id="tienda" class="contenedor"></div>
 
-    
-
-        <section  id="banner1">
+        <section id="banner1">
             <div class="banner">
                 <div class="banner_imagen">
                     <a href="#">
-                        <img loading="lazy" src="img/banners/banner1.jpg" alt="banner">
+                        <picture>
+                            <source srcset="img/banners/banner1.webp" type="image/webp">
+
+                            <img loading="lazy" src="img/banners/banner1.jpg" alt="banner">
+                        </picture>
                     </a>
                 </div>
+
                 <div class="banner_info">
                     <div class="banner_info_icono">
-                        <img loading="lazy" src="img/icon-banner1.png" alt="ícono personalizado" class="block">
+                        <picture>
+                            <source srcset="img/icons/icon-banner1.webp" type="image/webp">
+
+                            <img loading="lazy" src="img/icons/icon-banner1.png" alt="ícono personalizado" class="block">
+                        </picture>
                     </div>
+
                     <div class="banner_info_copy">
                         <h4>Promociona</h4>
-                        <h2>Con un banner <br>
-                            en tu tienda</h2>
-                        <a href="#">Más info <i class="fa-solid fa-chevron-right"></i></a>
+                        <h2>
+                            Con un banner <br>
+                            en tu tienda
+                        </h2>
+                        <a href="#">
+                            Más info
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
 
-        <section  id="banner2">
+        <section id="banner2">
             <div class="banners-productos">
                 <div class="banner-productos-contenido">
                     <div class="banner-promo-info">
                         <h4>Promociona</h4>
                         <h2>Productos</h2>
-                        <p class="no-space">Con tus banners.</p>
-                        <a href="#" class="btn">Ver producto</a>
+                        <p class="no-space">
+                            Con tus banners.
+                        </p>
+                        <a href="#" class="btn">
+                            Ver producto
+                        </a>
                     </div>
                     <div class="banner-img1">
                     </div>
@@ -192,62 +272,115 @@
                     <div class="banner-promo-info">
                         <h4>Promociona</h4>
                         <h2>Productos</h2>
-                        <p class="no-space">Con tus banners.</p>
-                        <a href="#" class="btn">Ver producto</a>
+                        <p class="no-space">
+                            Con tus banners.
+                        </p>
+                        <a href="#" class="btn">
+                            Ver producto
+                        </a>
                     </div>
                     <div class="banner-img2">
                     </div>
                 </div>
             </div>
-
         </section>
 
-        <section  id="banner3">
+        <section id="banner3">
             <div class="banner">
+
                 <div class="banner_imagen">
                     <a href="#">
-                        <img loading="lazy" src="img/banners/banner4.jpg" alt="banner">
+                        <picture>
+                            <source srcset="img/banners/banner4.webp" type="image/webp">
+                            <img loading="lazy" src="img/banners/banner4.jpg" alt="banner">
+                        </picture>
                     </a>
                 </div>
+
                 <div class="banner_info">
                     <div class="banner_info_icono">
-                        <img loading="lazy" src="img/icon-banner2.png" alt="ícono personalizado" class="block">
+                        <picture>
+                            <source srcset="img/icons/icon-banner2.webp" type="image/webp">
+                            <img loading="lazy" src="img/icons/icon-banner2.png" alt="ícono personalizado" class="block">
+                        </picture>
+
                     </div>
+
                     <div class="banner_info_copy">
                         <h4>Promociona</h4>
-                        <h2>Con un banner <br>
-                            en tu tienda</h2>
-                        <a href="#">Más info <i class="fa-solid fa-chevron-right"></i></a>
+                        <h2>
+                            Con un banner <br>
+                            en tu tienda
+                        </h2>
+                        <a href="#">
+                            Más info
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
                     </div>
+
                 </div>
             </div>
         </section>
-
     </main>
 
+
     <section class="iconos-pie">
+
         <div class="iconos cont1200">
+
             <div class="icono">
-                <img loading="lazy" src="img/icono-pagos.png" alt="icono pagos en Hola Mundo Store">
+
+                <picture>
+                    <source srcset="img/icono-pagos.webp" type="image/webp">
+
+                    <img loading="lazy" src="img/icono-pagos.png" alt="icono pagos en Hola Mundo Store">
+                </picture>
+
                 <h3>Muchas formas de pago</h3>
-                <p>Trabajo con mercadopago, lo cuál se aceptan todos los medios de pagos
+
+                <p>
+                    Trabajo con mercadopago, lo cuál se aceptan todos los medios de pagos
                     de la villetera virtual número 1 de Argentina, para que compres con total confianza.
                 </p>
+
             </div>
+
+
             <div class="icono">
-                <img loading="lazy" src="img/icono-envios.png" alt="icono envios en Hola Mundo Store">
+
+                <picture>
+                    <source srcset="img/icono-envios.webp" type="image/webp">
+
+                    <img loading="lazy" src="img/icono-envios.png" alt="icono envios en Hola Mundo Store">
+                </picture>
+
                 <h3>Envíos a toda Argentina</h3>
-                <p>Envío a toda la Argentina de norte a sur, todos los pedidos salen
+
+                <p>
+                    Envío a toda la Argentina de norte a sur, todos los pedidos salen
                     desde Córdoba, Argentina y pueden variar dependiendo tu ubicación.
                 </p>
+
             </div>
+
+
             <div class="icono">
-                <img loading="lazy" src="img/icono-stock.png" alt="icono stock en Hola Mundo Store">
+
+                <picture>
+                    <source srcset="img/icono-stock.webp" type="image/webp">
+
+                    <img loading="lazy" src="img/icono-stock.png" alt="icono stock en Hola Mundo Store">
+                </picture>
+
                 <h3>Stock siempre disponible</h3>
-                <p>Toda la web opera bajo pedido, compra con total confianza, yo
+
+                <p>
+                    Toda la web opera bajo pedido, compra con total confianza, yo
                     me comunicaré contigo personalmente para asegurar que llegue lo que pidas.
                 </p>
+
             </div>
+
         </div>
 
     </section>
@@ -270,7 +403,7 @@
     <script src="js/productos-categorias.js" defer type="module"></script>
     <script src="js/hero-slider.js" defer></script>
 
-    
+
 </body>
 
 </html>
