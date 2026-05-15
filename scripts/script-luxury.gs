@@ -318,10 +318,10 @@ function mostrarEstadisticas() {
 function configurarSecretos() {
   const scriptProperties = PropertiesService.getScriptProperties();
   scriptProperties.setProperties({
-    'GITHUB_TOKEN': 'ghp_tu_token_personal_aqui',
-    'GITHUB_OWNER': 'tu_usuario_github',
-    'GITHUB_REPO': 'nombre_del_repositorio',
-    'DRIVE_FOLDER_ID': 'id_de_la_carpeta_raiz_en_drive'
+    'GITHUB_TOKEN': '',
+    'GITHUB_OWNER': '',
+    'GITHUB_REPO': '',
+    'DRIVE_FOLDER_ID': ''
   });
   Logger.log('✅ Propiedades configuradas correctamente. Ya puedes borrar los valores de esta función.');
 }
@@ -332,7 +332,7 @@ function actualizarProductosEnGitHub() {
         const resultado = sincronizarTodoCore();
         mostrarResultadoConCarpetas(resultado);
     } catch (error) {
-        Logger.log(`❌ Error Crítico: ${error.stack}`);
+        Logger.log(`❌ Error: ${error.message}`);
         SpreadsheetApp.getUi().alert(
             'Error en la actualización',
             `Ocurrió un error: ${error.message}\n\nRevisa los logs para más detalles.`,
@@ -518,32 +518,6 @@ function crearCarpetasProductos() {
     }
 }
 
-function convertirImagenEnWebP(blob) {
-  const url = "https://planluxury.lemora.lat/api/optimize-image";
-
-  try {
-    const response = UrlFetchApp.fetch(url, {
-      method: "post",
-      payload: blob.getBytes(),
-      contentType: "application/octet-stream",
-      muteHttpExceptions: true
-    });
-
-    if (response.getResponseCode() !== 200) {
-      throw new Error(`La API respondió con código ${response.getResponseCode()}: ${response.getContentText()}`);
-    }
-
-    const resultBlob = response.getBlob();
-    if (resultBlob.getContentType() !== "image/webp") {
-        throw new Error(`La API no devolvió un WebP válido. Devolvió: ${resultBlob.getContentType()}`);
-    }
-
-    return resultBlob;
-  } catch (e) {
-    throw new Error(`Fallo en la conexión con la API: ${e.message}`);
-  }
-}
-
 // ============ PROCESAR IMÁGENES DESDE GOOGLE DRIVE ============
 function procesarImagenesDesdeGDrive(productos) {
     const mainFolder = DriveApp.getFolderById(CONFIG.DRIVE_FOLDER_ID);
@@ -553,17 +527,15 @@ function procesarImagenesDesdeGDrive(productos) {
     const folders = mainFolder.getFolders();
     while (folders.hasNext()) {
         const folder = folders.next();
-        // Normalizamos a minúsculas y quitamos espacios para evitar errores de coincidencia
-        folderMap[folder.getName().toLowerCase().trim()] = folder;
+        folderMap[folder.getName()] = folder;
     }
 
     return productos.map(producto => {
         try {
-            const nombreCarpetaBusqueda = (producto.carpetaImagenes || "").toLowerCase().trim();
-            const carpeta = folderMap[nombreCarpetaBusqueda];
+            const carpeta = folderMap[producto.carpetaImagenes];
 
             if (!carpeta) {
-                Logger.log(`⚠️ No se encontró carpeta "${nombreCarpetaBusqueda}" para ID ${producto.id}. Usando placeholder.`);
+                Logger.log(`⚠️ Advertencia: No se encontró carpeta "${producto.carpetaImagenes}" para producto ID ${producto.id}`);
                 return {
                     ...producto,
                     imagen: 'img/productos/placeholder.png',
@@ -573,63 +545,25 @@ function procesarImagenesDesdeGDrive(productos) {
 
             const archivos = carpeta.getFiles();
             const imagenes = [];
-            const nombresExistentes = [];
             let imagenPrincipal = null;
 
-            // Primero mapeamos qué archivos tenemos para evitar conversiones duplicadas
-            const listaArchivos = [];
             while (archivos.hasNext()) {
-                const f = archivos.next();
-                listaArchivos.push(f);
-                nombresExistentes.push(f.getName().toLowerCase());
-            }
-
-            listaArchivos.forEach(archivo => {
+                const archivo = archivos.next();
                 const nombre = archivo.getName().toLowerCase();
 
                 if (nombre.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-                    if (nombre.endsWith(".webp")) {
                     const urlPublica = obtenerUrlPublicaGDrive(archivo.getId());
-                    if (nombre.includes("principal")) {
+
+                    if (nombre === 'principal.jpg' || nombre === 'principal.png' || nombre === 'principal.webp') {
                         imagenPrincipal = urlPublica;
                     }
+
                     imagenes.push({
                         nombre: nombre,
                         url: urlPublica
                     });
-                        return;
-                    }
-
-                    // Si ya existe una versión .webp de esta imagen, no convertimos el original
-                    const nombreBase = nombre.replace(/\.(jpg|jpeg|png)$/i, "");
-                    if (nombresExistentes.includes(nombreBase + ".webp")) {
-                        return;
-                    }
-
-                    const blobOriginal = archivo.getBlob();
-                    // convertir imagen usando Vercel
-                    const blobWebp = convertirImagenEnWebP(blobOriginal);
-                    blobWebp.setName(nombreBase + ".webp");
-
-                    // CRÍTICO: Especificar MimeType.WEBP para que Google Drive lo sirva correctamente
-                    const archivoNuevo = carpeta.createFile(blobWebp).setMimeType(MimeType.WEBP);
-                    
-                    // CRÍTICO: Asegurar que el nuevo archivo sea público para que el link funcione
-                    archivoNuevo.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-
-                    // generar URL pública
-                    const urlPublica = obtenerUrlPublicaGDrive(archivoNuevo.getId());
-
-                    if (nombre.includes("principal")) {
-                        imagenPrincipal = urlPublica;
-                    }
-
-                    imagenes.push({
-                        nombre: archivoNuevo.getName(),
-                        url: urlPublica
-                    });
                 }
-            });
+            }
 
             imagenes.sort((a, b) => {
                 if (a.nombre.startsWith('principal')) return -1;
