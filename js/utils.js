@@ -143,10 +143,11 @@ export function generarHTMLTarjetaProducto(producto) {
                 <div class="product-info">
                     <h3 class="product-title">${producto.nombre}</h3>
                     <p class="product-description">${producto.descripcion}</p>
-                    <p class="product-price">$${formatearPrecio(producto.precio)}</p>
+                    
                 </div>
             </a>
             <div class="product-actions">
+                <p class="product-price">$${formatearPrecio(producto.precio)}</p>
                 <button class="view-product-btn" onclick="window.location.href='producto.html?id=${producto.id}'" aria-label="Ver detalles de ${producto.nombre}">
                     Ver producto
                 </button>
