@@ -332,7 +332,7 @@ function actualizarProductosEnGitHub() {
         const resultado = sincronizarTodoCore();
         mostrarResultadoConCarpetas(resultado);
     } catch (error) {
-        Logger.log(`❌ Error: ${error.message}`);
+        Logger.log(`❌ Error Crítico: ${error.stack}`);
         SpreadsheetApp.getUi().alert(
             'Error en la actualización',
             `Ocurrió un error: ${error.message}\n\nRevisa los logs para más detalles.`,
@@ -521,13 +521,27 @@ function crearCarpetasProductos() {
 function convertirImagenEnWebP(blob) {
   const url = "https://planluxury.lemora.lat/api/optimize-image";
 
-  const response = UrlFetchApp.fetch(url, {
-    method: "post",
-    payload: blob.getBytes(),
-    contentType: "application/octet-stream"
-  });
+  try {
+    const response = UrlFetchApp.fetch(url, {
+      method: "post",
+      payload: blob.getBytes(),
+      contentType: "application/octet-stream",
+      muteHttpExceptions: true
+    });
 
-  return response.getBlob();
+    if (response.getResponseCode() !== 200) {
+      throw new Error(`La API respondió con código ${response.getResponseCode()}: ${response.getContentText()}`);
+    }
+
+    const resultBlob = response.getBlob();
+    if (resultBlob.getContentType() !== "image/webp") {
+        throw new Error(`La API no devolvió un WebP válido. Devolvió: ${resultBlob.getContentType()}`);
+    }
+
+    return resultBlob;
+  } catch (e) {
+    throw new Error(`Fallo en la conexión con la API: ${e.message}`);
+  }
 }
 
 // ============ PROCESAR IMÁGENES DESDE GOOGLE DRIVE ============
@@ -539,15 +553,17 @@ function procesarImagenesDesdeGDrive(productos) {
     const folders = mainFolder.getFolders();
     while (folders.hasNext()) {
         const folder = folders.next();
-        folderMap[folder.getName()] = folder;
+        // Normalizamos a minúsculas y quitamos espacios para evitar errores de coincidencia
+        folderMap[folder.getName().toLowerCase().trim()] = folder;
     }
 
     return productos.map(producto => {
         try {
-            const carpeta = folderMap[producto.carpetaImagenes];
+            const nombreCarpetaBusqueda = (producto.carpetaImagenes || "").toLowerCase().trim();
+            const carpeta = folderMap[nombreCarpetaBusqueda];
 
             if (!carpeta) {
-                Logger.log(`⚠️ Advertencia: No se encontró carpeta "${producto.carpetaImagenes}" para producto ID ${producto.id}`);
+                Logger.log(`⚠️ No se encontró carpeta "${nombreCarpetaBusqueda}" para ID ${producto.id}. Usando placeholder.`);
                 return {
                     ...producto,
                     imagen: 'img/productos/placeholder.png',
@@ -557,10 +573,18 @@ function procesarImagenesDesdeGDrive(productos) {
 
             const archivos = carpeta.getFiles();
             const imagenes = [];
+            const nombresExistentes = [];
             let imagenPrincipal = null;
 
+            // Primero mapeamos qué archivos tenemos para evitar conversiones duplicadas
+            const listaArchivos = [];
             while (archivos.hasNext()) {
-                const archivo = archivos.next();
+                const f = archivos.next();
+                listaArchivos.push(f);
+                nombresExistentes.push(f.getName().toLowerCase());
+            }
+
+            listaArchivos.forEach(archivo => {
                 const nombre = archivo.getName().toLowerCase();
 
                 if (nombre.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
@@ -573,20 +597,25 @@ function procesarImagenesDesdeGDrive(productos) {
                         nombre: nombre,
                         url: urlPublica
                     });
-                    continue;
-                }
+                        return;
+                    }
+
+                    // Si ya existe una versión .webp de esta imagen, no convertimos el original
+                    const nombreBase = nombre.replace(/\.(jpg|jpeg|png)$/i, "");
+                    if (nombresExistentes.includes(nombreBase + ".webp")) {
+                        return;
+                    }
 
                     const blobOriginal = archivo.getBlob();
-
                     // convertir imagen usando Vercel
                     const blobWebp = convertirImagenEnWebP(blobOriginal);
+                    blobWebp.setName(nombreBase + ".webp");
 
-                    // guardar dentro de la MISMA carpeta del producto
-                    blobWebp.setName(
-                    nombre.replace(/\.(jpg|jpeg|png)$/i, ".webp")
-                    );
-
-                    const archivoNuevo = carpeta.createFile(blobWebp);
+                    // CRÍTICO: Especificar MimeType.WEBP para que Google Drive lo sirva correctamente
+                    const archivoNuevo = carpeta.createFile(blobWebp).setMimeType(MimeType.WEBP);
+                    
+                    // CRÍTICO: Asegurar que el nuevo archivo sea público para que el link funcione
+                    archivoNuevo.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
                     // generar URL pública
                     const urlPublica = obtenerUrlPublicaGDrive(archivoNuevo.getId());
@@ -600,7 +629,7 @@ function procesarImagenesDesdeGDrive(productos) {
                         url: urlPublica
                     });
                 }
-            }
+            });
 
             imagenes.sort((a, b) => {
                 if (a.nombre.startsWith('principal')) return -1;
