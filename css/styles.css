@@ -258,7 +258,7 @@ html {
 .banner-img1 {
     background-image: image-set(
         url("../img/banners/banner2.webp") type("image/webp"),
-        url("../img/banners/banner2.jpg") type("image/jpeg")
+        url("../img/banners/banner2.jpg") type("image/jpg")
     );
     background-position: center center;
     background-size: cover;
@@ -269,7 +269,7 @@ html {
 .banner-img2 {
     background-image: image-set(
         url("../img/banners/banner3.webp") type("image/webp"),
-        url("../img/banners/banner3.jpg") type("image/jpeg")
+        url("../img/banners/banner3.jpg") type("image/jpg")
     );
     background-position: center center;
     background-size: cover;
