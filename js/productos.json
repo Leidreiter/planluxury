@@ -13,10 +13,10 @@
       "Interior acolchado",
       "Alta durabilidad"
     ],
-    "carpetaImagenes": "Botas cuero hombres",
-    "imagen": "https://lh3.googleusercontent.com/d/1B44uxfxq5J_SfstrciLP4tvq61IYD62b",
+    "carpetaImagenes": "Botas cuero",
+    "imagen": "img/productos/placeholder.png",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1B44uxfxq5J_SfstrciLP4tvq61IYD62b"
+      "img/productos/placeholder.png"
     ]
   },
   {
@@ -33,7 +33,7 @@
       "Livianas",
       "Suela flexible"
     ],
-    "carpetaImagenes": "Botitas lowtops M",
+    "carpetaImagenes": "Botitas lowtops",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -73,7 +73,7 @@
       "Tela abrigada",
       "Ajuste cómodo"
     ],
-    "carpetaImagenes": "Buzo canguro ",
+    "carpetaImagenes": "Buzo canguro",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -93,7 +93,7 @@
       "Corte clásico",
       "Fácil combinación"
     ],
-    "carpetaImagenes": "Buzo liso ",
+    "carpetaImagenes": "Buzo liso",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -113,7 +113,7 @@
       "Estilo urbano",
       "Máximo confort"
     ],
-    "carpetaImagenes": "Buzo oversize ",
+    "carpetaImagenes": "Buzo oversize",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -133,7 +133,7 @@
       "Tela resistente",
       "Diseño versátil"
     ],
-    "carpetaImagenes": "Jean oscuro ",
+    "carpetaImagenes": "Jean oscuro",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -153,7 +153,7 @@
       "Ajuste regular",
       "Alta durabilidad"
     ],
-    "carpetaImagenes": "Jeans clásicos ",
+    "carpetaImagenes": "Jeans clásicos",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -173,7 +173,7 @@
       "Tela cómoda",
       "Tiro medio/alto"
     ],
-    "carpetaImagenes": "Jeans pata elefante ",
+    "carpetaImagenes": "Jeans pata elefante",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -193,7 +193,7 @@
       "Denim flexible",
       "Ajuste moderno"
     ],
-    "carpetaImagenes": "Jeans rotura ",
+    "carpetaImagenes": "Jeans rotura",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -213,7 +213,7 @@
       "Corte regular",
       "Alta calidad de impresión"
     ],
-    "carpetaImagenes": "Remera calavera ",
+    "carpetaImagenes": "Remera calavera",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -233,7 +233,7 @@
       "Corte femenino",
       "Estampa duradera"
     ],
-    "carpetaImagenes": "Remera game over ",
+    "carpetaImagenes": "Remera game over",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -253,7 +253,7 @@
       "Corte cómodo",
       "Colores vivos"
     ],
-    "carpetaImagenes": "Remera tucán ",
+    "carpetaImagenes": "Remera tucán",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -273,7 +273,7 @@
       "Ajuste cómodo",
       "Fácil de transportar"
     ],
-    "carpetaImagenes": "Suéter traveller ",
+    "carpetaImagenes": "Suéter traveller",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -293,7 +293,7 @@
       "Suela resistente",
       "Ajuste seguro"
     ],
-    "carpetaImagenes": "Zapatillas hightop ",
+    "carpetaImagenes": "Zapatillas hightop",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
@@ -313,7 +313,7 @@
       "Suela flexible",
       "Uso diario"
     ],
-    "carpetaImagenes": "Zapatillas urbanas ",
+    "carpetaImagenes": "Zapatillas urbanas",
     "imagen": "img/productos/placeholder.png",
     "galeria": [
       "img/productos/placeholder.png"
