@@ -56,9 +56,10 @@
       "Corte regular"
     ],
     "carpetaImagenes": "Buzo canguro liso",
-    "imagen": "img/productos/placeholder.png",
+    "imagen": "https://lh3.googleusercontent.com/d/173otchL7GYHVETPZLnR5OMzOvhVAUlLR",
     "galeria": [
-      "img/productos/placeholder.png"
+      "https://lh3.googleusercontent.com/d/173otchL7GYHVETPZLnR5OMzOvhVAUlLR",
+      "https://lh3.googleusercontent.com/d/1iW_uG4JVAe-fL_OY5Qfd773J0TJ1EZyF"
     ]
   },
   {
@@ -76,10 +77,9 @@
       "Ajuste cómodo"
     ],
     "carpetaImagenes": "Buzo canguro",
-    "imagen": "https://lh3.googleusercontent.com/d/173otchL7GYHVETPZLnR5OMzOvhVAUlLR",
+    "imagen": "img/productos/placeholder.png",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/173otchL7GYHVETPZLnR5OMzOvhVAUlLR",
-      "https://lh3.googleusercontent.com/d/1iW_uG4JVAe-fL_OY5Qfd773J0TJ1EZyF"
+      "img/productos/placeholder.png"
     ]
   },
   {
