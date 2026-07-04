@@ -27,7 +27,7 @@ function renderizarCarrito() {
             <div class="empty-cart">
                 <h2>Tu carrito está vacío</h2>
                 <p>Agrega productos para comenzar tu compra</p>
-                <a href="index.html" class="shop-btn">Ir a la tienda</a>
+                <a href="index.html" class="shop-btn btn-border">Ir a la tienda</a>
             </div>
         `;
         actualizarTotales();
@@ -50,11 +50,11 @@ function renderizarCarrito() {
             </div>
             <div class="item-controls">
                 <div class="quantity-controls">
-                    <button class="qty-btn" onclick="actualizarCantidad(${item.id}, -1)" aria-label="Disminuir cantidad" ${sinStock ? 'disabled' : ''}>-</button>
+                    <button class="qty-btn btn-border" onclick="actualizarCantidad(${item.id}, -1)" aria-label="Disminuir cantidad" ${sinStock ? 'disabled' : ''}>-</button>
                     <span class="qty-display">${item.quantity}</span>
-                    <button class="qty-btn" onclick="actualizarCantidad(${item.id}, 1)" aria-label="Aumentar cantidad" ${sinStock ? 'disabled' : ''}>+</button>
+                    <button class="qty-btn btn-border" onclick="actualizarCantidad(${item.id}, 1)" aria-label="Aumentar cantidad" ${sinStock ? 'disabled' : ''}>+</button>
                 </div>
-                <button class="remove-btn" onclick="eliminarDelCarrito(${item.id})" aria-label="Eliminar ${item.nombre}">
+                <button class="remove-btn btn-border" onclick="eliminarDelCarrito(${item.id})" aria-label="Eliminar ${item.nombre}">
                     <i class="fa-solid fa-trash-can"></i> Eliminar
                 </button>
             </div>

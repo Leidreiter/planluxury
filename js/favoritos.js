@@ -33,7 +33,7 @@ function renderizarFavoritos() {
                 <i class="fa-regular fa-heart"></i>
                 <h2>Aún no tienes productos favoritos</h2>
                 <p>Agrega los productos que más te gusten para verlos aquí.</p>
-                <a href="index.html" class="shop-btn">Explorar productos</a>
+                <a href="index.html" class="shop-btn btn-border">Explorar productos</a>
             </div>
         `;
         return;
@@ -49,7 +49,7 @@ function renderizarFavoritos() {
                 <i class="fa-regular fa-heart"></i>
                 <h2>No se encontraron tus productos favoritos</h2>
                 <p>Parece que los productos que marcaste como favoritos ya no están disponibles.</p>
-                <a href="index.html" class="shop-btn">Explorar productos</a>
+                <a href="index.html" class="shop-btn btn-border">Explorar productos</a>
             </div>
         `;
         return;
@@ -65,10 +65,10 @@ function renderizarFavoritos() {
                 <p class="favorito-precio">$${formatearPrecio(p.precio)}</p>
             </div>
             <div class="favorito-acciones">
-                <a href="producto.html?id=${p.id}" class="favorito-ver-btn">
+                <a href="producto.html?id=${p.id}" class="favorito-ver-btn btn-border">
                     <i class="fa-solid fa-eye"></i> Ver
                 </a>
-                <button class="favorito-eliminar-btn" onclick="eliminarDeFavoritos(${p.id})">
+                <button class="favorito-eliminar-btn btn-border" onclick="eliminarDeFavoritos(${p.id})">
                     <i class="fa-solid fa-trash-can"></i> Eliminar
                 </button>
             </div>

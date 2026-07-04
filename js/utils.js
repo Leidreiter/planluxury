@@ -148,11 +148,11 @@ export function generarHTMLTarjetaProducto(producto) {
             </a>
             <div class="product-actions">
                 <p class="product-price">$${formatearPrecio(producto.precio)}</p>
-                <button class="view-product-btn" onclick="window.location.href='producto.html?id=${producto.id}'" aria-label="Ver detalles de ${producto.nombre}">
+                <button class="view-product-btn btn-border" onclick="window.location.href='producto.html?id=${producto.id}'" aria-label="Ver detalles de ${producto.nombre}">
                     Ver producto
                 </button>
 
-                <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})" 
+                <button class="add-to-cart-btn btn-border" onclick="agregarAlCarrito(${producto.id})" 
                     ${esAgotado ? 'disabled' : ''} 
                     aria-label="Agregar ${producto.nombre} al carrito">
                     ${esAgotado ? 'Agotado' : 'Agregar al Carrito'}

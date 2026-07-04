@@ -181,20 +181,20 @@ function renderizarDetalleProducto(producto) {
                 <div class="quantity-selector">
                     <label for="quantity">Cantidad:</label>
                     <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="cambiarCantidad(-1)" aria-label="Disminuir cantidad">-</button>
+                        <button class="quantity-btn btn-border" onclick="cambiarCantidad(-1)" aria-label="Disminuir cantidad">-</button>
                         <span class="quantity-value" id="quantityValue">1</span>
-                        <button class="quantity-btn" onclick="cambiarCantidad(1)" aria-label="Aumentar cantidad">+</button>
+                        <button class="quantity-btn btn-border" onclick="cambiarCantidad(1)" aria-label="Aumentar cantidad">+</button>
                     </div>
                 </div>
                 
                 <div class="product-actions-detail">
-                    <button class="btn-add-cart" id="btnAddCart" onclick="agregarAlCarritoDetalle(${producto.id})" ${producto.stock === 0 ? 'disabled' : ''}>
+                    <button class="btn-add-cart btn-border" id="btnAddCart" onclick="agregarAlCarritoDetalle(${producto.id})" ${producto.stock === 0 ? 'disabled' : ''}>
                         ${producto.stock === 0 ? 'Agotado' : 'Agregar al Carrito'}
                     </button>
-                    <a href="carrito.html" class="btn-go-cart" id="btnGoCart" style="display: none;">
+                    <a href="carrito.html" class="btn-go-cart btn-border" id="btnGoCart" style="display: none;">
                         Ir al Carrito →
                     </a>
-                    <button class="btn-buy-now" onclick="comprarAhora(${producto.id})" ${producto.stock === 0 ? 'disabled' : ''}>
+                    <button class="btn-buy-now btn-border" onclick="comprarAhora(${producto.id})" ${producto.stock === 0 ? 'disabled' : ''}>
                         Comprar Ahora
                     </button>
                 </div>
@@ -222,13 +222,13 @@ function renderizarDetalleProducto(producto) {
                 
                 <div class="product-navigation">
                     ${prevProduct ? `
-                        <a href="producto.html?id=${prevProduct.id}" class="nav-product-btn prev">
+                        <a href="producto.html?id=${prevProduct.id}" class="nav-product-btn btn-border prev">
                             ← ${prevProduct.nombre}
                         </a>
                     ` : '<span></span>'}
                     
                     ${nextProduct ? `
-                        <a href="producto.html?id=${nextProduct.id}" class="nav-product-btn next">
+                        <a href="producto.html?id=${nextProduct.id}" class="nav-product-btn btn-border next">
                             ${nextProduct.nombre} →
                         </a>
                     ` : '<span></span>'}
@@ -695,7 +695,7 @@ function mostrarProductoNoEncontrado() {
         <div class="empty-cart">
             <h2>Producto no encontrado</h2>
             <p>El producto que buscas no existe o ha sido eliminado</p>
-            <a href="index.html" class="shop-btn">Volver a la tienda</a>
+            <a href="index.html" class="shop-btn btn-border">Volver a la tienda</a>
         </div>
     `;
 }

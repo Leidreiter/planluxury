@@ -160,7 +160,7 @@ html {
 @media (max-width: 768px) {
     .banner {
         grid-template-columns: 1fr;
-        margin: 1rem;
+        margin: 0;
         gap: 0;
         border-radius: 12px;
     }
@@ -188,13 +188,13 @@ html {
     }
 
     .banner_info_icono {
-        width: 80px;
-        height: 60px;
+        width: 100px;
+        height: 80px;
     }
 
     .banner_info_icono img {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
     }
 
 }
@@ -277,6 +277,17 @@ html {
     border-radius: 0 16px 16px 0;
 }
 
+/* Clase universal para border-radius en botones */
+.btn-border {
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .btn-border {
+        border-radius: 4px;
+    }
+}
+
 /* Componente de Botón Base */
 .btn, 
 .btn-primary,
@@ -287,7 +298,6 @@ html {
     align-items: center; 
     justify-content: center;
     padding: 0.75rem 1.5rem;
-    border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     text-decoration: none;
@@ -1028,7 +1038,6 @@ body {
     background: var(--success-color);
     color: white;
     border: none;
-    border-radius: 5px;
     font-size: 1.1rem;
     cursor: pointer;
     font-weight: 600;
@@ -1051,7 +1060,6 @@ body {
     background: var(--success-color);
     color: white;
     text-decoration: none;
-    border-radius: 5px;
     margin-top: 1rem;
     font-weight: 500;
     transition: background 0.3s;
@@ -1138,7 +1146,6 @@ body {
     border: 1px solid var(--border-color);
     background: white;
     cursor: pointer;
-    border-radius: 3px;
     transition: background 0.3s;
 }
 
@@ -1157,7 +1164,6 @@ body {
     color: white;
     border: none;
     padding: 0.5rem 1rem;
-    border-radius: 3px;
     cursor: pointer;
     font-size: 0.85rem;
     margin-left: auto;
@@ -1208,7 +1214,6 @@ body {
     background: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
     font-weight: 500;
@@ -1263,7 +1268,6 @@ body {
     background: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
     margin-top: 1rem;
@@ -1328,7 +1332,6 @@ body {
     background: var(--success-color);
     color: white;
     border: none;
-    border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
     font-weight: 600;
@@ -1393,7 +1396,6 @@ body {
     background: var(--primary-color);
     color: white;
     text-decoration: none;
-    border-radius: 5px;
     transition: background 0.3s;
 }
 
@@ -1772,7 +1774,6 @@ footer p {
     color: white;
     border: none;
     padding: 0.4rem 1rem;
-    border-radius: 4px;
     cursor: pointer;
     font-size: 0.9rem;
     transition: background 0.3s;
@@ -1817,7 +1818,6 @@ footer p {
 .btn-primary,
 .btn-secondary {
     padding: 1rem 2rem;
-    border-radius: 5px;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s;
@@ -2046,7 +2046,6 @@ footer p {
     background: white;
     color: var(--primary-color);
     cursor: pointer;
-    border-radius: 5px;
     font-size: 1.2rem;
     transition: all 0.3s;
     font-weight: bold;
@@ -2078,7 +2077,6 @@ footer p {
     background: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 5px;
     font-size: 1.1rem;
     cursor: pointer;
     font-weight: 600;
@@ -2108,7 +2106,6 @@ footer p {
     background: var(--success-color);
     color: white;
     border: none;
-    border-radius: 5px;
     font-size: 1.1rem;
     cursor: pointer;
     font-weight: 600;
@@ -2137,7 +2134,6 @@ footer p {
     background: var(--bg-color);
     color: var(--primary-color);
     text-decoration: none;
-    border-radius: 5px;
     transition: all 0.3s;
     font-weight: 500;
 }
@@ -2449,7 +2445,7 @@ footer p {
 .category-section { /* Se mantiene en container-lg para alinear con productos */
     max-width: var(--container-lg);
     margin: 3rem auto;
-    padding: 0 1rem;
+    padding: 0;
 }
 
 .category-header {
@@ -2751,7 +2747,6 @@ body.searching .products-section {
 .faq-cta .btn-primary,
 .faq-cta .btn-secondary {
     padding: 1rem 2rem;
-    border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
     font-size: 1rem;
@@ -3352,7 +3347,6 @@ body.zoom-active {
     background: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 5px;
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
@@ -3373,7 +3367,6 @@ body.zoom-active {
     background: white;
     color: #ef4444;
     border: 2px solid #ef4444;
-    border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;
@@ -4358,7 +4351,6 @@ body.zoom-active {
     padding: 0.85rem 1.75rem;
     background: var(--primary-color);
     color: #fff;
-    border-radius: 8px;
     font-weight: 600;
     font-size: 0.95rem;
     text-decoration: none;
@@ -4380,7 +4372,6 @@ body.zoom-active {
     background: #fff;
     color: var(--primary-color);
     border: 2px solid var(--border-color);
-    border-radius: 8px;
     font-weight: 600;
     font-size: 0.95rem;
     text-decoration: none;
