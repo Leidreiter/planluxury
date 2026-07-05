@@ -59,6 +59,10 @@ async function enviarPedidoWhatsApp(e) {
     // Guardar el total en localStorage para mostrarlo en la página de gracias
     localStorage.setItem('orderTotal', total.toString());
     
+    // Generar token único para proteger la página de gracias
+    const token = crypto.randomUUID();
+    sessionStorage.setItem('order_token', token);
+    
     // ============ ENVIAR A GOOGLE SHEETS ============
     await enviarPedidoGoogleSheets({
         cliente: datosCliente,
@@ -67,7 +71,8 @@ async function enviarPedidoWhatsApp(e) {
         descuento: descuento,
         porcentaje: porcentaje,
         cupon: esCupon ? cupon : 'NINGUNO',
-        total: total
+        total: total,
+        token: token
     });
     
     // ============ ENVIAR POR WHATSAPP ============
@@ -77,8 +82,8 @@ async function enviarPedidoWhatsApp(e) {
     localStorage.removeItem('cart');
     sessionStorage.removeItem('appliedCoupon');
     
-    // Redirigir a la página de agradecimiento
-    window.location.href = 'gracias.html';
+    // Redirigir a la página de agradecimiento con el token
+    window.location.href = `gracias.html?token=${token}`;
 }
 
 // ============ ENVIAR PEDIDO A GOOGLE SHEETS ============

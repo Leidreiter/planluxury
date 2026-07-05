@@ -83,12 +83,13 @@ function doPost(e) {
             data.porcentaje + "%",    // P: % Dcto
             Number(data.total),       // Q: Total
             data.cliente.notas,       // R: Notas
-            "Pendiente"               // S: Estado
+            "Pendiente",              // S: Estado
+            data.token               // T: Token
         ]);
 
         // 4. Aplicar formato visual a la nueva fila
         const nuevaFilaIndex = sheet.getLastRow();
-        sheet.getRange(nuevaFilaIndex, 1, 1, 19).setVerticalAlignment('top');
+        sheet.getRange(nuevaFilaIndex, 1, 1, 20).setVerticalAlignment('top');
         sheet.getRange(nuevaFilaIndex, 11, 1, 2).setWrap(true); // Wrap en productos y cantidades
         sheet.getRange(nuevaFilaIndex, 14, 1, 2).setNumberFormat('$ #,##0'); // Subtotal y Descuento
         sheet.getRange(nuevaFilaIndex, 17).setNumberFormat('$ #,##0'); // Total
@@ -121,7 +122,7 @@ function garantizarHojaPedidos(ss) {
     const headers = [
         'N° Pedido', 'Fecha', 'Hora', 'Nombre', 'Teléfono', 'Email', 
         'Dirección', 'Ciudad', 'Provincia', 'CP', 'Productos', 'Cant.', 
-        'Cupón', 'Subtotal', 'Descuento', '% Dcto', 'Total', 'Notas', 'Estado'
+        'Cupón', 'Subtotal', 'Descuento', '% Dcto', 'Total', 'Notas', 'Estado', 'Token'
     ];
 
     if (!sheet) {
@@ -195,7 +196,8 @@ function sanitizarYValidarPedido(data) {
         subtotal: Math.max(0, parseFloat(data.subtotal) || 0),
         descuento: Math.max(0, parseFloat(data.descuento) || 0),
         porcentaje: parseInt(data.porcentaje) || 0,
-        total: Math.max(0, parseFloat(data.total) || 0)
+        total: Math.max(0, parseFloat(data.total) || 0),
+        token: cleanString(data.token) || ''
     };
 }
 

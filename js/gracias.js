@@ -3,8 +3,23 @@
 import { formatearPrecio } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', function() {
+    validarToken();
     mostrarMontoTotal();
 });
+
+// Validar que el acceso sea legítimo (vía token desde formulario.js)
+function validarToken() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token');
+    const storedToken = sessionStorage.getItem('order_token');
+
+    if (!urlToken || !storedToken || urlToken !== storedToken) {
+        window.location.href = 'index.html';
+        return;
+    }
+
+    sessionStorage.removeItem('order_token');
+}
 
 // Mostrar el monto total del pedido
 function mostrarMontoTotal() {
