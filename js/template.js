@@ -24,7 +24,7 @@ function renderHeader(activePage = '', categorias = []) {
                 <a href="https://www.tiktok.com/@" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
             </div>
         </div>
-        <nav class="navbar">
+        <nav class="navbar" aria-label="Menú principal">
             <div class="nav-container contenedor">
                 <!--
                 <a href="index.html" class="logo">Mi Tienda</a>
@@ -54,7 +54,7 @@ function renderHeader(activePage = '', categorias = []) {
                         <span class="nav-label">Favoritos</span>
                         <span class="favorites-count">0</span>
                     </a>
-                    <a href="carrito.html" class="nav-link cart-link ${activePage === 'carrito' ? 'active' : ''}">
+                    <a href="carrito.html" class="nav-link cart-link ${activePage === 'carrito' ? 'active' : ''}" aria-label="Carrito de compras">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="nav-label">Carrito</span>
                         <span class="cart-count">0</span>
