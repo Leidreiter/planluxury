@@ -383,10 +383,6 @@ body {
     }
 }
 
-.header-placeholder {
-    min-height: 100px;
-}
-
 .navbar {
     background: white;
     box-shadow: var(--shadow);
@@ -847,7 +843,6 @@ body {
     height: 250px;
     object-fit: cover;
     background: var(--border-color);
-    aspect-ratio: 3 / 4;
 }
 
 .product-info {
@@ -4214,7 +4209,6 @@ body.zoom-active {
     font-size: 0.9rem;
     font-weight: 500;
     letter-spacing: 0.02em;
-    height: 40px;
 }
 
 .marquee-track {
