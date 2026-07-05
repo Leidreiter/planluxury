@@ -554,15 +554,17 @@ function procesarImagenesDesdeGDrive(productos) {
                 const nombre = archivo.getName().toLowerCase();
 
                 if (nombre.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-                    const urlPublica = obtenerUrlPublicaGDrive(archivo.getId());
+                    const urlGaleria = obtenerUrlPublicaGDrive(archivo.getId(), 1920);
+                    const urlThumb = obtenerUrlPublicaGDrive(archivo.getId(), 1000);
 
                     if (nombre === 'principal.jpg' || nombre === 'principal.png' || nombre === 'principal.webp') {
-                        imagenPrincipal = urlPublica;
+                        imagenPrincipal = urlThumb;
                     }
 
                     imagenes.push({
                         nombre: nombre,
-                        url: urlPublica
+                        url: urlGaleria,
+                        thumb: urlThumb
                     });
                 }
             }
@@ -574,10 +576,11 @@ function procesarImagenesDesdeGDrive(productos) {
             });
 
             const galeriaUrls = imagenes.map(img => img.url);
+            const thumbnailUrls = imagenes.map(img => img.thumb);
 
             return {
                 ...producto,
-                imagen: imagenPrincipal || galeriaUrls[0] || 'img/productos/placeholder.png',
+                imagen: imagenPrincipal || thumbnailUrls[0] || 'img/productos/placeholder.png',
                 galeria: galeriaUrls.length > 0 ? galeriaUrls : ['img/productos/placeholder.png']
             };
 
@@ -593,8 +596,9 @@ function procesarImagenesDesdeGDrive(productos) {
 }
 
 // ============ OBTENER URL PÚBLICA DE GOOGLE DRIVE ============
-function obtenerUrlPublicaGDrive(fileId) {
-    return `https://lh3.googleusercontent.com/d/${fileId}`;
+function obtenerUrlPublicaGDrive(fileId, size) {
+    const base = `https://lh3.googleusercontent.com/d/${fileId}`;
+    return size ? `${base}=s${size}` : base;
 }
 
 // ============ SUBIR ARCHIVO A GITHUB ============
