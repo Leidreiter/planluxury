@@ -60,7 +60,10 @@ async function enviarPedidoWhatsApp(e) {
     localStorage.setItem('orderTotal', total.toString());
     
     // Generar token único para proteger la página de gracias
-    const token = crypto.randomUUID();
+    const token = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
     sessionStorage.setItem('order_token', token);
     
     // ============ ENVIAR A GOOGLE SHEETS ============
