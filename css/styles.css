@@ -730,6 +730,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 0px;
 }
 
 .product-card:hover {
@@ -853,7 +854,6 @@ body {
 
 .product-description {
     color: var(--secondary-color);
-    margin-bottom: 1rem;
     font-size: 0.9rem;
 }
 
