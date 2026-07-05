@@ -555,7 +555,7 @@ function procesarImagenesDesdeGDrive(productos) {
 
                 if (nombre.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
                     const urlGaleria = obtenerUrlPublicaGDrive(archivo.getId(), 1920);
-                    const urlThumb = obtenerUrlPublicaGDrive(archivo.getId(), 1000);
+                    const urlThumb = obtenerUrlPublicaGDrive(archivo.getId(), 600);
 
                     if (nombre === 'principal.jpg' || nombre === 'principal.png' || nombre === 'principal.webp') {
                         imagenPrincipal = urlThumb;
