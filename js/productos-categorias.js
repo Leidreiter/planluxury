@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (productos.length > 0) {
         renderizarCategoriasAutomaticas();
+
+        // Scroll al hash si se viene desde otra página (ej: index.html#cat-calzado)
+        if (window.location.hash) {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     }
 });
 
