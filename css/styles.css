@@ -720,6 +720,10 @@ body {
     gap: 2rem;
 }
 
+#relatedProducts {
+    justify-content: center;
+}
+
 .product-card {
     position: relative;
     background: white;
