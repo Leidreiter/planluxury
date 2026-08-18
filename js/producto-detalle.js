@@ -203,7 +203,7 @@ function renderizarDetalleProducto(producto) {
                     <h3>Compartir este producto:</h3>
                     <div class="share-buttons">
                         <a href="https://wa.me/?text=${encodeURIComponent('¡Mirá este producto! ' + producto.nombre + ' ' + window.location.href)}" 
-                           class="share-btn whatsapp" target="_blank" rel="noopener" aria-label="Compartir en WhatsApp">
+                           class="share-btn wa-share" target="_blank" rel="noopener" aria-label="Compartir en WhatsApp">
                             <i class="fa-brands fa-whatsapp"></i>
                         </a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" 
