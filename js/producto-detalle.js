@@ -154,7 +154,7 @@ function renderizarDetalleProducto(producto) {
             <div class="product-detail-info">
                 <span class="product-category">${producto.categoria}</span>
                 <div class="product-title-row">
-                    <h1>${producto.nombre}</h1>
+                    <h1 class="product-detail-title">${producto.nombre}</h1>
                     <button class="btn-favorito ${esFavorito(producto.id) ? 'active' : ''}" 
                             onclick="toggleFavorito(${producto.id})" 
                             aria-label="Agregar a favoritos"

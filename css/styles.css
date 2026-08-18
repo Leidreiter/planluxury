@@ -2018,7 +2018,7 @@ footer p {
 
 @media (max-width: 768px) {
     .product-detail-page {
-        padding: 10px;
+        padding: 0px;
     }
 }
 
@@ -2070,8 +2070,8 @@ footer p {
     background: var(--border-color);
 }
 
-.product-detail-info h1 {
-    font-size: var(--fs-h1);
+.product-detail-title {
+    font-size: var(--fs-h2);
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 1rem;
