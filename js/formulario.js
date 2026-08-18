@@ -31,7 +31,6 @@ function validarDatos(datos) {
 
     const reglas = [
         { campo: 'nombre', valido: v => v.length >= 2, mensaje: 'Ingresá tu nombre completo (mínimo 2 caracteres)' },
-        { campo: 'telefono', valido: v => /^\+?[\d\s().-]{6,16}$/.test(v), mensaje: 'Ingresá un teléfono válido (6 a 16 caracteres: números, +, espacios, () o -)' },
         { campo: 'email', valido: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), mensaje: 'Ingresá un email válido (ej: nombre@dominio.com)' },
         { campo: 'direccion', valido: v => v.length >= 2, mensaje: 'Ingresá tu dirección (mínimo 2 caracteres)' },
         { campo: 'ciudad', valido: v => v.length >= 2, mensaje: 'Ingresá tu ciudad (mínimo 2 caracteres)' },
@@ -76,7 +75,6 @@ async function enviarPedidoWhatsApp(e) {
     const text = (n) => String(formData.get(n) || '').trim();
     const datosCliente = {
         nombre: text('nombre'),
-        telefono: text('telefono'),
         email: text('email'),
         direccion: text('direccion'),
         ciudad: text('ciudad'),
@@ -187,7 +185,6 @@ function construirUrlWhatsApp(datos, cart, subtotal, descuento, total, cupon) {
     let mensaje = `*NUEVO PEDIDO*\n\n`;
     mensaje += `*Datos del Cliente:*\n`;
     mensaje += `Nombre: ${datos.nombre}\n`;
-    mensaje += `Teléfono: ${datos.telefono}\n`;
     mensaje += `Email: ${datos.email}\n\n`;
     
     mensaje += `*Dirección de Envío:*\n`;
