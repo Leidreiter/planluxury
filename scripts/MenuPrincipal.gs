@@ -47,25 +47,35 @@ function menuMarcarCancelado() { cambiarEstadoSeleccionado('Cancelado'); }
  * Detecta el N° de Pedido de la fila activa y cambia su estado
  */
 function cambiarEstadoSeleccionado(nuevoEstado) {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sheet = ss.getActiveSheet();
-    
-    if (sheet.getName() !== CONFIG.PEDIDOS_SHEET_NAME) {
-        SpreadsheetApp.getUi().alert('⚠️ Error', 'Debes estar en la hoja "Pedidos" para usar esta función.', SpreadsheetApp.getUi().ButtonSet.OK);
-        return;
+    try {
+        const ss = SpreadsheetApp.getActiveSpreadsheet();
+        const sheet = ss.getActiveSheet();
+
+        if (sheet.getName() !== CONFIG.PEDIDOS_SHEET_NAME) {
+            SpreadsheetApp.getUi().alert('⚠️ Error', 'Debes estar en la hoja "Pedidos" para usar esta función.', SpreadsheetApp.getUi().ButtonSet.OK);
+            return;
+        }
+
+        const fila = sheet.getActiveCell().getRow();
+        if (fila < 2) return; // Evitar cabeceras
+
+        const nPedido = sheet.getRange(fila, 1).getValue(); // Columna A: N° Pedido
+        if (!nPedido) return;
+
+        actualizarEstadoPedido(nPedido, nuevoEstado);
+    } catch (error) {
+        Logger.log(`❌ Error en cambiarEstadoSeleccionado: ${error.message}`);
+        SpreadsheetApp.getUi().alert('⚠️ Error', 'Ocurrió un error al cambiar el estado del pedido.', SpreadsheetApp.getUi().ButtonSet.OK);
     }
-
-    const fila = sheet.getActiveCell().getRow();
-    if (fila < 2) return; // Evitar cabeceras
-
-    const nPedido = sheet.getRange(fila, 1).getValue(); // Columna A: N° Pedido
-    if (!nPedido) return;
-
-    actualizarEstadoPedido(nPedido, nuevoEstado);
 }
 
 function repararHojaPedidos() {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    garantizarHojaPedidos(ss);
-    SpreadsheetApp.getUi().alert('🚀 Estructura Verificada', 'Se han validado las 19 columnas y el formato de la hoja de Pedidos.', SpreadsheetApp.getUi().ButtonSet.OK);
+    try {
+        const ss = SpreadsheetApp.getActiveSpreadsheet();
+        garantizarHojaPedidos(ss);
+        SpreadsheetApp.getUi().alert('🚀 Estructura Verificada', 'Se han validado las 20 columnas y el formato de la hoja de Pedidos.', SpreadsheetApp.getUi().ButtonSet.OK);
+    } catch (error) {
+        Logger.log(`❌ Error en repararHojaPedidos: ${error.message}`);
+        SpreadsheetApp.getUi().alert('⚠️ Error', 'Ocurrió un error al reparar la hoja de Pedidos.', SpreadsheetApp.getUi().ButtonSet.OK);
+    }
 }

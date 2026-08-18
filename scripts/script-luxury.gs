@@ -22,6 +22,16 @@ const CONFIG = {
     CUPONES_SHEET_NAME: 'Cupones',
     PEDIDOS_SHEET_NAME: 'Pedidos',
 
+    // Seguridad del endpoint de pedidos
+    WEB_API_KEY: PropertiesService.getScriptProperties().getProperty('WEB_API_KEY'),
+    TOPE_CANTIDAD_POR_PRODUCTO: 50,
+    PEDIDOS_MAX_POR_HORA_POR_CLIENTE: 5,
+    PEDIDOS_MAX_POR_MINUTO_GLOBAL: 30,
+
+    // Lógica de descuentos (debe reflejar la lógica de js/utils.js en el frontend)
+    UMBRAL_DESCUENTO: 100000,
+    PORCENTAJE_DESCUENTO: 10,
+
     // Estructura de columnas
     COLUMNAS: {
         ID: 0,
@@ -44,73 +54,148 @@ function doPost(e) {
         }
 
         const rawData = JSON.parse(e.postData.contents);
-        const data = sanitizarYValidarPedido(rawData);
 
-        const ss = SpreadsheetApp.getActiveSpreadsheet();
-        let sheet = garantizarHojaPedidos(ss);
-
-        // 1. Generar número de pedido formateado (PED-0001)
-        const ultimaFila = sheet.getLastRow();
-        const nPedidoNum = ultimaFila <= 1 ? 1 : parseInt(sheet.getRange(ultimaFila, 1).getValue().toString().replace('PED-', '')) + 1;
-        const nPedido = 'PED-' + nPedidoNum.toString().padStart(4, '0');
-
-        // 2. Formatear Fecha y Hora por separado
-        const ahora = new Date();
-        const fecha = Utilities.formatDate(ahora, "GMT-3", "dd/MM/yyyy");
-        const hora = Utilities.formatDate(ahora, "GMT-3", "HH:mm:ss");
-
-        // 3. Preparar strings para productos y cantidades por separado
-        const nombresProductos = data.productos.map(p => p.nombre).join("\n");
-        const cantidadesProductos = data.productos.map(p => p.quantity).join("\n");
-
-        // Insertar la nueva fila de pedido
-        sheet.appendRow([
-            nPedido,                  // A: N° Pedido
-            fecha,                    // B: Fecha
-            hora,                     // C: Hora
-            data.cliente.nombre,      // D: Nombre
-            "'" + data.cliente.telefono, // E: Teléfono (forzado como texto)
-            data.cliente.email,       // F: Email
-            data.cliente.direccion,   // G: Dirección
-            data.cliente.ciudad,      // H: Ciudad
-            data.cliente.provincia,   // I: Provincia
-            data.cliente.codigoPostal,// J: CP
-            nombresProductos,         // K: Productos
-            cantidadesProductos,      // L: Cant.
-            data.cupon,               // M: Cupón
-            Number(data.subtotal),    // N: Subtotal
-            Number(data.descuento),   // O: Descuento
-            data.porcentaje + "%",    // P: % Dcto
-            Number(data.total),       // Q: Total
-            data.cliente.notas,       // R: Notas
-            "Pendiente",              // S: Estado
-            data.token               // T: Token
-        ]);
-
-        // 4. Aplicar formato visual a la nueva fila
-        const nuevaFilaIndex = sheet.getLastRow();
-        sheet.getRange(nuevaFilaIndex, 1, 1, 20).setVerticalAlignment('top');
-        sheet.getRange(nuevaFilaIndex, 11, 1, 2).setWrap(true); // Wrap en productos y cantidades
-        sheet.getRange(nuevaFilaIndex, 14, 1, 2).setNumberFormat('$ #,##0'); // Subtotal y Descuento
-        sheet.getRange(nuevaFilaIndex, 17).setNumberFormat('$ #,##0'); // Total
-        sheet.getRange(nuevaFilaIndex, 19).setBackground('#fff3cd').setHorizontalAlignment('center'); // Estado amarillo
-        SpreadsheetApp.flush(); // Forzar cambios en la interfaz
-
-        // Descontar stock automáticamente de la hoja "Productos"
-        const huboAgotados = actualizarStockTrasPedido(data.productos);
-
-        // Si algún producto se agotó, publicamos automáticamente a GitHub para actualizar la web
-        if (huboAgotados) {
-            ejecutarSincronizacionSilenciosa();
+        // 0. Autenticación por clave compartida (anti-spam; la autoridad real
+        // es el recalculo de montos server-side, ver calcularMontosServidor)
+        if (!validarApiKey(rawData)) {
+            Logger.log(`🔒 Petición rechazada por API key inválida (cliente: ${rawData.cliente && rawData.cliente.email})`);
+            return respuestaJson({ status: 'error', message: 'Solicitud no autorizada.' });
         }
 
-        // Enviar notificación por email al dueño
-        enviarEmailNotificacion(data);
+        // 0b. Rate limit: evita inundar la hoja de pedidos
+        if (!respetarRateLimit(rawData)) {
+            Logger.log(`🚫 Rate limit superado (cliente: ${rawData.cliente && rawData.cliente.email})`);
+            return respuestaJson({ status: 'error', message: 'Demasiados pedidos desde este cliente. Inténtalo más tarde.' });
+        }
 
-        return ContentService.createTextOutput(JSON.stringify({ status: 'success' })).setMimeType(ContentService.MimeType.JSON);
+        const data = sanitizarYValidarPedido(rawData);
+
+        // Lock para numeración atómica de pedidos (evita duplicados en paralelo)
+        const lock = LockService.getScriptLock();
+        lock.waitLock(10000);
+
+        try {
+            const ss = SpreadsheetApp.getActiveSpreadsheet();
+            const sheet = garantizarHojaPedidos(ss);
+
+            // 1. Generar número de pedido formateado (PED-0001)
+            const ultimaFila = sheet.getLastRow();
+            let nPedidoNum = 1;
+            if (ultimaFila > 1) {
+                const ultimoValor = sheet.getRange(ultimaFila, 1).getValue().toString().replace('PED-', '');
+                const ultimoNumero = parseInt(ultimoValor, 10);
+                nPedidoNum = isNaN(ultimoNumero) ? 1 : ultimoNumero + 1;
+            }
+            const nPedido = 'PED-' + nPedidoNum.toString().padStart(4, '0');
+
+            // 2. Formatear Fecha y Hora por separado (zona horaria del spreadsheet)
+            const tz = ss.getSpreadsheetTimeZone();
+            const ahora = new Date();
+            const fecha = Utilities.formatDate(ahora, tz, "dd/MM/yyyy");
+            const hora = Utilities.formatDate(ahora, tz, "HH:mm:ss");
+
+            // 3. Recalcular montos con precios, stock y cupones REALES de la hoja
+            const calculo = calcularMontosServidor(data.productos, data.cupon);
+
+            // 4. Preparar strings para productos y cantidades por separado
+            const nombresProductos = calculo.productos.map(p => p.nombre).join("\n");
+            const cantidadesProductos = calculo.productos.map(p => p.quantity).join("\n");
+
+            // Insertar la nueva fila de pedido
+            sheet.appendRow([
+                nPedido,                  // A: N° Pedido
+                fecha,                    // B: Fecha
+                hora,                     // C: Hora
+                data.cliente.nombre,      // D: Nombre
+                data.cliente.telefono,    // E: Teléfono (forzado como texto)
+                data.cliente.email,       // F: Email
+                data.cliente.direccion,   // G: Dirección
+                data.cliente.ciudad,      // H: Ciudad
+                data.cliente.provincia,   // I: Provincia
+                data.cliente.codigoPostal,// J: CP
+                nombresProductos,         // K: Productos
+                cantidadesProductos,      // L: Cant.
+                calculo.cupon,            // M: Cupón
+                calculo.subtotal,         // N: Subtotal (recalculado en servidor)
+                calculo.descuento,        // O: Descuento (recalculado en servidor)
+                calculo.porcentaje + "%", // P: % Dcto
+                calculo.total,            // Q: Total (recalculado en servidor)
+                data.cliente.notas,       // R: Notas
+                "Pendiente",              // S: Estado
+                data.token               // T: Token
+            ]);
+
+            // 5. Aplicar formato visual a la nueva fila
+            const nuevaFilaIndex = sheet.getLastRow();
+            sheet.getRange(nuevaFilaIndex, 1, 1, 20).setVerticalAlignment('top');
+            sheet.getRange(nuevaFilaIndex, 11, 1, 2).setWrap(true); // Wrap en productos y cantidades
+            sheet.getRange(nuevaFilaIndex, 14, 1, 2).setNumberFormat('$ #,##0'); // Subtotal y Descuento
+            sheet.getRange(nuevaFilaIndex, 17).setNumberFormat('$ #,##0'); // Total
+            sheet.getRange(nuevaFilaIndex, 5).setNumberFormat('@'); // Teléfono como texto real
+            sheet.getRange(nuevaFilaIndex, 19).setBackground('#fff3cd').setHorizontalAlignment('center'); // Estado amarillo
+            SpreadsheetApp.flush(); // Forzar cambios en la interfaz
+
+            // 6. Descontar stock automáticamente de la hoja "Productos"
+            const huboAgotados = actualizarStockTrasPedido(calculo.productos);
+
+            // Si algún producto se agotó, publicamos automáticamente a GitHub para actualizar la web
+            if (huboAgotados) {
+                ejecutarSincronizacionSilenciosa();
+            }
+
+            // 7. Enviar notificación por email al dueño
+            enviarEmailNotificacion(data.cliente, calculo);
+
+            return respuestaJson({ status: 'success' });
+        } finally {
+            lock.releaseLock();
+        }
     } catch (error) {
-        return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: error.toString() })).setMimeType(ContentService.MimeType.JSON);
+        Logger.log(`❌ Error en doPost: ${error.message}\n${error.stack}`);
+        return respuestaJson({ status: 'error', message: 'No se pudo procesar el pedido. Inténtalo nuevamente.' });
     }
+}
+
+function respuestaJson(objeto) {
+    return ContentService.createTextOutput(JSON.stringify(objeto)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function validarApiKey(data) {
+    const claveEsperada = CONFIG.WEB_API_KEY;
+    if (!claveEsperada) {
+        Logger.log('⚠️ WEB_API_KEY no está configurada en las propiedades del script. El endpoint acepta peticiones sin validar.');
+        return true;
+    }
+    return data.apiKey === claveEsperada;
+}
+
+function respetarRateLimit(data) {
+    const cache = CacheService.getScriptCache();
+    const email = (data.cliente && data.cliente.email) || '';
+    const telefono = (data.cliente && data.cliente.telefono) || '';
+    const hashCliente = Utilities.computeDigest(
+        Utilities.DigestAlgorithm.MD5,
+        email + '|' + telefono,
+        Utilities.Charset.UTF_8
+    ).map(b => ('0' + (b & 0xFF).toString(16)).slice(-2)).join('');
+
+    // Por cliente: máximo N pedidos por hora
+    const keyCliente = 'pedidos_hora_' + hashCliente;
+    const actualCliente = parseInt(cache.get(keyCliente) || '0', 10);
+    if (actualCliente >= CONFIG.PEDIDOS_MAX_POR_HORA_POR_CLIENTE) {
+        return false;
+    }
+    cache.put(keyCliente, (actualCliente + 1).toString(), 3600);
+
+    // Global: máximo N pedidos por minuto
+    const keyGlobal = 'pedidos_min_' + Math.floor(Date.now() / 60000);
+    const actualGlobal = parseInt(cache.get(keyGlobal) || '0', 10);
+    if (actualGlobal >= CONFIG.PEDIDOS_MAX_POR_MINUTO_GLOBAL) {
+        return false;
+    }
+    cache.put(keyGlobal, (actualGlobal + 1).toString(), 120);
+
+    return true;
 }
 
 /**
@@ -157,8 +242,19 @@ function sanitizarYValidarPedido(data) {
     }
 
     const { cliente, productos } = data;
-    // Función para limpiar strings y evitar inyecciones básicas o exceso de datos
-    const cleanString = (str) => typeof str === 'string' ? str.trim().substring(0, 500) : '';
+    // Limpia strings y evita inyección de fórmulas en Sheets:
+    // un valor que comience con =, +, -, @ o tab se escribe prefijado con ' (texto plano)
+    const cleanString = (str) => {
+        if (typeof str !== 'string') return '';
+        let limpio = str
+            .trim()
+            .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '') // elimina caracteres de control
+            .substring(0, 500);
+        if (/^[=+\-@\t\r]/.test(limpio)) {
+            limpio = "'" + limpio;
+        }
+        return limpio;
+    };
 
     const clienteSanitizado = {
         nombre: cleanString(cliente.nombre),
@@ -189,15 +285,112 @@ function sanitizarYValidarPedido(data) {
         cliente: clienteSanitizado,
         productos: productos.map(p => ({
             nombre: cleanString(p.nombre),
-            quantity: Math.max(1, parseInt(p.quantity) || 1),
-            precio: parseFloat(p.precio) || 0
+            quantity: Math.max(1, Math.min(CONFIG.TOPE_CANTIDAD_POR_PRODUCTO, parseInt(p.quantity, 10) || 1))
         })),
         cupon: cleanString(data.cupon) || 'NINGUNO',
-        subtotal: Math.max(0, parseFloat(data.subtotal) || 0),
-        descuento: Math.max(0, parseFloat(data.descuento) || 0),
-        porcentaje: parseInt(data.porcentaje) || 0,
-        total: Math.max(0, parseFloat(data.total) || 0),
         token: cleanString(data.token) || ''
+    };
+}
+
+// ============ CÁLCULO DE MONTOS SERVER-SIDE ============
+// La fuente de verdad son las hojas ProductosLuxury y Cupones.
+// El cliente solo aporta el detalle del pedido; precios, stock, cupones,
+// descuentos y totales se recalculan acá para que nadie pueda alterarlos.
+function normalizarTexto(texto) {
+    return String(texto || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function obtenerCatalogoParaVenta() {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAME);
+    if (!sheet) return [];
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return [];
+
+    return sheet.getRange(2, 1, lastRow - 1, 9).getValues()
+        .filter(fila => fila[CONFIG.COLUMNAS.ID])
+        .map(fila => ({
+            nombreNormalizado: normalizarTexto(fila[CONFIG.COLUMNAS.NOMBRE]),
+            precio: parseFloat(fila[CONFIG.COLUMNAS.PRECIO]),
+            stock: parseInt(fila[CONFIG.COLUMNAS.STOCK], 10)
+        }));
+}
+
+function calcularMontosServidor(productosSolicitados, cuponCodigo) {
+    const catalogo = obtenerCatalogoParaVenta();
+    const porNombre = {};
+    catalogo.forEach(p => { if (p.nombreNormalizado) porNombre[p.nombreNormalizado] = p; });
+
+    const productosResueltos = [];
+    let subtotal = 0;
+
+    productosSolicitados.forEach(item => {
+        const ref = porNombre[normalizarTexto(item.nombre)];
+        const cantidadSolicitada = Math.max(1, Math.min(CONFIG.TOPE_CANTIDAD_POR_PRODUCTO, parseInt(item.quantity, 10) || 1));
+        let cantidadFinal = cantidadSolicitada;
+        let precioFinal = 0;
+
+        if (ref) {
+            if (!isNaN(ref.precio)) {
+                precioFinal = ref.precio;
+            }
+            const stockHoja = isNaN(ref.stock) ? null : ref.stock;
+            if (stockHoja !== null && stockHoja > 0 && cantidadFinal > stockHoja) {
+                cantidadFinal = stockHoja;
+                Logger.log(`⚠️ Stock ajustado para "${item.nombre}": solicitado ${cantidadSolicitada}, disponible ${stockHoja}`);
+            }
+            if (stockHoja === 0) {
+                Logger.log(`⚠️ Producto sin stock en la hoja: "${item.nombre}"`);
+            }
+        } else {
+            Logger.log(`⚠️ Producto no encontrado en la hoja: "${item.nombre}"`);
+        }
+
+        subtotal += precioFinal * cantidadFinal;
+        productosResueltos.push({ nombre: item.nombre, quantity: cantidadFinal, precio: precioFinal });
+    });
+
+    // Descuento automático por umbral
+    let descuentoAuto = 0;
+    if (subtotal >= CONFIG.UMBRAL_DESCUENTO) {
+        descuentoAuto = subtotal * (CONFIG.PORCENTAJE_DESCUENTO / 100);
+    }
+
+    // Descuento por cupón (desde la hoja Cupones)
+    let descuentoCupon = 0;
+    let porcentajeAplicado = CONFIG.PORCENTAJE_DESCUENTO;
+    let cuponFinal = 'NINGUNO';
+
+    const cupones = leerCuponesDeSheet();
+    const cuponData = cuponCodigo
+        ? cupones.find(c => c.codigo.toUpperCase() === String(cuponCodigo).toUpperCase())
+        : null;
+
+    if (cuponData) {
+        const hoy = new Date();
+        const fechaExp = new Date(cuponData.expira);
+        if (hoy.setHours(0, 0, 0, 0) <= fechaExp.setHours(0, 0, 0, 0)) {
+            const porcentajeCupon = parseFloat(cuponData.porcentaje) || 0;
+            descuentoCupon = subtotal * (porcentajeCupon / 100);
+            porcentajeAplicado = porcentajeCupon;
+            cuponFinal = cuponData.codigo.toUpperCase();
+        }
+    }
+
+    // Se aplica el mayor de los dos descuentos (no acumulables)
+    const descuentoFinal = Math.max(descuentoAuto, descuentoCupon);
+
+    return {
+        productos: productosResueltos,
+        subtotal: Math.round(subtotal),
+        descuento: Math.round(descuentoFinal),
+        porcentaje: descuentoFinal > 0 ? (descuentoCupon > descuentoAuto ? porcentajeAplicado : CONFIG.PORCENTAJE_DESCUENTO) : 0,
+        total: Math.round(subtotal - descuentoFinal),
+        cupon: cuponFinal
     };
 }
 
@@ -214,8 +407,9 @@ function actualizarStockTrasPedido(productosComprados) {
   let huboCambios = false;
 
   productosComprados.forEach(item => {
+    const nombreNormalizado = normalizarTexto(item.nombre);
     for (let i = 0; i < values.length; i++) {
-      if (values[i][nombreColIdx] === item.nombre) {
+      if (normalizarTexto(values[i][nombreColIdx]) === nombreNormalizado) {
         const stockActual = parseInt(values[i][stockColIdx]) || 0;
         const nuevoStock = Math.max(0, stockActual - item.quantity);
         
@@ -240,21 +434,32 @@ function actualizarStockTrasPedido(productosComprados) {
 }
 
 // ============ NOTIFICACIÓN POR EMAIL ============
-function enviarEmailNotificacion(data) {
+function escapeHtml(texto) {
+    return String(texto || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function enviarEmailNotificacion(cliente, calculo) {
     const emailAdmin = Session.getEffectiveUser().getEmail(); // Más fiable en Web Apps
-    const asunto = `🛍️ Nuevo Pedido de ${data.cliente.nombre}`;
-    
-    const productosHtml = data.productos.map(p => `<li>${p.nombre} (x${p.quantity})</li>`).join('');
-    const dctoEtiqueta = data.cupon !== 'NINGUNO' ? `Cupón (${data.cupon})` : 'Descuento';
-    
+    const asunto = `🛍️ Nuevo Pedido de ${escapeHtml(cliente.nombre)}`;
+
+    const productosHtml = calculo.productos.map(p =>
+        `<li>${escapeHtml(p.nombre)} (x${p.quantity}) - $${p.precio.toLocaleString('es-AR')}</li>`
+    ).join('');
+    const dctoEtiqueta = calculo.cupon !== 'NINGUNO' ? `Cupón (${escapeHtml(calculo.cupon)})` : 'Descuento';
+
     const cuerpo = `
         <h2>Detalles del Pedido</h2>
-        <p><strong>Cliente:</strong> ${data.cliente.nombre}</p>
-        <p><strong>Email:</strong> ${data.cliente.email}</p>
-        <p><strong>Teléfono:</strong> ${data.cliente.telefono}</p>
-        <p><strong>Subtotal:</strong> $${data.subtotal.toLocaleString('es-AR')}</p>
-        <p><strong>${dctoEtiqueta}:</strong> -$${data.descuento.toLocaleString('es-AR')} (${data.porcentaje}%)</p>
-        <p><strong>TOTAL A PAGAR:</strong> $${data.total.toLocaleString('es-AR')}</p>
+        <p><strong>Cliente:</strong> ${escapeHtml(cliente.nombre)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(cliente.email)}</p>
+        <p><strong>Teléfono:</strong> ${escapeHtml(cliente.telefono)}</p>
+        <p><strong>Subtotal:</strong> $${calculo.subtotal.toLocaleString('es-AR')}</p>
+        <p><strong>${dctoEtiqueta}:</strong> -$${calculo.descuento.toLocaleString('es-AR')} (${calculo.porcentaje}%)</p>
+        <p><strong>TOTAL A PAGAR:</strong> $${calculo.total.toLocaleString('es-AR')}</p>
         <h3>Productos:</h3>
         <ul>${productosHtml}</ul>
         <p>Revisa la hoja de cálculo para más detalles.</p>
@@ -269,26 +474,36 @@ function enviarEmailNotificacion(data) {
 
 // ============ GESTIÓN DE ESTADOS (Incorporado de RegistroPedidos) ============
 function actualizarEstadoPedido(numeroPedido, nuevoEstado) {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sheet = ss.getSheetByName(CONFIG.PEDIDOS_SHEET_NAME);
-    if (!sheet) return;
+    try {
+        const ss = SpreadsheetApp.getActiveSpreadsheet();
+        const sheet = ss.getSheetByName(CONFIG.PEDIDOS_SHEET_NAME);
+        if (!sheet) return;
 
-    const datos = sheet.getDataRange().getValues();
-    const colores = {
-        'Pendiente': '#fff3cd',
-        'Procesando': '#cfe2ff',
-        'Enviado': '#d1e7dd',
-        'Entregado': '#a3cfbb',
-        'Cancelado': '#f8d7da'
-    };
+        const datos = sheet.getDataRange().getValues();
+        const colores = {
+            'Pendiente': '#fff3cd',
+            'Procesando': '#cfe2ff',
+            'Enviado': '#d1e7dd',
+            'Entregado': '#a3cfbb',
+            'Cancelado': '#f8d7da'
+        };
 
-    for (let i = 1; i < datos.length; i++) {
-        if (datos[i][0] === numeroPedido) {
-            const celdaEstado = sheet.getRange(i + 1, 19); // Columna S (19)
-            celdaEstado.setValue(nuevoEstado);
-            celdaEstado.setBackground(colores[nuevoEstado] || '#ffffff');
-            return;
+        for (let i = 1; i < datos.length; i++) {
+            if (datos[i][0] === numeroPedido) {
+                const celdaEstado = sheet.getRange(i + 1, 19); // Columna S (19)
+                celdaEstado.setValue(nuevoEstado);
+                celdaEstado.setBackground(colores[nuevoEstado] || '#ffffff');
+                return;
+            }
         }
+        Logger.log(`⚠️ No se encontró el pedido ${numeroPedido} al actualizar su estado.`);
+    } catch (error) {
+        Logger.log(`❌ Error al actualizar estado del pedido ${numeroPedido}: ${error.message}`);
+        SpreadsheetApp.getUi().alert(
+            'Error',
+            `No se pudo actualizar el estado del pedido ${numeroPedido}.`,
+            SpreadsheetApp.getUi().ButtonSet.OK
+        );
     }
 }
 
@@ -319,13 +534,17 @@ function mostrarEstadisticas() {
 // ============ FUNCIÓN PARA CONFIGURAR SECRETOS (Ejecutar una vez) ============
 function configurarSecretos() {
   const scriptProperties = PropertiesService.getScriptProperties();
-  scriptProperties.setProperties({
-    'GITHUB_TOKEN': '',
-    'GITHUB_OWNER': '',
-    'GITHUB_REPO': '',
-    'DRIVE_FOLDER_ID': ''
-  });
-  Logger.log('✅ Propiedades configuradas correctamente. Ya puedes borrar los valores de esta función.');
+  const actuales = scriptProperties.getProperties();
+  // No se pisan los valores ya configurados: solo se crean las claves faltantes
+  const nuevos = {
+    'GITHUB_TOKEN': actuales['GITHUB_TOKEN'] || '',
+    'GITHUB_OWNER': actuales['GITHUB_OWNER'] || '',
+    'GITHUB_REPO': actuales['GITHUB_REPO'] || '',
+    'DRIVE_FOLDER_ID': actuales['DRIVE_FOLDER_ID'] || '',
+    'WEB_API_KEY': actuales['WEB_API_KEY'] || ''
+  };
+  scriptProperties.setProperties(nuevos);
+  Logger.log('✅ Propiedades verificadas. Las claves faltantes se crearon vacías. Configura GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO, DRIVE_FOLDER_ID y WEB_API_KEY con sus valores.');
 }
 
 // ============ FUNCIÓN PRINCIPAL ============
@@ -389,6 +608,7 @@ function leerCuponesDeSheet() {
     const lastRow = sheet.getLastRow();
     if (lastRow < 2) return [];
 
+    const tz = ss.getSpreadsheetTimeZone();
     const datos = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
 
     return datos
@@ -396,7 +616,7 @@ function leerCuponesDeSheet() {
         .map(fila => ({
             codigo: fila[0].toString().trim(),
             porcentaje: fila[1],
-            expira: fila[2] instanceof Date ? Utilities.formatDate(fila[2], "GMT-3", "yyyy-MM-dd") : fila[2].toString().trim()
+            expira: fila[2] instanceof Date ? Utilities.formatDate(fila[2], tz, "yyyy-MM-dd") : fila[2].toString().trim()
         }));
 }
 
@@ -419,6 +639,14 @@ function leerProductosDeSheet() {
 
     const productos = datos
         .filter(fila => fila[CONFIG.COLUMNAS.ID])
+        .filter(fila => {
+            const precioValido = !isNaN(parseFloat(fila[CONFIG.COLUMNAS.PRECIO]));
+            const stockValido = !isNaN(parseInt(fila[CONFIG.COLUMNAS.STOCK], 10));
+            if (!precioValido || !stockValido) {
+                Logger.log(`⚠️ Producto ID ${fila[CONFIG.COLUMNAS.ID]} omitido: precio o stock no numérico (precio="${fila[CONFIG.COLUMNAS.PRECIO]}", stock="${fila[CONFIG.COLUMNAS.STOCK]}")`);
+            }
+            return precioValido && stockValido;
+        })
         .map(fila => ({
             id: fila[CONFIG.COLUMNAS.ID],
             nombre: fila[CONFIG.COLUMNAS.NOMBRE],
@@ -701,8 +929,12 @@ Google Drive:
 Google Sheets:
 - Hoja: ${CONFIG.SHEET_NAME}
 
-Para modificar estos valores, edita el código del script en:
-Extensiones → Apps Script → CONFIG
+Seguridad:
+- API Key de pedidos: ${CONFIG.WEB_API_KEY ? '✅ Configurada' : '⚠️ NO configurada (el endpoint acepta peticiones sin validar)'}
+
+Para modificar estos valores:
+1. Extensiones → Apps Script → Configuración del proyecto → Propiedades del script
+2. Ejecuta configurarSecretos() una sola vez para crear las claves
   `;
 
     ui.alert('⚙️ Configuración', mensaje, ui.ButtonSet.OK);

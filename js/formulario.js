@@ -6,9 +6,13 @@ import { formatearPrecio, mostrarNotificacion, calcularTotales, obtenerCupones }
 const CONFIG_PEDIDOS = {
     // URL del Web App de Google Apps Script
     // Después de desplegar el script, reemplaza esta URL
-    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxVFEwoX7Mfbp5w2TrmDKsNvpwe0J4yQm3DvnyxZzUhRox-RjyEcfc-gtWfBSLtHUgf/exec',    
+    // Producción: https://planluxury.lemora.lat
+    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxVFEwoX7Mfbp5w2TrmDKsNvpwe0J4yQm3DvnyxZzUhRox-RjyEcfc-gtWfBSLtHUgf/exec',
     // Número de WhatsApp (sin espacios ni símbolos, con código de país)
-    WHATSAPP_NUMBER: '543515957014'
+    WHATSAPP_NUMBER: '543515957014',
+    // Clave compartida anti-spam del backend. Debe coincidir con la propiedad
+    // WEB_API_KEY del proyecto de Apps Script (Configuración → Propiedades del script)
+    API_KEY: 'lk_02484ae76edbda2894d350a0f4cc6816'
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -75,6 +79,7 @@ async function enviarPedidoWhatsApp(e) {
 
         // ============ ENVIAR A GOOGLE SHEETS ============
         await enviarPedidoGoogleSheets({
+            apiKey: CONFIG_PEDIDOS.API_KEY,
             cliente: datosCliente,
             productos: cart,
             subtotal: subtotal,
