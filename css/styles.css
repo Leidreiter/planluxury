@@ -1431,6 +1431,20 @@ body {
     border-color: var(--primary-color);
 }
 
+/* Validación del formulario de pedido */
+.form-group .input-invalid,
+.form-group .input-invalid:focus {
+    border-color: var(--danger-color);
+}
+
+.field-error {
+    color: var(--danger-color);
+    font-size: 0.8125rem;
+    margin-top: 0.35rem;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
 .submit-btn {
     width: 100%;
     padding: 1rem;

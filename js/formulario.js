@@ -23,6 +23,47 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// ============ VALIDACIÓN DEL FORMULARIO DE PEDIDO ============
+function validarDatos(datos) {
+    // Limpiar errores previos
+    document.querySelectorAll('#shippingForm .input-invalid').forEach(el => el.classList.remove('input-invalid'));
+    document.querySelectorAll('#shippingForm .field-error').forEach(el => el.remove());
+
+    const reglas = [
+        { campo: 'nombre', valido: v => v.length >= 2, mensaje: 'Ingresá tu nombre completo (mínimo 2 caracteres)' },
+        { campo: 'telefono', valido: v => /^\+?[\d\s().-]{6,16}$/.test(v), mensaje: 'Ingresá un teléfono válido (6 a 16 caracteres: números, +, espacios, () o -)' },
+        { campo: 'email', valido: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), mensaje: 'Ingresá un email válido (ej: nombre@dominio.com)' },
+        { campo: 'direccion', valido: v => v.length >= 2, mensaje: 'Ingresá tu dirección (mínimo 2 caracteres)' },
+        { campo: 'ciudad', valido: v => v.length >= 2, mensaje: 'Ingresá tu ciudad (mínimo 2 caracteres)' },
+        { campo: 'provincia', valido: v => v.length >= 2, mensaje: 'Ingresá tu provincia (mínimo 2 caracteres)' },
+        { campo: 'codigoPostal', valido: v => /^[A-Za-z0-9]{4,5}$/.test(v), mensaje: 'Ingresá un código postal válido (4 o 5 caracteres alfanuméricos)' },
+    ];
+
+    let errores = 0;
+    for (const regla of reglas) {
+        if (!regla.valido(String(datos[regla.campo] || ''))) {
+            errores++;
+            const input = document.getElementById(regla.campo);
+            if (!input) continue;
+            input.classList.add('input-invalid');
+            const group = input.closest('.form-group');
+            if (!group) continue;
+            const p = document.createElement('p');
+            p.className = 'field-error';
+            p.textContent = regla.mensaje;
+            group.appendChild(p);
+        }
+    }
+
+    if (errores > 0) {
+        const primerError = document.querySelector('#shippingForm .input-invalid');
+        if (primerError) primerError.focus();
+        return false;
+    }
+    return true;
+}
+
+// ============ ENVÍO DEL PEDIDO ============
 async function enviarPedidoWhatsApp(e) {
     e.preventDefault();
 
@@ -32,15 +73,16 @@ async function enviarPedidoWhatsApp(e) {
 
     // Obtener datos del formulario
     const formData = new FormData(e.target);
+    const text = (n) => String(formData.get(n) || '').trim();
     const datosCliente = {
-        nombre: formData.get('nombre'),
-        telefono: formData.get('telefono'),
-        email: formData.get('email'),
-        direccion: formData.get('direccion'),
-        ciudad: formData.get('ciudad'),
-        provincia: formData.get('provincia'),
-        codigoPostal: formData.get('codigoPostal'),
-        notas: formData.get('notas') || 'Sin notas adicionales'
+        nombre: text('nombre'),
+        telefono: text('telefono'),
+        email: text('email'),
+        direccion: text('direccion'),
+        ciudad: text('ciudad'),
+        provincia: text('provincia'),
+        codigoPostal: text('codigoPostal'),
+        notas: text('notas') || 'Sin notas adicionales'
     };
 
     // Obtener productos del carrito
@@ -48,6 +90,12 @@ async function enviarPedidoWhatsApp(e) {
 
     if (cart.length === 0) {
         alert('Tu carrito está vacío');
+        if (btnSubmit) btnSubmit.classList.remove('loading');
+        return;
+    }
+
+    // Validar datos del cliente antes de enviar
+    if (!validarDatos(datosCliente)) {
         if (btnSubmit) btnSubmit.classList.remove('loading');
         return;
     }
