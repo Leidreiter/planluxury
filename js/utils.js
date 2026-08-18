@@ -133,6 +133,7 @@ export async function obtenerCupones() {
 // Generar el HTML de una tarjeta de producto (estándar para toda la web)
 export function generarHTMLTarjetaProducto(producto) {
     const esAgotado = producto.stock === 0;
+    const urlProducto = `${window.location.origin}/producto.html?id=${producto.id}`;
     
    
     return `
@@ -159,6 +160,16 @@ export function generarHTMLTarjetaProducto(producto) {
                 </button>
                 
                 
+            </div>
+            <div class="card-share-row">
+                <a href="https://wa.me/?text=${encodeURIComponent('¡Mirá este producto! ' + producto.nombre + ' ' + urlProducto)}" 
+                   class="card-share-btn whatsapp" target="_blank" rel="noopener" aria-label="Compartir en WhatsApp" title="Compartir en WhatsApp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlProducto)}" 
+                   class="card-share-btn facebook" target="_blank" rel="noopener" aria-label="Compartir en Facebook" title="Compartir en Facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
             </div>
         </article>
     `;
