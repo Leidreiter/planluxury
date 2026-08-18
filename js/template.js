@@ -1,6 +1,6 @@
 // Template dinámico para Header y Footer
 
-import { WHATSAPP_CONFIG, obtenerProductos } from './utils.js';
+import { WHATSAPP_CONFIG, obtenerProductos, obtenerNombreSitio } from './utils.js';
 
 // Renderizar Header
 function renderHeader(activePage = '', categorias = []) {
@@ -70,7 +70,7 @@ function renderHeader(activePage = '', categorias = []) {
 function renderFooter() {
     const footer = document.createElement('footer');
     footer.innerHTML = `
-        <p>&copy; 2026 Mi Tienda Online. Todos los derechos reservados. Hecho con <i class="fa-solid fa-heart footer-heart"></i> por <a href="https://lemora.lat" target="_blank"><img src="img/lemora.svg" alt="Diseño y Desarrollo por Lemora" class="devBy"></a></p>
+        <p>&copy; ${new Date().getFullYear()} ${obtenerNombreSitio()}. Todos los derechos reservados. Hecho con <i class="fa-solid fa-heart footer-heart"></i> por <a href="https://lemora.lat" target="_blank"><img src="img/lemora.svg" alt="Diseño y Desarrollo por Lemora" class="devBy"></a></p>
         <div class="whatsapp">
             <a href="https://wa.me/${WHATSAPP_CONFIG.number}?text=${encodeURIComponent(WHATSAPP_CONFIG.defaultMessage)}" 
                target="_blank" 

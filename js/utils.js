@@ -15,6 +15,11 @@ export const WHATSAPP_CONFIG = {
     defaultMessage: 'Hola, quería consultar '
 };
 
+// Nombre del sitio (modificar acá para cambiar en todo el footer)
+export function obtenerNombreSitio() {
+    return 'Mi Tienda Online';
+}
+
 // Calcular subtotales, descuentos y totales
 export function calcularTotales(cart, codigoCupon = null) {
     const subtotal = cart.reduce((sum, item) => sum + (item.precio * item.quantity), 0);
