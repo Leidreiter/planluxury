@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function enviarPedidoWhatsApp(e) {
     e.preventDefault();
-    
+
     // Activar animación de carga en el botón
     const btnSubmit = e.target.querySelector('.submit-btn');
     if (btnSubmit) btnSubmit.classList.add('loading');
@@ -38,55 +38,73 @@ async function enviarPedidoWhatsApp(e) {
         codigoPostal: formData.get('codigoPostal'),
         notas: formData.get('notas') || 'Sin notas adicionales'
     };
-    
+
     // Obtener productos del carrito
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
+
     if (cart.length === 0) {
         alert('Tu carrito está vacío');
+        if (btnSubmit) btnSubmit.classList.remove('loading');
         return;
     }
-    
-    // Obtener cupón aplicado
-    const cupon = sessionStorage.getItem('appliedCoupon');
 
-    // Asegurar que los cupones estén cargados para el cálculo final
-    await obtenerCupones();
+    // Abrir la ventana de WhatsApp ANTES de cualquier await:
+    // la "user activation" del click se pierde al cruzar un await y los navegadores
+    // bloquean el window.open posterior como popup
+    const ventanaWhatsApp = window.open('', '_blank');
 
-    // Calcular totales con cupón
-    const { subtotal, descuento, total, esCupon, porcentaje } = calcularTotales(cart, cupon);
-    
-    // Guardar el total en localStorage para mostrarlo en la página de gracias
-    localStorage.setItem('orderTotal', total.toString());
-    
-    // Generar token único para proteger la página de gracias
-    const token = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-        const r = Math.random() * 16 | 0;
-        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-    sessionStorage.setItem('order_token', token);
-    
-    // ============ ENVIAR A GOOGLE SHEETS ============
-    await enviarPedidoGoogleSheets({
-        cliente: datosCliente,
-        productos: cart,
-        subtotal: subtotal,
-        descuento: descuento,
-        porcentaje: porcentaje,
-        cupon: esCupon ? cupon : 'NINGUNO',
-        total: total,
-        token: token
-    });
-    
-    // ============ ENVIAR POR WHATSAPP ============
-    enviarPorWhatsApp(datosCliente, cart, subtotal, descuento, total, esCupon ? cupon : null);
-    
-    // Limpiar carrito y redirigir a página de gracias
-    localStorage.removeItem('cart');
-    sessionStorage.removeItem('appliedCoupon');
-    
-    // Redirigir a la página de agradecimiento con el token
-    window.location.href = `gracias.html?token=${token}`;
+    try {
+        // Obtener cupón aplicado
+        const cupon = sessionStorage.getItem('appliedCoupon');
+
+        // Asegurar que los cupones estén cargados para el cálculo final
+        await obtenerCupones();
+
+        // Calcular totales con cupón
+        const { subtotal, descuento, total, esCupon, porcentaje } = calcularTotales(cart, cupon);
+
+        // Guardar el total en localStorage para mostrarlo en la página de gracias
+        localStorage.setItem('orderTotal', total.toString());
+
+        // Generar token único para proteger la página de gracias
+        const token = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            const r = Math.random() * 16 | 0;
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+        sessionStorage.setItem('order_token', token);
+
+        // ============ ENVIAR A GOOGLE SHEETS ============
+        await enviarPedidoGoogleSheets({
+            cliente: datosCliente,
+            productos: cart,
+            subtotal: subtotal,
+            descuento: descuento,
+            porcentaje: porcentaje,
+            cupon: esCupon ? cupon : 'NINGUNO',
+            total: total,
+            token: token
+        });
+
+        // ============ ENVIAR POR WHATSAPP ============
+        const urlWhatsApp = construirUrlWhatsApp(datosCliente, cart, subtotal, descuento, total, esCupon ? cupon : null);
+
+        if (ventanaWhatsApp) {
+            ventanaWhatsApp.location.href = urlWhatsApp;
+        } else {
+            // Popup bloqueado: ofrecer el enlace manualmente y no redirigir aún
+            mostrarFallbackWhatsApp(urlWhatsApp, token);
+            return;
+        }
+
+        // Limpiar carrito y redirigir a página de gracias
+        localStorage.removeItem('cart');
+        sessionStorage.removeItem('appliedCoupon');
+
+        // Redirigir a la página de agradecimiento con el token
+        window.location.href = `gracias.html?token=${token}`;
+    } finally {
+        if (btnSubmit) btnSubmit.classList.remove('loading');
+    }
 }
 
 // ============ ENVIAR PEDIDO A GOOGLE SHEETS ============
@@ -110,8 +128,8 @@ async function enviarPedidoGoogleSheets(pedido) {
     }
 }
 
-// ============ ENVIAR POR WHATSAPP ============
-function enviarPorWhatsApp(datos, cart, subtotal, descuento, total, cupon) {
+// ============ CONSTRUIR URL DE WHATSAPP ============
+function construirUrlWhatsApp(datos, cart, subtotal, descuento, total, cupon) {
     // Construir mensaje para WhatsApp
     let mensaje = `*NUEVO PEDIDO*\n\n`;
     mensaje += `*Datos del Cliente:*\n`;
@@ -145,8 +163,51 @@ function enviarPorWhatsApp(datos, cart, subtotal, descuento, total, cupon) {
     const mensajeCodificado = encodeURIComponent(mensaje);
     
     // Crear URL de WhatsApp
-    const urlWhatsApp = `https://wa.me/${CONFIG_PEDIDOS.WHATSAPP_NUMBER}?text=${mensajeCodificado}`;
-    
-    // Abrir WhatsApp en nueva ventana
-    window.open(urlWhatsApp, '_blank');
+    return `https://wa.me/${CONFIG_PEDIDOS.WHATSAPP_NUMBER}?text=${mensajeCodificado}`;
+}
+
+// ============ FALLBACK SI EL POPUP ESTÁ BLOQUEADO ============
+function mostrarFallbackWhatsApp(urlWhatsApp, token) {
+    const overlay = document.createElement('div');
+    overlay.className = 'confirmacion-overlay';
+    overlay.style.zIndex = '4000';
+
+    const modal = document.createElement('div');
+    modal.className = 'confirmacion-modal';
+
+    const enlace = document.createElement('a');
+    enlace.href = urlWhatsApp;
+    enlace.target = '_blank';
+    enlace.rel = 'noopener';
+    enlace.textContent = 'Abrir WhatsApp';
+    enlace.style.cssText = 'display:inline-block;padding:0.75rem 2rem;background:#25d366;color:#fff;border-radius:5px;text-decoration:none;font-weight:600;margin-bottom:0.75rem;';
+
+    const continuar = document.createElement('button');
+    continuar.textContent = 'Continuar al resumen';
+    continuar.style.cssText = 'padding:0.75rem 2rem;background:#2563eb;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:1rem;font-weight:600;';
+    continuar.addEventListener('click', () => {
+        localStorage.removeItem('cart');
+        sessionStorage.removeItem('appliedCoupon');
+        window.location.href = `gracias.html?token=${token}`;
+    });
+
+    modal.innerHTML = `
+        <div style="font-size:3rem;margin-bottom:1rem;">⚠️</div>
+        <h2 style="color:#1e293b;margin-bottom:0.75rem;">Tu navegador bloqueó WhatsApp</h2>
+        <p style="color:#64748b;margin-bottom:1.25rem;">
+            El pedido ya fue registrado. Hacé clic en el botón verde para enviarlo por WhatsApp.
+        </p>
+    `;
+    modal.appendChild(enlace);
+    modal.appendChild(document.createElement('br'));
+    modal.appendChild(continuar);
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            overlay.remove();
+        }
+    });
 }
