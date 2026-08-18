@@ -174,8 +174,7 @@ function construirUrlWhatsApp(datos, cart, subtotal, descuento, total, cupon) {
 // ============ FALLBACK SI EL POPUP ESTÁ BLOQUEADO ============
 function mostrarFallbackWhatsApp(urlWhatsApp, token) {
     const overlay = document.createElement('div');
-    overlay.className = 'confirmacion-overlay';
-    overlay.style.zIndex = '4000';
+    overlay.className = 'confirmacion-overlay emergencia';
 
     const modal = document.createElement('div');
     modal.className = 'confirmacion-modal';
@@ -184,12 +183,12 @@ function mostrarFallbackWhatsApp(urlWhatsApp, token) {
     enlace.href = urlWhatsApp;
     enlace.target = '_blank';
     enlace.rel = 'noopener';
+    enlace.className = 'confirmacion-btn verde';
     enlace.textContent = 'Abrir WhatsApp';
-    enlace.style.cssText = 'display:inline-block;padding:0.75rem 2rem;background:#25d366;color:#fff;border-radius:5px;text-decoration:none;font-weight:600;margin-bottom:0.75rem;';
 
     const continuar = document.createElement('button');
+    continuar.className = 'confirmacion-btn';
     continuar.textContent = 'Continuar al resumen';
-    continuar.style.cssText = 'padding:0.75rem 2rem;background:#2563eb;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:1rem;font-weight:600;';
     continuar.addEventListener('click', () => {
         localStorage.removeItem('cart');
         sessionStorage.removeItem('appliedCoupon');
@@ -197,9 +196,9 @@ function mostrarFallbackWhatsApp(urlWhatsApp, token) {
     });
 
     modal.innerHTML = `
-        <div style="font-size:3rem;margin-bottom:1rem;">⚠️</div>
-        <h2 style="color:#1e293b;margin-bottom:0.75rem;">Tu navegador bloqueó WhatsApp</h2>
-        <p style="color:#64748b;margin-bottom:1.25rem;">
+        <div class="confirmacion-icon">⚠️</div>
+        <h2 class="confirmacion-title">Tu navegador bloqueó WhatsApp</h2>
+        <p class="confirmacion-text">
             El pedido ya fue registrado. Hacé clic en el botón verde para enviarlo por WhatsApp.
         </p>
     `;

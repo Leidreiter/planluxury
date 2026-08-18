@@ -55,21 +55,12 @@ function mostrarConfirmacion() {
     mensaje.className = 'confirmacion-modal';
     
     mensaje.innerHTML = `
-        <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
-        <h2 style="color: #22c55e; margin-bottom: 1rem;">¡Mensaje Enviado!</h2>
-        <p style="color: #64748b; margin-bottom: 1.5rem;">
+        <div class="confirmacion-icon">✓</div>
+        <h2 class="confirmacion-title success">¡Mensaje Enviado!</h2>
+        <p class="confirmacion-text">
             Tu consulta se ha abierto en WhatsApp. Te responderemos lo antes posible.
         </p>
-        <button onclick="cerrarConfirmacion()" style="
-            padding: 0.75rem 2rem;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-        ">Cerrar</button>
+        <button onclick="cerrarConfirmacion()" class="confirmacion-btn">Cerrar</button>
     `;
     
     overlay.appendChild(mensaje);

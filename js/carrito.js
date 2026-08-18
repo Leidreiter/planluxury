@@ -40,12 +40,12 @@ function renderizarCarrito() {
         const stockBajo = productoRef && productoRef.stock > 0 && productoRef.stock < 5;
 
         return `
-        <div class="cart-item" data-id="${item.id}" ${sinStock ? 'style="border: 1px solid var(--danger-color); background: #fff5f5;"' : ''}>
-            <img src="${item.imagen}" alt="${item.nombre}" class="item-image" loading="lazy" style="${sinStock ? 'filter: grayscale(1); opacity: 0.5;' : ''}">
+        <div class="cart-item${sinStock ? ' sin-stock' : ''}" data-id="${item.id}">
+            <img src="${item.imagen}" alt="${item.nombre}" class="item-image" loading="lazy">
             <div class="item-details">
                 <h3 class="item-title">${item.nombre}</h3>
-                ${sinStock ? `<p style="color: var(--danger-color); font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem;">⚠️ Este producto se agotó. Debes eliminarlo para continuar.</p>` : ''}
-                ${stockBajo ? `<p style="color: #f59e0b; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem;">⚠️ ¡Últimas unidades disponibles! (Quedan ${productoRef.stock})</p>` : ''}
+                ${sinStock ? `<p class="stock-alert stock-alert-danger">⚠️ Este producto se agotó. Debes eliminarlo para continuar.</p>` : ''}
+                ${stockBajo ? `<p class="stock-alert stock-alert-warn">⚠️ ¡Últimas unidades disponibles! (Quedan ${productoRef.stock})</p>` : ''}
                 <p class="item-price">$${formatearPrecio(item.precio)}</p>
             </div>
             <div class="item-controls">

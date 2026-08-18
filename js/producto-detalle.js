@@ -191,7 +191,7 @@ function renderizarDetalleProducto(producto) {
                     <button class="btn-add-cart btn-border" id="btnAddCart" onclick="agregarAlCarritoDetalle(${producto.id})" ${producto.stock === 0 ? 'disabled' : ''}>
                         ${producto.stock === 0 ? 'Agotado' : 'Agregar al Carrito'}
                     </button>
-                    <a href="carrito.html" class="btn-go-cart btn-border" id="btnGoCart" style="display: none;">
+                    <a href="carrito.html" class="btn-go-cart btn-border hidden" id="btnGoCart">
                         Ir al Carrito →
                     </a>
                     <button class="btn-buy-now btn-border" onclick="comprarAhora(${producto.id})" ${producto.stock === 0 ? 'disabled' : ''}>
@@ -644,7 +644,7 @@ function agregarAlCarritoDetalle(id) {
     
     if (btnAddCart && btnGoCart) {
         btnAddCart.style.display = 'none';
-        btnGoCart.style.display = 'inline-flex';
+        btnGoCart.classList.remove('hidden');
     }
     
     // Resetear cantidad
