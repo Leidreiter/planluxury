@@ -1,15 +1,15 @@
-const CACHE_NAME = 'lemora-shop-v1';
+const CACHE_NAME = 'lemora-shop-v2';
 const urlsToCache = [
     '/',
     '/index.html',
     '/producto.html',
     '/carrito.html',
     '/favoritos.html',
-    '/nosotros.html',
     '/faq.html',
     '/contacto.html',
     '/gracias.html',
     '/404.html',
+    '/manifest.json',
     '/css/styles.css',
     '/js/template.js',
     '/js/menu.js',
@@ -26,6 +26,8 @@ const urlsToCache = [
     '/js/favoritos.js',
     '/js/faq.js',
     '/js/producto-detalle.js',
+    '/js/productos.json',
+    '/js/cupones.json',
     '/img/lemora.svg',
     '/img/imagen-preview.jpg',
     '/img/logo.svg',
@@ -34,20 +36,12 @@ const urlsToCache = [
     '/img/banners/banner3.jpg',
     '/img/banners/banner4.jpg',
     '/img/banners/banner5.jpg',
-    '/img/icon-banner1.png',
-    '/img/icon-banner2.png',
-    '/img/icon-banner3.png',
-    '/img/hero.jpg',
-    '/img/sliders/slider1.jpg',
-    '/img/sliders/slider2.jpg',
-    '/img/sliders/slider3.jpg',
-    '/img/sliders/slider4.jpg',
-    '/img/sliders/slider5.jpg',
-    '/img/sliders/slider6.jpg',
-    '/img/icono-pagos.png',
-    '/img/icono-envios.png',
-    '/img/icono-stock.png',
-    '/img/productos/placeholder.png',
+    '/img/icons/icon-banner1.png',
+    '/img/icons/icon-banner2.png',
+    '/img/icons/icon-banner3.png',
+    '/img/icons/icono-pagos.png',
+    '/img/icons/icono-envios.png',
+    '/img/icons/icono-stock.png',
     '/img/icons/icon-72x72.png',
     '/img/icons/icon-96x96.png',
     '/img/icons/icon-128x128.png',
@@ -55,7 +49,14 @@ const urlsToCache = [
     '/img/icons/icon-152x152.png',
     '/img/icons/icon-192x192.png',
     '/img/icons/icon-384x384.png',
-    '/img/icons/icon-512x512.png'
+    '/img/icons/icon-512x512.png',
+    '/img/sliders/slider1.jpg',
+    '/img/sliders/slider2.jpg',
+    '/img/sliders/slider3.jpg',
+    '/img/sliders/slider4.jpg',
+    '/img/sliders/slider5.jpg',
+    '/img/sliders/slider6.jpg',
+    '/img/productos/placeholder.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -63,12 +64,45 @@ self.addEventListener('install', (event) => {
         caches.open(CACHE_NAME)
             .then((cache) => {
                 console.log('Opened cache');
-                return cache.addAll(urlsToCache);
+                return Promise.all(
+                    urlsToCache.map((url) =>
+                        cache.add(url).catch((error) => {
+                            console.warn('No se pudo precachear:', url, error);
+                        })
+                    )
+                );
             })
     );
+    self.skipWaiting();
 });
 
+function esDatoDinamico(url) {
+    return url.pathname.endsWith('.json');
+}
+
 self.addEventListener('fetch', (event) => {
+    const requestUrl = new URL(event.request.url);
+
+    if (requestUrl.origin !== location.origin || event.request.method !== 'GET') {
+        return;
+    }
+
+    if (esDatoDinamico(requestUrl)) {
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    if (response && response.status === 200) {
+                        const responseToCache = response.clone();
+                        caches.open(CACHE_NAME)
+                            .then((cache) => cache.put(event.request, responseToCache));
+                    }
+                    return response;
+                })
+                .catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
@@ -103,6 +137,6 @@ self.addEventListener('activate', (event) => {
                     }
                 })
             );
-        })
+        }).then(() => self.clients.claim())
     );
 });

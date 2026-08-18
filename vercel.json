@@ -21,16 +21,23 @@
       "destination": "/gracias.html"
     },
     {
-      "source": "/nosotros",
-      "destination": "/nosotros.html"
-    },
-    {
       "source": "/producto",
       "destination": "/producto.html"
     },
     {
       "source": "/favoritos",
       "destination": "/favoritos.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ]
 }
