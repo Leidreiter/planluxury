@@ -44,7 +44,62 @@ html {
 
     --container-lg: 1400px;
     --container-sm: 900px;
+    /* Tipografia */
+    --fs-h1: 3rem;
+    --fs-h2: 2.25rem;
+    --fs-h3: 1.75rem;
+    --fs-h4: 1.5rem;
+    --fs-h5: 1.25rem;
+    --fs-h6: 1.125rem;
+    --fs-body: 1rem;
+    --fs-link: 1rem;
+    --fs-button: 1rem;
+    --fs-label: 0.875rem;
+    --fs-small: 0.8125rem;
+    --fs-product-name: 1.25rem;
+    --fs-price: 1.25rem;
+    --fs-price-featured: 1.5rem;
+    --fs-price-sale: 1.625rem;
+    --fs-input: 1rem;
+    --fs-product-secondary: 0.875rem;
+    --fs-badge: 0.8125rem;
 }
+
+/* Tipografia - Tablet (768-1199px) */
+@media (max-width: 1199px) {
+    :root {
+        --fs-h1: 2.5rem;
+        --fs-h2: 2rem;
+        --fs-h3: 1.5rem;
+        --fs-h4: 1.375rem;
+        --fs-h5: 1.25rem;
+        --fs-h6: 1.125rem;
+        --fs-button: 0.9375rem;
+        --fs-label: 0.8125rem;
+        --fs-small: 0.75rem;
+        --fs-product-name: 1.125rem;
+        --fs-price: 1.125rem;
+        --fs-price-sale: 1.5rem;
+        --fs-badge: 0.75rem;
+    }
+}
+
+/* Tipografia - Mobile (hasta 767px) */
+@media (max-width: 767px) {
+    :root {
+        --fs-h1: 2rem;
+        --fs-h2: 1.75rem;
+        --fs-h3: 1.375rem;
+        --fs-h4: 1.25rem;
+        --fs-h5: 1.125rem;
+        --fs-h6: 1rem;
+        --fs-product-name: 1rem;
+        --fs-price: 1.125rem;
+        --fs-product-secondary: 0.8125rem;
+    }
+}
+
+
 
 .contenedor {
     width: min(92%, var(--container-lg));
@@ -112,8 +167,9 @@ html {
 /* Copy */
 .banner_info_copy h4 {
     margin: 0;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.2;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #ffffff;
@@ -121,8 +177,8 @@ html {
 
 .banner_info_copy h2 {
     margin: 1rem 0;
-    font-size: 32px;
-    line-height: 1.2;
+    font-size: var(--fs-h2);
+    line-height: 1.15;
     font-weight: 700;
     color: #ffffff;
     text-transform: uppercase;
@@ -136,7 +192,8 @@ html {
 
 .banner_info_copy a {
     margin: 0;
-    font-size: 18px;
+    font-size: var(--fs-link);
+    line-height: 1.4;
     text-transform: uppercase;
     font-weight: 600;
     color: #ffffff;
@@ -173,15 +230,10 @@ html {
     }
 
     .banner_info_copy h2 {
-        font-size: 18px;
         margin: .4rem 0;
     }
     .banner_info_copy h4 {
-        font-size: 14px;
         margin: .4rem 0;
-    }
-    .banner_info_copy a {
-        font-size: 12px;
     }
 
     .banner_info_icono {
@@ -233,11 +285,7 @@ html {
     .banner-promo-info {
         padding: 20px;
     }
-    .banner-promo-info h2{
-    font-size: 18px;
-    }
     .banner-promo-info h4{
-        font-size: 14px;
     }
 }
 
@@ -305,7 +353,8 @@ html {
     align-items: center; 
     justify-content: center;
     padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -430,9 +479,6 @@ body {
 }
 
 @media (max-width: 768px) {
-    .nav-link {
-        font-size: 24px;
-    }
 
     .nav-label {
         display: inline;
@@ -491,7 +537,8 @@ body {
     padding: 10px 20px;
     color: var(--text-color);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: var(--fs-link);
+    line-height: 1.4;
     transition: background 0.2s, color 0.2s;
 }
 
@@ -516,7 +563,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: var(--fs-badge);
 }
 
 .menu-toggle {
@@ -585,13 +632,15 @@ body {
 }
 
 .hero h1 {
-    font-size: 2.5rem;
-    line-height: 1.2;
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: 1.1;
     margin-bottom: 1rem;
 }
 
 .hero p {
-    font-size: 1.2rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
 }
 
 /* Search Section */
@@ -617,7 +666,8 @@ body {
     width: 100%;
     padding: 1.2rem 3rem 1.2rem 2rem;
     border: none;
-    font-size: 1.1rem;
+    font-size: var(--fs-input);
+    line-height: 1.4;
     font-family: inherit;
     outline: none;
     background: transparent;
@@ -654,7 +704,9 @@ body {
     align-items: center;
     justify-content: center;
     color: var(--secondary-color);
-    font-size: 1rem;
+    font-size: var(--fs-button);
+    font-weight: 600;
+    line-height: 1.2;
     transition: all 0.3s;
 }
 
@@ -677,7 +729,8 @@ body {
     text-align: center;
     margin-top: 1rem;
     color: var(--secondary-color);
-    font-size: 0.95rem;
+    font-size: var(--fs-link);
+    line-height: 1.4;
 }
 
 .no-results {
@@ -694,7 +747,8 @@ body {
 }
 
 .no-results p {
-    font-size: 1.2rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     color: var(--secondary-color);
     margin-bottom: 1.5rem;
 }
@@ -710,7 +764,9 @@ body {
 .products-section h2,
 .contact-section h2 {
     text-align: center;
-    font-size: 2rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
     margin-bottom: 2rem;
 }
 
@@ -755,7 +811,7 @@ body {
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
-    font-size: 0.75rem;
+    font-size: var(--fs-badge);
     font-weight: bold;
     z-index: 10;
     text-transform: uppercase;
@@ -851,18 +907,21 @@ body {
 }
 
 .product-title {
-    font-size: 1.25rem;
+    font-size: var(--fs-product-name);
+    font-weight: 600;
+    line-height: 1.25;
     margin-bottom: 0.5rem;
     color: var(--text-color);
 }
 
 .product-description {
     color: var(--secondary-color);
-    font-size: 0.9rem;
+    font-size: var(--fs-product-secondary);
+    line-height: 1.35;
 }
 
 .product-price {
-    font-size: 1.5rem;
+    font-size: var(--fs-price);
     color: var(--primary-color);
     font-weight: bold;
     margin-bottom: 0;
@@ -950,7 +1009,9 @@ body {
 }
 
 .contact-map-container h2 {
-    font-size: 1.5rem;
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.2;
     color: var(--text-color);
     margin-bottom: 1.5rem;
     display: flex;
@@ -985,7 +1046,8 @@ body {
 
 .contact-address p {
     color: var(--secondary-color);
-    font-size: 0.95rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -1028,7 +1090,8 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 5px;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: var(--fs-input);
+    line-height: 1.4;
     transition: border-color 0.3s;
 }
 
@@ -1049,7 +1112,8 @@ body {
     background: var(--success-color);
     color: white;
     border: none;
-    font-size: 1.1rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s;
@@ -1176,7 +1240,9 @@ body {
     border: none;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: var(--fs-button);
+    font-weight: 600;
+    line-height: 1.2;
     margin-left: auto;
     transition: background 0.3s;
 }
@@ -1195,7 +1261,9 @@ body {
 
 .cart-summary h2 {
     margin-bottom: 1rem;
-    font-size: 1.5rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
 }
 
 /* Coupon Section */
@@ -1211,7 +1279,8 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 5px;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: var(--fs-input);
+    line-height: 1.4;
     outline: none;
     transition: border-color 0.3s;
 }
@@ -1225,9 +1294,10 @@ body {
     background: var(--primary-color);
     color: white;
     border: none;
-    font-size: 1rem;
+    font-size: var(--fs-button);
+    font-weight: 600;
+    line-height: 1.2;
     cursor: pointer;
-    font-weight: 500;
     transition: background 0.3s;
 }
 
@@ -1265,8 +1335,14 @@ body {
     border-bottom: 1px solid var(--border-color);
 }
 
+.summary-row span {
+    font-size: var(--fs-product-secondary);
+    font-weight: 500;
+    line-height: 1.35;
+}
+
 .summary-row.total {
-    font-size: 1.25rem;
+    font-size: var(--fs-price-featured);
     font-weight: bold;
     border-top: 2px solid var(--border-color);
     border-bottom: none;
@@ -1279,7 +1355,8 @@ body {
     background: var(--primary-color);
     color: white;
     border: none;
-    font-size: 1rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     cursor: pointer;
     margin-top: 1rem;
     font-weight: 600;
@@ -1328,7 +1405,8 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 5px;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: var(--fs-input);
+    line-height: 1.4;
 }
 
 .form-group input:focus,
@@ -1343,7 +1421,8 @@ body {
     background: var(--success-color);
     color: white;
     border: none;
-    font-size: 1rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     cursor: pointer;
     font-weight: 600;
     transition: background 0.3s;
@@ -1386,7 +1465,8 @@ body {
 .seguro {
     text-align: center;
     color: var(--secondary-color);
-    font-size: 0.9rem;
+    font-size: var(--fs-product-secondary);
+    line-height: 1.35;
     margin-top: 1rem;
 }
 
@@ -1424,7 +1504,8 @@ footer {
 
 footer p {
     color: var(--secondary-color);
-    font-size: 0.9rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
 }
 
 /* Whatsapp */
@@ -1528,9 +1609,6 @@ footer p {
         transition: max-height 0.4s ease-in-out, opacity 0.3s ease, padding 0.4s ease;
     }
 
-    .submenu li a {
-        font-size: 20px;
-    }
 
     .nav-item-dropdown.active .submenu {
         max-height: 500px; /* Un valor mayor al contenido esperado para permitir el deslizamiento */
@@ -1559,13 +1637,7 @@ footer p {
         transform: rotate(-45deg) translate(7px, -7px);
     }
 
-    .hero h1 {
-        font-size: 1.75rem;
-    }
 
-    .hero p {
-        font-size: 1rem;
-    }
 
     .search-section {
         margin: 2rem auto 2rem;
@@ -1573,7 +1645,6 @@ footer p {
 
     .search-input {
         padding: 1rem 3rem 1rem 1.5rem;
-        font-size: 1rem;
     }
 
     .products-grid {
@@ -1634,13 +1705,11 @@ footer p {
     }
 
     .product-title {
-        font-size: clamp(0.78rem, 3.4vw, 0.92rem);
         line-height: 1.25;
         margin-bottom: 0.35rem;
     }
 
     .product-description {
-        font-size: clamp(0.65rem, 2.9vw, 0.74rem);
         line-height: 1.3;
         margin-bottom: 0.45rem;
         display: -webkit-box;
@@ -1650,9 +1719,6 @@ footer p {
         overflow: hidden;
     }
 
-    .product-price {
-        font-size: clamp(0.82rem, 3.6vw, 1rem);
-    }
 
     .product-actions {
         padding: 0 0.6rem 0.65rem;
@@ -1662,7 +1728,6 @@ footer p {
     .add-to-cart-btn,
     .view-product-btn {
         padding: 0.5rem 0.35rem;
-        font-size: clamp(0.8rem, 3.5vw, 0.9rem);
         line-height: 1.2;
     }
 
@@ -1696,14 +1761,16 @@ footer p {
 .success-container h1 {
     color: var(--success-color);
     margin-bottom: 1rem;
-    font-size: 2rem;
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: 1.1;
 }
 
 .success-message {
-    font-size: 1.1rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     color: var(--secondary-color);
     margin-bottom: 2rem;
-    line-height: 1.6;
 }
 
 .info-box {
@@ -1718,7 +1785,9 @@ footer p {
 .info-box h2 {
     color: var(--primary-color);
     margin-bottom: 0.75rem;
-    font-size: 1.25rem;
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 .info-box p {
@@ -1735,7 +1804,9 @@ footer p {
     text-align: center;
     margin-bottom: 1rem;
     color: var(--text-color);
-    font-size: 1.5rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
 }
 
 .payment-intro {
@@ -1770,12 +1841,14 @@ footer p {
 
 .table-value {
     color: var(--text-color);
-    font-size: 1.1rem;
+    font-size: var(--fs-product-secondary);
+    line-height: 1.35;
 }
 
 .alias-highlight {
     color: var(--primary-color);
-    font-size: 1.2rem;
+    font-size: var(--fs-product-secondary);
+    line-height: 1.35;
     display: inline-block;
     margin-right: 0.5rem;
 }
@@ -1786,7 +1859,9 @@ footer p {
     border: none;
     padding: 0.4rem 1rem;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: var(--fs-button);
+    font-weight: 600;
+    line-height: 1.2;
     transition: background 0.3s;
 }
 
@@ -1808,13 +1883,15 @@ footer p {
 }
 
 .amount-label {
-    font-size: 1rem;
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.2;
     margin-bottom: 0.5rem;
     opacity: 0.9;
 }
 
 .amount-value {
-    font-size: 2rem;
+    font-size: var(--fs-price-featured);
     font-weight: bold;
 }
 
@@ -1862,13 +1939,9 @@ footer p {
         padding: 2rem 1rem;
     }
 
-    .success-container h1 {
-        font-size: 1.5rem;
-    }
 
     .payment-table td {
         padding: 0.75rem;
-        font-size: 0.95rem;
     }
 
     .table-label {
@@ -1876,7 +1949,6 @@ footer p {
     }
 
     .alias-highlight {
-        font-size: 1rem;
         display: block;
         margin-bottom: 0.5rem;
     }
@@ -1914,7 +1986,9 @@ footer p {
     display: flex;
     gap: 0.5rem;
     margin-bottom: 2rem;
-    font-size: 0.9rem;
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.2;
     color: var(--secondary-color);
     flex-wrap: wrap;
 }
@@ -1957,7 +2031,9 @@ footer p {
 }
 
 .product-detail-info h1 {
-    font-size: 2rem;
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: 1.1;
     margin-bottom: 1rem;
     color: var(--text-color);
 }
@@ -1968,18 +2044,21 @@ footer p {
     color: var(--primary-color);
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: var(--fs-product-secondary);
+    line-height: 1.35;
     font-weight: 500;
 }
 
 .product-detail-price {
-    font-size: 2.5rem;
+    font-size: var(--fs-price-sale);
     color: var(--primary-color);
     font-weight: bold;
     margin: 1rem 0;
 }
 
 .product-stock {
+    font-size: var(--fs-product-secondary);
+    line-height: 1.35;
     color: var(--success-color);
     font-weight: 500;
     margin-bottom: 1rem;
@@ -1995,9 +2074,10 @@ footer p {
 
 .product-detail-description {
     color: var(--secondary-color);
-    line-height: 1.8;
+    line-height: 1.5;
     margin-bottom: 1.5rem;
-    font-size: 1.05rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
 }
 
 .product-features {
@@ -2088,7 +2168,8 @@ footer p {
     background: var(--primary-color);
     color: white;
     border: none;
-    font-size: 1.1rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s;
@@ -2117,7 +2198,8 @@ footer p {
     background: var(--success-color);
     color: white;
     border: none;
-    font-size: 1.1rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s;
@@ -2166,7 +2248,9 @@ footer p {
 .related-products h2 {
     text-align: center;
     margin-bottom: 2rem;
-    font-size: 1.75rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
 }
 
 @media (max-width: 768px) {
@@ -2176,13 +2260,7 @@ footer p {
         gap: 2rem;
     }
 
-    .product-detail-info h1 {
-        font-size: 1.5rem;
-    }
 
-    .product-detail-price {
-        font-size: 2rem;
-    }
 
     .product-actions-detail {
         flex-direction: column;
@@ -2209,7 +2287,9 @@ footer p {
 }
 
 .product-share h3 {
-    font-size: 1rem;
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.2;
     margin-bottom: 1rem;
     color: var(--secondary-color);
     text-transform: none;
@@ -2325,7 +2405,8 @@ footer p {
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    font-size: 0.9rem;
+    font-size: var(--fs-small);
+    line-height: 1.3;
     font-weight: 500;
 }
 
@@ -2397,7 +2478,6 @@ footer p {
         bottom: 0.5rem;
         right: 0.5rem;
         padding: 0.4rem 0.8rem;
-        font-size: 0.85rem;
     }
 
     .thumbnail {
@@ -2444,7 +2524,9 @@ footer p {
 }
 
 .category-title {
-    font-size: 2rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
     color: var(--text-color);
     margin: 0;
 }
@@ -2487,13 +2569,16 @@ footer p {
 }
 
 .category-banner-content h2 {
-    font-size: 2.5rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
     margin-bottom: 0.5rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .category-banner-content p {
-    font-size: 1.2rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -2518,21 +2603,12 @@ body.searching .products-section {
 }
 
 @media (max-width: 768px) {
-    .category-title {
-        font-size: 1.5rem;
-    }
 
     .category-banner {
         height: 150px;
     }
 
-    .category-banner-content h2 {
-        font-size: 1.5rem;
-    }
 
-    .category-banner-content p {
-        font-size: 1rem;
-    }
 }
 
 /* FAQ Page Styles */
@@ -2558,13 +2634,15 @@ body.searching .products-section {
 
 .faq-header h1 {
     margin-bottom: 1rem;
-    font-size: 2.5rem;
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: 1.1;
 }
 
 .faq-intro {
-    font-size: 1.1rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     opacity: 0.95;
-    line-height: 1.6;
 }
 
 .faq-intro a {
@@ -2589,7 +2667,9 @@ body.searching .products-section {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-size: 1.5rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
     color: var(--text-color);
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
@@ -2627,7 +2707,8 @@ body.searching .products-section {
     background: white;
     border: none;
     text-align: left;
-    font-size: 1.1rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     font-weight: 600;
     color: var(--text-color);
     cursor: pointer;
@@ -2711,13 +2792,16 @@ body.searching .products-section {
 }
 
 .faq-footer h3 {
-    font-size: 1.75rem;
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.2;
     margin-bottom: 0.75rem;
     color: var(--text-color);
 }
 
 .faq-footer p {
-    font-size: 1.1rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     color: var(--secondary-color);
     margin-bottom: 2rem;
 }
@@ -2734,7 +2818,8 @@ body.searching .products-section {
     padding: 1rem 2rem;
     text-decoration: none;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     transition: all 0.3s;
     display: inline-flex;
     align-items: center;
@@ -2769,25 +2854,15 @@ body.searching .products-section {
         padding: 2rem 1.5rem 1.5rem;
     }
 
-    .faq-header h1 {
-        font-size: 1.75rem;
-    }
 
-    .faq-intro {
-        font-size: 1rem;
-    }
 
     .faq-sections {
         padding: 1.5rem 1rem;
     }
 
-    .section-title {
-        font-size: 1.25rem;
-    }
 
     .faq-question {
         padding: 1rem;
-        font-size: 1rem;
     }
 
     .faq-answer p,
@@ -2805,9 +2880,6 @@ body.searching .products-section {
         padding: 2rem 1rem;
     }
 
-    .faq-footer h3 {
-        font-size: 1.5rem;
-    }
 
     .faq-cta {
         flex-direction: column;
@@ -2997,7 +3069,8 @@ body.searching .products-section {
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 25px;
-    font-size: 1rem;
+    font-size: var(--fs-small);
+    line-height: 1.3;
     font-weight: 500;
     z-index: 10001;
 }
@@ -3065,7 +3138,8 @@ body.searching .products-section {
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: var(--fs-small);
+    line-height: 1.3;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -3112,7 +3186,6 @@ body.searching .products-section {
     .zoom-counter {
         bottom: 1rem;
         padding: 0.5rem 1rem;
-        font-size: 0.9rem;
     }
 
     .zoom-thumbnails {
@@ -3128,7 +3201,6 @@ body.searching .products-section {
     }
 
     .zoom-hint {
-        font-size: 0.75rem;
         padding: 0.4rem 0.8rem;
     }
 
@@ -3217,7 +3289,7 @@ body.zoom-active {
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: var(--fs-badge);
     font-weight: 600;
     position: absolute;
     top: -8px;
@@ -3242,7 +3314,9 @@ body.zoom-active {
 
 .favoritos-page h1 {
     margin-bottom: 0.5rem;
-    font-size: 2rem;
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: 1.1;
     color: var(--text-color);
 }
 
@@ -3297,7 +3371,8 @@ body.zoom-active {
 
 .favorito-nombre {
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: var(--fs-product-name);
+    line-height: 1.25;
     color: var(--text-color);
     margin-bottom: 0.25rem;
     text-decoration: none;
@@ -3310,13 +3385,14 @@ body.zoom-active {
 }
 
 .favorito-categoria {
-    font-size: 0.85rem;
+    font-size: var(--fs-product-secondary);
+    line-height: 1.35;
     color: var(--secondary-color);
     margin-bottom: 0.25rem;
 }
 
 .favorito-precio {
-    font-size: 1.2rem;
+    font-size: var(--fs-price);
     font-weight: bold;
     color: var(--primary-color);
 }
@@ -3333,8 +3409,9 @@ body.zoom-active {
     color: white;
     border: none;
     text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: var(--fs-button);
+    font-weight: 600;
+    line-height: 1.2;
     transition: all 0.3s;
     display: inline-flex;
     align-items: center;
@@ -3353,8 +3430,9 @@ body.zoom-active {
     color: #ef4444;
     border: 2px solid #ef4444;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: var(--fs-button);
+    font-weight: 600;
+    line-height: 1.2;
     transition: all 0.3s;
     display: inline-flex;
     align-items: center;
@@ -3384,13 +3462,16 @@ body.zoom-active {
 .favoritos-empty h2 {
     color: var(--text-color);
     margin-bottom: 0.75rem;
-    font-size: 1.5rem;
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 .favoritos-empty p {
     color: var(--secondary-color);
     margin-bottom: 2rem;
-    font-size: 1.05rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
 }
 
 @media (max-width: 768px) {
@@ -3417,9 +3498,6 @@ body.zoom-active {
         text-align: center;
     }
 
-    .favoritos-page h1 {
-        font-size: 1.5rem;
-    }
 }
 
 
@@ -3502,15 +3580,16 @@ body.zoom-active {
 }
 
 .slider-text h1 {
-    font-size: 3rem;
+    font-size: var(--fs-h1);
+    line-height: 1.1;
     margin-bottom: 1rem;
     font-weight: 700;
-    line-height: 1.2;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .slider-text p {
-    font-size: 1.5rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     margin-bottom: 0;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
@@ -3569,13 +3648,7 @@ body.zoom-active {
         height: 400px;
     }
 
-    .slider-text h1 {
-        font-size: 2.5rem;
-    }
 
-    .slider-text p {
-        font-size: 1.3rem;
-    }
 
     .slider-nav {
         width: 50px;
@@ -3613,13 +3686,9 @@ body.zoom-active {
     }
 
     .slider-text h1 {
-        font-size: 2rem;
         margin: 0;
     }
 
-    .slider-text p {
-        font-size: 1.1rem;
-    }
 
     .slider-nav {
         width: 45px;
@@ -3643,13 +3712,7 @@ body.zoom-active {
         height: 300px;
     }
 
-    .slider-text h1 {
-        font-size: 1.5rem;
-    }
 
-    .slider-text p {
-        font-size: 1rem;
-    }
 
     .slider-nav {
         width: 40px;
@@ -3734,7 +3797,7 @@ body.zoom-active {
     border: 1px solid rgba(255, 255, 255, 0.25);
     padding: 0.5rem 1.25rem;
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: var(--fs-badge);
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -3742,18 +3805,18 @@ body.zoom-active {
 }
 
 .nosotros-hero h1 {
-    font-size: 3.5rem;
-    font-weight: 800;
+    font-size: var(--fs-h1);
+    font-weight: 700;
     line-height: 1.1;
     margin-bottom: 1rem;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .nosotros-hero p {
-    font-size: 1.3rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     opacity: 0.9;
     max-width: 550px;
-    line-height: 1.6;
 }
 
 /* Sección Historia */
@@ -3770,7 +3833,9 @@ body.zoom-active {
 }
 
 .historia-texto h2 {
-    font-size: 2rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
     color: var(--text-color);
     margin-bottom: 1.5rem;
     position: relative;
@@ -3790,9 +3855,10 @@ body.zoom-active {
 
 .historia-texto p {
     color: var(--secondary-color);
-    line-height: 1.8;
+    line-height: 1.5;
     margin-bottom: 1.25rem;
-    font-size: 1.05rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
 }
 
 .historia-texto .btn-primary {
@@ -3832,8 +3898,10 @@ body.zoom-active {
 
 .destacado-label {
     color: var(--text-color);
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 500;
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.2;
 }
 
 /* Sección Valores */
@@ -3844,7 +3912,9 @@ body.zoom-active {
 
 .nosotros-seccion-titulo {
     text-align: center;
-    font-size: 2rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
     color: var(--text-color);
     margin-bottom: 3rem;
     position: relative;
@@ -3921,13 +3991,16 @@ body.zoom-active {
 .valor-card h3 {
     color: var(--text-color);
     margin-bottom: 1rem;
-    font-size: 1.3rem;
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 .valor-card p {
     color: var(--secondary-color);
-    line-height: 1.7;
-    font-size: 0.95rem;
+    line-height: 1.5;
+    font-size: var(--fs-body);
+    line-height: 1.5;
 }
 
 /* Sección Por qué elegirnos */
@@ -3967,8 +4040,9 @@ body.zoom-active {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
-    font-weight: 800;
+    font-size: var(--fs-product-name);
+    font-weight: 600;
+    line-height: 1.25;
     color: var(--primary-color);
     transition: all 0.3s ease;
 }
@@ -3981,13 +4055,16 @@ body.zoom-active {
 .elegir-contenido h4 {
     color: var(--text-color);
     margin-bottom: 0.5rem;
-    font-size: 1.1rem;
+    font-size: var(--fs-h4);
+    font-weight: 600;
+    line-height: 1.25;
 }
 
 .elegir-contenido p {
     color: var(--secondary-color);
-    line-height: 1.6;
-    font-size: 0.95rem;
+    line-height: 1.5;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     margin: 0;
 }
 
@@ -4030,13 +4107,16 @@ body.zoom-active {
 
 .cta-banner-contenido h2 {
     color: white;
-    font-size: 2rem;
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.15;
     margin-bottom: 0.75rem;
 }
 
 .cta-banner-contenido p {
     color: rgba(255, 255, 255, 0.9);
-    font-size: 1.15rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     margin-bottom: 2rem;
 }
 
@@ -4061,9 +4141,6 @@ body.zoom-active {
         height: 350px;
     }
 
-    .nosotros-hero h1 {
-        font-size: 2.75rem;
-    }
 
     .historia-grid {
         gap: 3rem;
@@ -4080,13 +4157,7 @@ body.zoom-active {
         padding: 0 1.5rem;
     }
 
-    .nosotros-hero h1 {
-        font-size: 2rem;
-    }
 
-    .nosotros-hero p {
-        font-size: 1.1rem;
-    }
 
     .nosotros-historia {
         padding: 3rem 1rem;
@@ -4097,16 +4168,12 @@ body.zoom-active {
         gap: 2.5rem;
     }
 
-    .historia-texto h2 {
-        font-size: 1.75rem;
-    }
 
     .nosotros-valores {
         padding: 3rem 1rem;
     }
 
     .nosotros-seccion-titulo {
-        font-size: 1.75rem;
         margin-bottom: 2rem;
     }
 
@@ -4137,9 +4204,6 @@ body.zoom-active {
         margin: 2rem 1rem;
     }
 
-    .cta-banner-contenido h2 {
-        font-size: 1.5rem;
-    }
 
     .cta-banner-botones {
         flex-direction: column;
@@ -4154,16 +4218,9 @@ body.zoom-active {
 }
 
 @media (max-width: 480px) {
-    .nosotros-hero h1 {
-        font-size: 1.75rem;
-    }
 
-    .nosotros-hero p {
-        font-size: 1rem;
-    }
 
     .nosotros-badge {
-        font-size: 0.75rem;
         padding: 0.4rem 1rem;
     }
 }
@@ -4181,7 +4238,8 @@ body.zoom-active {
     position: relative;
     z-index: var(--z-marquee);
     padding: 10px 0;
-    font-size: 0.9rem;
+    font-size: var(--fs-label);
+    line-height: 1.2;
     font-weight: 500;
     letter-spacing: 0.02em;
 }
@@ -4230,7 +4288,6 @@ body.zoom-active {
 /* Responsive */
 @media (max-width: 768px) {
     .marquee-bar {
-        font-size: 0.8rem;
         padding: 8px 0;
     }
 
@@ -4245,7 +4302,6 @@ body.zoom-active {
 
 @media (max-width: 480px) {
     .marquee-bar {
-        font-size: 0.75rem;
         padding: 7px 0;
     }
 
@@ -4306,16 +4362,17 @@ body.zoom-active {
 }
 
 .page-404__title {
-    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-size: var(--fs-h1);
+    line-height: 1.1;
     font-weight: 700;
     color: var(--text-color);
     margin: 1rem 0 0.75rem;
 }
 
 .page-404__desc {
-    font-size: 1rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     color: var(--secondary-color);
-    line-height: 1.6;
     margin-bottom: 2.5rem;
 }
 
@@ -4335,7 +4392,8 @@ body.zoom-active {
     background: var(--primary-color);
     color: #fff;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     text-decoration: none;
     transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
     box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
@@ -4356,7 +4414,8 @@ body.zoom-active {
     color: var(--primary-color);
     border: 2px solid var(--border-color);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     text-decoration: none;
     transition: border-color 0.2s ease, transform 0.15s ease, background 0.2s ease;
 }
@@ -4429,7 +4488,8 @@ body.zoom-active {
 }
 
 .page-404__links p {
-    font-size: 0.85rem;
+    font-size: var(--fs-small);
+    line-height: 1.3;
     color: var(--secondary-color);
     margin-bottom: 0.75rem;
     text-transform: uppercase;
@@ -4448,7 +4508,8 @@ body.zoom-active {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    font-size: 0.85rem;
+    font-size: var(--fs-link);
+    line-height: 1.4;
     color: var(--primary-color);
     text-decoration: none;
     padding: 0.35rem 0.75rem;
@@ -4594,15 +4655,16 @@ html.exit-intent-locked body {
 }
 
 .exit-intent-dialog h2 {
-    font-size: 1.35rem;
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.2;
     margin: 0 2rem 0.75rem 0;
-    line-height: 1.25;
 }
 
 .exit-intent-dialog p {
     margin: 0 0 1.5rem;
-    font-size: 0.95rem;
-    line-height: 1.55;
+    font-size: var(--fs-body);
+    line-height: 1.5;
     color: var(--secondary-color);
 }
 
@@ -4621,7 +4683,8 @@ html.exit-intent-locked body {
     background: var(--primary-color);
     color: #fff !important;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: var(--fs-button);
+    line-height: 1.2;
     border-radius: 10px;
     text-decoration: none;
     transition: background 0.2s;
@@ -4635,7 +4698,9 @@ html.exit-intent-locked body {
     padding: 0.65rem 1rem;
     background: transparent;
     color: var(--secondary-color);
-    font-size: 0.9rem;
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.2;
     border: 1px solid var(--border-color);
     border-radius: 10px;
     cursor: pointer;
