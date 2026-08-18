@@ -194,13 +194,4 @@ document.addEventListener('DOMContentLoaded', async function () {
     window.actualizarContadorFavoritosGlobal = actualizarContadorFavoritosGlobal;
     // Hacer que la función de actualizar carrito sea accesible para otros módulos
     window.actualizarContadorCarrito = actualizarContadorCarrito;
-
-    // Registrar Service Worker para PWA
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => console.log('SW registrado:', registration))
-                .catch(registrationError => console.log('SW registro fallido:', registrationError));
-        });
-    }
 });
