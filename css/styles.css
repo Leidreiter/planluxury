@@ -1548,6 +1548,11 @@ footer p {
     line-height: 1.5;
 }
 
+.footer-heart {
+    color: var(--primary-color);
+    margin: 0 4px;
+}
+
 /* Whatsapp */
 .whatsapp {
     position: fixed;
