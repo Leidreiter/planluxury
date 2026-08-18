@@ -1,6 +1,6 @@
 // Gestión del formulario de envío y WhatsApp
 
-import { formatearPrecio, mostrarNotificacion, calcularTotales, obtenerCupones } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, calcularTotales, obtenerCupones, obtenerUrlWhatsApp } from './utils.js';
 
 // ============ CONFIGURACIÓN ============
 const CONFIG_PEDIDOS = {
@@ -8,8 +8,6 @@ const CONFIG_PEDIDOS = {
     // Después de desplegar el script, reemplaza esta URL
     // Producción: https://planluxury.lemora.lat
     GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxVFEwoX7Mfbp5w2TrmDKsNvpwe0J4yQm3DvnyxZzUhRox-RjyEcfc-gtWfBSLtHUgf/exec',
-    // Número de WhatsApp (sin espacios ni símbolos, con código de país)
-    WHATSAPP_NUMBER: '543515957014',
     // Clave compartida anti-spam del backend. Debe coincidir con la propiedad
     // WEB_API_KEY del proyecto de Apps Script (Configuración → Propiedades del script)
     API_KEY: 'lk_02484ae76edbda2894d350a0f4cc6816'
@@ -209,11 +207,8 @@ function construirUrlWhatsApp(datos, cart, subtotal, descuento, total, cupon) {
     mensaje += `*TOTAL: $${formatearPrecio(total)}*\n\n`;
     mensaje += `*Notas adicionales:*\n${datos.notas}`;
     
-    // Codificar mensaje para URL
-    const mensajeCodificado = encodeURIComponent(mensaje);
-    
-    // Crear URL de WhatsApp
-    return `https://wa.me/${CONFIG_PEDIDOS.WHATSAPP_NUMBER}?text=${mensajeCodificado}`;
+    // Crear URL de WhatsApp con la función centralizada de utils.js
+    return obtenerUrlWhatsApp(mensaje);
 }
 
 // ============ FALLBACK SI EL POPUP ESTÁ BLOQUEADO ============

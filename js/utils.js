@@ -20,6 +20,11 @@ export function obtenerNombreSitio() {
     return 'Mi Tienda Online';
 }
 
+// Construir URL de WhatsApp con el número centralizado
+export function obtenerUrlWhatsApp(mensaje = '') {
+    return `https://wa.me/${WHATSAPP_CONFIG.number}?text=${encodeURIComponent(mensaje)}`;
+}
+
 // Calcular subtotales, descuentos y totales
 export function calcularTotales(cart, codigoCupon = null) {
     const subtotal = cart.reduce((sum, item) => sum + (item.precio * item.quantity), 0);
