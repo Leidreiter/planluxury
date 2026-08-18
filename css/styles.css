@@ -1445,6 +1445,16 @@ body {
     font-weight: 500;
 }
 
+.cp-hint {
+    font-weight: 400;
+    font-size: 0.8125rem;
+    margin-left: 0.5rem;
+}
+
+.cp-hint a {
+    color: var(--primary-color);
+}
+
 .submit-btn {
     width: 100%;
     padding: 1rem;
