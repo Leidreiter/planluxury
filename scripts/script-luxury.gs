@@ -21,6 +21,10 @@ const CONFIG = {
     SHEET_NAME: 'ProductosLuxury',
     CUPONES_SHEET_NAME: 'Cupones',
     PEDIDOS_SHEET_NAME: 'Pedidos',
+    RESENAS_SHEET_NAME: 'Reseñas',
+    RESENAS_FOLDER_NAME: 'reseñas',
+    GITHUB_RESENAS_FILE_PATH: 'js/resenas.json',
+    IMAGEN_FALLBACK_RESENAS: 'img/productos/profile.png',
 
     // Seguridad del endpoint de pedidos
     WEB_API_KEY: PropertiesService.getScriptProperties().getProperty('WEB_API_KEY'),
@@ -588,11 +592,36 @@ function sincronizarTodoCore() {
         cantidadCupones = cupones.length;
     }
 
+    // 3. Sincronizar Reseñas
+    const resenas = leerResenasDeSheet();
+    let cantidadResenas = 0;
+    if (resenas.length > 0) {
+        const resenasConImagenes = procesarImagenesResenas(resenas);
+        const contenidoResenasJSON = JSON.stringify(resenasConImagenes, null, 2);
+        subirArchivoAGitHub(contenidoResenasJSON, 'application/json; charset=utf-8', CONFIG.GITHUB_RESENAS_FILE_PATH);
+        cantidadResenas = resenasConImagenes.length;
+    }
+
     return {
         cantidad: productosConImagenes.length,
         carpetas: carpetasCreadas,
-        cantidadCupones: cantidadCupones
+        cantidadCupones: cantidadCupones,
+        cantidadResenas: cantidadResenas
     };
+}
+
+// Sincronizar solo las reseñas (accesible desde el menú)
+function sincronizarResenas() {
+    garantizarHojaResenas(SpreadsheetApp.getActiveSpreadsheet());
+    const resenas = leerResenasDeSheet();
+    if (resenas.length === 0) {
+        SpreadsheetApp.getUi().alert('ℹ️ Sin reseñas', 'La hoja "Reseñas" está vacía. Agrega reseñas y volvé a intentar.', SpreadsheetApp.getUi().ButtonSet.OK);
+        return;
+    }
+    const resenasConImagenes = procesarImagenesResenas(resenas);
+    const contenidoResenasJSON = JSON.stringify(resenasConImagenes, null, 2);
+    subirArchivoAGitHub(contenidoResenasJSON, 'application/json; charset=utf-8', CONFIG.GITHUB_RESENAS_FILE_PATH);
+    SpreadsheetApp.getUi().alert('✅ Reseñas sincronizadas', `Se publicaron ${resenasConImagenes.length} reseñas en el sitio.`, SpreadsheetApp.getUi().ButtonSet.OK);
 }
 
 // ============ LEER CUPONES DE GOOGLE SHEETS ============
@@ -618,6 +647,112 @@ function leerCuponesDeSheet() {
             porcentaje: fila[1],
             expira: fila[2] instanceof Date ? Utilities.formatDate(fila[2], tz, "yyyy-MM-dd") : fila[2].toString().trim()
         }));
+}
+
+// ============ RESEÑAS (Google Sheets + Drive) ============
+
+// Crear la hoja "Reseñas" con encabezados si no existe
+function garantizarHojaResenas(ss) {
+    let sheet = ss.getSheetByName(CONFIG.RESENAS_SHEET_NAME);
+    if (sheet) return sheet;
+
+    sheet = ss.insertSheet(CONFIG.RESENAS_SHEET_NAME);
+    const encabezados = ['Fecha', 'Nombre', 'Valoración', 'Reseña'];
+    sheet.getRange(1, 1, 1, encabezados.length).setValues([encabezados]);
+    sheet.getRange(1, 1, 1, encabezados.length).setFontWeight('bold');
+    sheet.setFrozenRows(1);
+    sheet.setColumnWidth(1, 100);
+    sheet.setColumnWidth(2, 200);
+    sheet.setColumnWidth(3, 80);
+    sheet.setColumnWidth(4, 500);
+    Logger.log(`✅ Hoja "${CONFIG.RESENAS_SHEET_NAME}" creada con encabezados.`);
+    return sheet;
+}
+
+// Leer reseñas de la hoja (Fecha | Nombre | Valoración | Reseña)
+function leerResenasDeSheet() {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName(CONFIG.RESENAS_SHEET_NAME);
+
+    if (!sheet) {
+        Logger.log(`⚠️ No se encontró la hoja "${CONFIG.RESENAS_SHEET_NAME}". Saltando sincronización de reseñas.`);
+        return [];
+    }
+
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return [];
+
+    const tz = ss.getSpreadsheetTimeZone();
+    const datos = sheet.getRange(2, 1, lastRow - 1, 4).getValues();
+
+    return datos
+        .filter(fila => {
+            const nombre = String(fila[1] || '').trim();
+            const texto = String(fila[3] || '').trim();
+            const valoracion = parseFloat(fila[2]);
+            const valida = nombre && texto && !isNaN(valoracion) && valoracion >= 1 && valoracion <= 5;
+            if (!valida && (nombre || texto || fila[2] !== '')) {
+                Logger.log(`⚠️ Reseña de "${nombre}" omitida: valoración no válida (${fila[2]}) o faltan datos.`);
+            }
+            return valida;
+        })
+        .map(fila => ({
+            fecha: fila[0] instanceof Date ? Utilities.formatDate(fila[0], tz, 'dd/MM/yyyy') : String(fila[0] || '').trim(),
+            nombre: String(fila[1]).trim(),
+            valoracion: parseFloat(fila[2]),
+            resena: String(fila[3]).trim()
+        }));
+}
+
+// Asociar fotos de perfil desde la carpeta "reseñas" de Drive por nombre de archivo
+function procesarImagenesResenas(resenas) {
+    const carpetaResenas = DriveApp.getFolderById(CONFIG.DRIVE_FOLDER_ID);
+
+    let carpeta = null;
+    const carpetas = carpetaResenas.getFolders();
+    while (carpetas.hasNext()) {
+        const f = carpetas.next();
+        if (f.getName().toLowerCase() === CONFIG.RESENAS_FOLDER_NAME) {
+            carpeta = f;
+            break;
+        }
+    }
+
+    if (!carpeta) {
+        Logger.log(`⚠️ No se encontró la carpeta "${CONFIG.RESENAS_FOLDER_NAME}" en Drive. Usando imagen de respaldo para todas las reseñas.`);
+        return resenas.map(r => ({ ...r, imagen: CONFIG.IMAGEN_FALLBACK_RESENAS }));
+    }
+
+    // Mapa nombre-normalizado -> archivo
+    const mapaArchivos = {};
+    const archivos = carpeta.getFiles();
+    while (archivos.hasNext()) {
+        const archivo = archivos.next();
+        const nombre = archivo.getName().toLowerCase();
+        if (nombre.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
+            const base = nombre.replace(/\.(jpg|jpeg|png|gif|webp)$/, '').trim();
+            mapaArchivos[base] = archivo;
+        }
+    }
+
+    return resenas.map(resena => {
+        const clave = normalizarNombreArchivo(resena.nombre);
+        const archivo = mapaArchivos[clave];
+        if (!archivo) {
+            Logger.log(`ℹ️ Sin foto para "${resena.nombre}": usando ${CONFIG.IMAGEN_FALLBACK_RESENAS}`);
+            return { ...resena, imagen: CONFIG.IMAGEN_FALLBACK_RESENAS };
+        }
+        return { ...resena, imagen: obtenerUrlPublicaGDrive(archivo.getId(), 150) };
+    });
+}
+
+// Normalizar nombre para coincidir con el archivo en Drive (sin acentos, espacios -> guiones)
+function normalizarNombreArchivo(nombre) {
+    return String(nombre || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/\s+/g, '-');
 }
 
 // ============ LEER DATOS DE GOOGLE SHEETS ============

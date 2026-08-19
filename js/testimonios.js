@@ -1,4 +1,6 @@
-// Testimonios - carrusel de reseñas (patrón marquee: track duplicado + translateX -50%)
+// Testimonios - carrusel de reseñas (motor JS + drag/swipe)
+
+import { obtenerResenas } from './utils.js';
 
 const TESTIMONIOS = [
     {
@@ -114,15 +116,33 @@ function generarCard(testimonio) {
     return card;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     const viewport = document.querySelector('.testimonios-viewport');
     const track = document.querySelector('.testimonios-track');
     if (!track || !viewport) return;
 
+    // Cargar reseñas desde js/resenas.json (generado por Google Sheets)
+    // - Array no vacío: datos de la planilla
+    // - null (red/cache caída): fallback estático
+    // - [] (hoja vacía): ocultar la sección
+    const resenas = await obtenerResenas();
+    if (resenas && resenas.length === 0) {
+        viewport.closest('.testimonios-carousel').style.display = 'none';
+        return;
+    }
+
+    const datos = (resenas || TESTIMONIOS).map(r => ({
+        nombre: r.nombre,
+        avatar: r.imagen || 'img/productos/profile.png',
+        rating: r.valoracion ?? r.rating ?? 5,
+        fecha: r.fecha,
+        texto: r.resena || r.texto
+    }));
+
     // Dos copias del listado para el loop infinito sin saltos
     const fragment = document.createDocumentFragment();
     for (let copia = 0; copia < 2; copia++) {
-        TESTIMONIOS.forEach(t => fragment.appendChild(generarCard(t)));
+        datos.forEach(t => fragment.appendChild(generarCard(t)));
     }
     track.appendChild(fragment);
 

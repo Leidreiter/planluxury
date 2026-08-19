@@ -13,6 +13,7 @@ function onOpen() {
     // Menú principal de Productos
     ui.createMenu('🚀 Actualizar Web')
         .addItem('📤 Publicar Web (GitHub)', 'actualizarProductosEnGitHub')
+        .addItem('📝 Sincronizar Reseñas', 'sincronizarResenas')
         .addSeparator()
         .addItem('📁 Crear Carpetas Drive', 'crearCarpetasProductos')
         .addSeparator()

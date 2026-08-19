@@ -140,6 +140,33 @@ export async function obtenerCupones() {
     }
 }
 
+// Cargar reseñas desde JSON dinámico (generado por Google Sheets + Drive)
+export async function obtenerResenas() {
+    const cachedData = sessionStorage.getItem('cache_resenas');
+    const cachedVersion = sessionStorage.getItem('cache_resenas_version');
+
+    try {
+        const headResponse = await fetch('js/resenas.json', { method: 'HEAD' });
+        const serverVersion = headResponse.headers.get('Last-Modified') || headResponse.headers.get('ETag');
+
+        if (cachedData && cachedVersion === serverVersion) {
+            return JSON.parse(cachedData);
+        }
+
+        const response = await fetch('js/resenas.json');
+        if (!response.ok) throw new Error('Error al cargar reseñas');
+        const resenas = await response.json();
+
+        sessionStorage.setItem('cache_resenas', JSON.stringify(resenas));
+        if (serverVersion) sessionStorage.setItem('cache_resenas_version', serverVersion);
+
+        return resenas;
+    } catch (error) {
+        if (cachedData) return JSON.parse(cachedData);
+        return null; // Sin datos: el carrusel usa el fallback estático
+    }
+}
+
 // Generar el HTML de una tarjeta de producto (estándar para toda la web)
 export function generarHTMLTarjetaProducto(producto) {
     const esAgotado = producto.stock === 0;
