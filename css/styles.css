@@ -4348,7 +4348,7 @@ body.zoom-active {
 .testimonios-track {
     display: flex;
     width: max-content;
-    animation: testimonios-scroll 60s linear infinite;
+    animation: testimonios-scroll 96s linear infinite;
 }
 
 .testimonios-viewport:hover .testimonios-track {
