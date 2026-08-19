@@ -30,6 +30,7 @@ function validarDatos(datos) {
     const reglas = [
         { campo: 'nombre', valido: v => v.length >= 2, mensaje: 'Ingresá tu nombre completo (mínimo 2 caracteres)' },
         { campo: 'email', valido: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), mensaje: 'Ingresá un email válido (ej: nombre@dominio.com)' },
+        { campo: 'telefono', valido: v => /^[0-9+\s()-]{7,20}$/.test(v), mensaje: 'Ingresá un teléfono válido (ej: 11 1234 5678)' },
         { campo: 'direccion', valido: v => v.length >= 2, mensaje: 'Ingresá tu dirección (mínimo 2 caracteres)' },
         { campo: 'ciudad', valido: v => v.length >= 2, mensaje: 'Ingresá tu ciudad (mínimo 2 caracteres)' },
         { campo: 'provincia', valido: v => v.length >= 2, mensaje: 'Ingresá tu provincia (mínimo 2 caracteres)' },
@@ -74,6 +75,7 @@ async function enviarPedidoWhatsApp(e) {
     const datosCliente = {
         nombre: text('nombre'),
         email: text('email'),
+        telefono: text('telefono'),
         direccion: text('direccion'),
         ciudad: text('ciudad'),
         provincia: text('provincia'),
@@ -183,7 +185,8 @@ function construirUrlWhatsApp(datos, cart, subtotal, descuento, total, cupon) {
     let mensaje = `*NUEVO PEDIDO*\n\n`;
     mensaje += `*Datos del Cliente:*\n`;
     mensaje += `Nombre: ${datos.nombre}\n`;
-    mensaje += `Email: ${datos.email}\n\n`;
+    mensaje += `Email: ${datos.email}\n`;
+    mensaje += `Teléfono: ${datos.telefono}\n\n`;
     
     mensaje += `*Dirección de Envío:*\n`;
     mensaje += `Calle: ${datos.direccion}\n`;
