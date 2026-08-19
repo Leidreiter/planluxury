@@ -466,7 +466,6 @@ function enviarEmailNotificacion(cliente, calculo) {
         <p><strong>TOTAL A PAGAR:</strong> $${calculo.total.toLocaleString('es-AR')}</p>
         <h3>Productos:</h3>
         <ul>${productosHtml}</ul>
-        <p>Revisa la hoja de cálculo para más detalles.</p>
     `;
 
     MailApp.sendEmail({
