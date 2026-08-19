@@ -728,10 +728,11 @@ function procesarImagenesResenas(resenas) {
     const archivos = carpeta.getFiles();
     while (archivos.hasNext()) {
         const archivo = archivos.next();
-        const nombre = archivo.getName().toLowerCase();
-        if (nombre.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-            const base = nombre.replace(/\.(jpg|jpeg|png|gif|webp)$/, '').trim();
-            mapaArchivos[base] = archivo;
+        const nombreArchivo = archivo.getName();
+        const extension = nombreArchivo.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+        if (extension) {
+            const base = nombreArchivo.slice(0, -extension[0].length).trim();
+            mapaArchivos[normalizarNombreArchivo(base)] = archivo;
         }
     }
 
