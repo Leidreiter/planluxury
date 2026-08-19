@@ -738,14 +738,18 @@ function procesarImagenesResenas(resenas) {
         return resenas.map(r => ({ ...r, imagen: CONFIG.IMAGEN_FALLBACK_RESENAS }));
     }
 
-    // Mapa nombre-exacto-en-minusculas -> archivo
+    // Mapa nombre-normalizado -> archivo (tolera tildes y codificación NFC/NFD)
     const mapaArchivos = {};
     const archivos = carpeta.getFiles();
     while (archivos.hasNext()) {
         const archivo = archivos.next();
         const nombreArchivo = archivo.getName();
         if (nombreArchivo.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-            mapaArchivos[nombreArchivo.toLowerCase()] = archivo;
+            const clave = normalizarNombreArchivo(nombreArchivo);
+            if (mapaArchivos[clave]) {
+                Logger.log(`⚠️ Dos archivos con el mismo nombre normalizado: "${mapaArchivos[clave].getName()}" y "${nombreArchivo}". El último gana.`);
+            }
+            mapaArchivos[clave] = archivo;
         }
     }
 
@@ -755,7 +759,7 @@ function procesarImagenesResenas(resenas) {
             return { ...resena, imagen: CONFIG.IMAGEN_FALLBACK_RESENAS };
         }
 
-        const archivo = mapaArchivos[nombreImagen.toLowerCase()];
+        const archivo = mapaArchivos[normalizarNombreArchivo(nombreImagen)];
         if (!archivo) {
             Logger.log(`⚠️ No se encontró el archivo "${nombreImagen}" en la carpeta "reseñas". Usando ${CONFIG.IMAGEN_FALLBACK_RESENAS}.`);
             return { ...resena, imagen: CONFIG.IMAGEN_FALLBACK_RESENAS };
@@ -763,6 +767,16 @@ function procesarImagenesResenas(resenas) {
 
         return { ...resena, imagen: obtenerUrlPublicaGDrive(archivo.getId(), 150) };
     });
+}
+
+// Normalizar nombre de archivo: sin tildes, sin mayúsculas, sin espacios al inicio/fin.
+// Unifica NFC/NFD (bug de codificación entre macOS/Drive y la planilla).
+function normalizarNombreArchivo(nombre) {
+    return String(nombre || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
 }
 
 // ============ LEER DATOS DE GOOGLE SHEETS ============
