@@ -46,8 +46,8 @@ html {
     --container-sm: 900px;
     /* Tipografia */
     --fs-h1: 2.25rem;              /* 36px */
-    --fs-h2: 1.875rem;             /* 30px */
-    --fs-h3: 1.5rem;               /* 24px */
+    --fs-h2: 1.5rem;             /* 24px */
+    --fs-h3: 1.25rem;               /* 24px */
     --fs-h4: 1.25rem;              /* 20px */
     --fs-h5: 1.125rem;             /* 18px */
     --fs-h6: 1rem;                  /* 16px */
@@ -94,8 +94,8 @@ html {
 /* Tipografia - Mobile (hasta 767px) */
 @media (max-width: 767px) {
     :root {
-        --fs-h1: 1.75rem;           /* 28px */
-        --fs-h2: 1.5rem;            /* 24px */
+        --fs-h1: 1.5rem;           /* 24px */
+        --fs-h2: 1.25rem;            /* 20px */
         --fs-h3: 1.25rem;           /* 20px */
         --fs-h4: 1.125rem;          /* 18px */
         --fs-h5: 1rem;              /* 16px */
@@ -918,7 +918,7 @@ body {
 }
 
 .product-info {
-    padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+    padding: 1.25rem 1.25rem 0.25rem 1.25rem;
     flex: 1;
 }
 
@@ -2077,7 +2077,7 @@ footer p {
 
 .product-detail-title {
     font-size: var(--fs-h2);
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.1;
     margin-bottom: 1rem;
     color: var(--text-color);
@@ -2092,6 +2092,7 @@ footer p {
     font-size: var(--fs-product-secondary);
     line-height: 1.35;
     font-weight: 500;
+    margin-bottom: var(--space-xs);
 }
 
 .product-detail-price {
@@ -3265,7 +3266,7 @@ body.zoom-active {
 
 .product-title-row {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: 1rem;
 }
@@ -3599,7 +3600,7 @@ body.zoom-active {
 
 /* Overlay con gradiente para mejor legibilidad del texto */
 .slider-content {
-    padding: 1rem 2rem;
+    padding: 1rem 6rem;
     position: absolute;
     inset: 0;
     display: flex;
@@ -3722,7 +3723,7 @@ body.zoom-active {
                 rgba(0, 0, 0, 0.7) 60%,
                 rgba(0, 0, 0, 0.85) 100%);
         align-items: flex-end;
-        padding-bottom: 2rem;
+        padding: 2rem;
     }
 
     .slider-text {
