@@ -4331,6 +4331,133 @@ body.zoom-active {
     }
 }
 
+/* ============ Testimonios (carrusel de reseñas) ============ */
+
+.testimonios-carousel {
+    width: 100%;
+    overflow: hidden;
+    background: var(--bg-color);
+    padding: 2.5rem 0;
+}
+
+.testimonios-viewport {
+    width: 100%;
+    overflow: hidden;
+}
+
+.testimonios-track {
+    display: flex;
+    width: max-content;
+    animation: testimonios-scroll 60s linear infinite;
+}
+
+.testimonios-viewport:hover .testimonios-track {
+    animation-play-state: paused;
+}
+
+@keyframes testimonios-scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.testimonio-card {
+    flex: 0 0 25vw;
+    width: 25vw;
+    padding: 0 0.75rem;
+    box-sizing: border-box;
+}
+
+.testimonio-body {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 1.25rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonio-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+}
+
+.testimonio-foto {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.testimonio-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.testimonio-nombre {
+    font-weight: 600;
+    font-size: var(--fs-body);
+    color: var(--text-color);
+    margin-bottom: 0.2rem;
+}
+
+.testimonio-stars {
+    display: flex;
+    gap: 0.15rem;
+    margin-bottom: 0.2rem;
+}
+
+.testimonio-stars .star {
+    font-size: 0.85rem;
+    color: #f59e0b;
+}
+
+.testimonio-stars .fa-regular.star {
+    color: #d1d5db;
+}
+
+.testimonio-fecha {
+    font-size: var(--fs-small);
+    color: var(--secondary-color);
+}
+
+.google-isologo {
+    font-size: 1.4rem;
+    color: #4285F4;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.testimonio-texto {
+    margin-top: 0.9rem;
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+/* Testimonios responsive */
+@media (max-width: 1199px) {
+    .testimonio-card {
+        flex: 0 0 33.333vw;
+        width: 33.333vw;
+    }
+}
+
+@media (max-width: 767px) {
+    .testimonio-card {
+        flex: 0 0 50vw;
+        width: 50vw;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .marquee-bar {
