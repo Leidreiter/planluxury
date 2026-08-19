@@ -651,25 +651,37 @@ function leerCuponesDeSheet() {
 
 // ============ RESEÑAS (Google Sheets + Drive) ============
 
-// Crear la hoja "Reseñas" con encabezados si no existe
+// Crear la hoja "Reseñas" con encabezados si no existe (o agregar columnas faltantes)
 function garantizarHojaResenas(ss) {
     let sheet = ss.getSheetByName(CONFIG.RESENAS_SHEET_NAME);
-    if (sheet) return sheet;
 
-    sheet = ss.insertSheet(CONFIG.RESENAS_SHEET_NAME);
-    const encabezados = ['Fecha', 'Nombre', 'Valoración', 'Reseña'];
-    sheet.getRange(1, 1, 1, encabezados.length).setValues([encabezados]);
-    sheet.getRange(1, 1, 1, encabezados.length).setFontWeight('bold');
-    sheet.setFrozenRows(1);
-    sheet.setColumnWidth(1, 100);
-    sheet.setColumnWidth(2, 200);
-    sheet.setColumnWidth(3, 80);
-    sheet.setColumnWidth(4, 500);
-    Logger.log(`✅ Hoja "${CONFIG.RESENAS_SHEET_NAME}" creada con encabezados.`);
+    if (!sheet) {
+        sheet = ss.insertSheet(CONFIG.RESENAS_SHEET_NAME);
+        const encabezados = ['Fecha', 'Nombre', 'Valoración', 'Reseña', 'Imagen'];
+        sheet.getRange(1, 1, 1, encabezados.length).setValues([encabezados]);
+        sheet.getRange(1, 1, 1, encabezados.length).setFontWeight('bold');
+        sheet.setFrozenRows(1);
+        sheet.setColumnWidth(1, 100);
+        sheet.setColumnWidth(2, 200);
+        sheet.setColumnWidth(3, 80);
+        sheet.setColumnWidth(4, 500);
+        sheet.setColumnWidth(5, 220);
+        Logger.log(`✅ Hoja "${CONFIG.RESENAS_SHEET_NAME}" creada con encabezados.`);
+        return sheet;
+    }
+
+    // Migración: agregar columna "Imagen" a hojas que ya existían con 4 columnas
+    if (sheet.getLastColumn() < 5) {
+        sheet.getRange(1, 5).setValue('Imagen');
+        sheet.getRange(1, 5).setFontWeight('bold');
+        sheet.setColumnWidth(5, 220);
+        Logger.log(`✅ Columna "Imagen" agregada a la hoja "${CONFIG.RESENAS_SHEET_NAME}".`);
+    }
+
     return sheet;
 }
 
-// Leer reseñas de la hoja (Fecha | Nombre | Valoración | Reseña)
+// Leer reseñas de la hoja (Fecha | Nombre | Valoración | Reseña | Imagen)
 function leerResenasDeSheet() {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const sheet = ss.getSheetByName(CONFIG.RESENAS_SHEET_NAME);
@@ -683,7 +695,7 @@ function leerResenasDeSheet() {
     if (lastRow < 2) return [];
 
     const tz = ss.getSpreadsheetTimeZone();
-    const datos = sheet.getRange(2, 1, lastRow - 1, 4).getValues();
+    const datos = sheet.getRange(2, 1, lastRow - 1, 5).getValues();
 
     return datos
         .filter(fila => {
@@ -700,11 +712,14 @@ function leerResenasDeSheet() {
             fecha: fila[0] instanceof Date ? Utilities.formatDate(fila[0], tz, 'dd/MM/yyyy') : String(fila[0] || '').trim(),
             nombre: String(fila[1]).trim(),
             valoracion: parseFloat(fila[2]),
-            resena: String(fila[3]).trim()
+            resena: String(fila[3]).trim(),
+            imagen: String(fila[4] || '').trim()
         }));
 }
 
-// Asociar fotos de perfil desde la carpeta "reseñas" de Drive por nombre de archivo
+// Asociar fotos de perfil desde la carpeta "reseñas" de Drive.
+// La columna "Imagen" indica el nombre EXACTO del archivo (sin ruta ni URL).
+// Celda vacía o archivo inexistente -> imagen de respaldo.
 function procesarImagenesResenas(resenas) {
     const carpetaResenas = DriveApp.getFolderById(CONFIG.DRIVE_FOLDER_ID);
 
@@ -723,37 +738,31 @@ function procesarImagenesResenas(resenas) {
         return resenas.map(r => ({ ...r, imagen: CONFIG.IMAGEN_FALLBACK_RESENAS }));
     }
 
-    // Mapa nombre-normalizado -> archivo
+    // Mapa nombre-exacto-en-minusculas -> archivo
     const mapaArchivos = {};
     const archivos = carpeta.getFiles();
     while (archivos.hasNext()) {
         const archivo = archivos.next();
         const nombreArchivo = archivo.getName();
-        const extension = nombreArchivo.match(/\.(jpg|jpeg|png|gif|webp)$/i);
-        if (extension) {
-            const base = nombreArchivo.slice(0, -extension[0].length).trim();
-            mapaArchivos[normalizarNombreArchivo(base)] = archivo;
+        if (nombreArchivo.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+            mapaArchivos[nombreArchivo.toLowerCase()] = archivo;
         }
     }
 
     return resenas.map(resena => {
-        const clave = normalizarNombreArchivo(resena.nombre);
-        const archivo = mapaArchivos[clave];
-        if (!archivo) {
-            Logger.log(`ℹ️ Sin foto para "${resena.nombre}": usando ${CONFIG.IMAGEN_FALLBACK_RESENAS}`);
+        const nombreImagen = resena.imagen.trim();
+        if (!nombreImagen) {
             return { ...resena, imagen: CONFIG.IMAGEN_FALLBACK_RESENAS };
         }
+
+        const archivo = mapaArchivos[nombreImagen.toLowerCase()];
+        if (!archivo) {
+            Logger.log(`⚠️ No se encontró el archivo "${nombreImagen}" en la carpeta "reseñas". Usando ${CONFIG.IMAGEN_FALLBACK_RESENAS}.`);
+            return { ...resena, imagen: CONFIG.IMAGEN_FALLBACK_RESENAS };
+        }
+
         return { ...resena, imagen: obtenerUrlPublicaGDrive(archivo.getId(), 150) };
     });
-}
-
-// Normalizar nombre para coincidir con el archivo en Drive (sin acentos, espacios -> guiones)
-function normalizarNombreArchivo(nombre) {
-    return String(nombre || '')
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase()
-        .replace(/\s+/g, '-');
 }
 
 // ============ LEER DATOS DE GOOGLE SHEETS ============
