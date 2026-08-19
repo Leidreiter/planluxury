@@ -4343,26 +4343,20 @@ body.zoom-active {
 .testimonios-viewport {
     width: 100%;
     overflow: hidden;
+    cursor: grab;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.testimonios-viewport.arrastrando {
+    cursor: grabbing;
 }
 
 .testimonios-track {
     display: flex;
     width: max-content;
-    animation: testimonios-scroll 96s linear infinite;
-}
-
-.testimonios-viewport:hover .testimonios-track {
-    animation-play-state: paused;
-}
-
-@keyframes testimonios-scroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
+    will-change: transform;
 }
 
 .testimonio-card {

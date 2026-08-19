@@ -115,8 +115,9 @@ function generarCard(testimonio) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    const viewport = document.querySelector('.testimonios-viewport');
     const track = document.querySelector('.testimonios-track');
-    if (!track) return;
+    if (!track || !viewport) return;
 
     // Dos copias del listado para el loop infinito sin saltos
     const fragment = document.createDocumentFragment();
@@ -124,4 +125,88 @@ document.addEventListener('DOMContentLoaded', function () {
         TESTIMONIOS.forEach(t => fragment.appendChild(generarCard(t)));
     }
     track.appendChild(fragment);
+
+    // ============ MOTOR DE ANIMACIÓN (JS) + DRAG/SWIPE ============
+    const CICLO_MS = 96000; // 96s por copia (una reseña nueva cada 8s)
+    const mediaReducida = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    let velocidad = 0;       // px por ms
+    let offset = 0;          // desplazamiento actual en px (positivo = avanzó hacia la izquierda)
+    let t0 = performance.now();
+    let arrastrando = false;
+    let enReposo = false;    // hover o reduced-motion: no avanza sola
+    let dragStartX = 0;
+    let dragStartOffset = 0;
+    let raf = null;
+
+    function actualizarVelocidad() {
+        const mitad = track.offsetWidth / 2;
+        velocidad = mitad / CICLO_MS;
+    }
+
+    function render() {
+        track.style.transform = `translateX(${-offset}px)`;
+    }
+
+    function rebasear(now) {
+        const mitad = track.offsetWidth / 2;
+        // Mantener el offset dentro de [0, mitad) para el loop seamless
+        offset = ((offset % mitad) + mitad) % mitad;
+        if (velocidad > 0) t0 = now - offset / velocidad;
+    }
+
+    function loop(now) {
+        if (!arrastrando && !enReposo) {
+            offset = (now - t0) * velocidad;
+            const mitad = track.offsetWidth / 2;
+            if (offset >= mitad) offset = ((offset % mitad) + mitad) % mitad;
+        }
+        render();
+        raf = requestAnimationFrame(loop);
+    }
+
+    viewport.addEventListener('pointerdown', function (e) {
+        arrastrando = true;
+        dragStartX = e.clientX;
+        dragStartOffset = offset;
+        viewport.classList.add('arrastrando');
+        try { viewport.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+
+    viewport.addEventListener('pointermove', function (e) {
+        if (!arrastrando) return;
+        const delta = e.clientX - dragStartX;
+        offset = dragStartOffset + delta;
+        render();
+    });
+
+    function soltar(e) {
+        if (!arrastrando) return;
+        arrastrando = false;
+        viewport.classList.remove('arrastrando');
+        rebasear(performance.now());
+    }
+
+    viewport.addEventListener('pointerup', soltar);
+    viewport.addEventListener('pointercancel', soltar);
+
+    viewport.addEventListener('pointerenter', function () {
+        if (!arrastrando) enReposo = true;
+    });
+    viewport.addEventListener('pointerleave', function () {
+        enReposo = false;
+    });
+
+    window.addEventListener('resize', function () {
+        actualizarVelocidad();
+        rebasear(performance.now());
+        render();
+    });
+
+    if (mediaReducida.matches) {
+        enReposo = true; // respetar prefers-reduced-motion: solo drag manual
+    }
+
+    actualizarVelocidad();
+    raf = requestAnimationFrame(loop);
 });
