@@ -4,13 +4,10 @@ import { formatearPrecio, mostrarNotificacion, calcularTotales, obtenerCupones, 
 
 // ============ CONFIGURACIÓN ============
 const CONFIG_PEDIDOS = {
-    // URL del Web App de Google Apps Script
-    // Después de desplegar el script, reemplaza esta URL
-    // Producción: https://planluxury.lemora.lat
-    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxVFEwoX7Mfbp5w2TrmDKsNvpwe0J4yQm3DvnyxZzUhRox-RjyEcfc-gtWfBSLtHUgf/exec',
-    // Clave compartida anti-spam del backend. Debe coincidir con la propiedad
-    // WEB_API_KEY del proyecto de Apps Script (Configuración → Propiedades del script)
-    API_KEY: 'lk_02484ae76edbda2894d350a0f4cc6816'
+    // Proxy serverless en Vercel (api/pedido.js).
+    // Inyecta la WEB_API_KEY desde la variable de entorno de Vercel:
+    // la clave nunca viaja ni se almacena en el frontend.
+    GOOGLE_SCRIPT_URL: '/api/pedido'
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -125,7 +122,6 @@ async function enviarPedidoWhatsApp(e) {
 
         // ============ ENVIAR A GOOGLE SHEETS ============
         await enviarPedidoGoogleSheets({
-            apiKey: CONFIG_PEDIDOS.API_KEY,
             cliente: datosCliente,
             productos: cart,
             subtotal: subtotal,
@@ -163,16 +159,23 @@ async function enviarPedidoGoogleSheets(pedido) {
     try {
         const response = await fetch(CONFIG_PEDIDOS.GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // Importante para Google Apps Script
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(pedido)
         });
-        
-        console.log('✅ Pedido registrado en Google Sheets (respuesta no-cors no disponible)');
-        
+
+        const resultado = await response.json();
+
+        if (resultado.status === 'success') {
+            console.log('✅ Pedido registrado en Google Sheets');
+        } else {
+            console.warn('⚠️ El backend rechazó el pedido:', resultado.message);
+            mostrarNotificacion(`❌ ${resultado.message || 'No se pudo registrar el pedido.'}`, 'error');
+        }
+
     } catch (error) {
+        console.error('❌ Error al registrar el pedido:', error);
         mostrarNotificacion('❌ Error al registrar el pedido. Por favor, inténtalo de nuevo o contáctanos por WhatsApp.', 'error');
         // No bloqueamos el proceso si falla Google Sheets
         // El pedido se enviará igualmente por WhatsApp
