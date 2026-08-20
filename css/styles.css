@@ -133,6 +133,137 @@ html {
    Banner productos
    ========================= */
 
+.banner {
+    display: grid;
+    grid-template-columns: 2fr 4fr;
+    gap: 32px;
+    align-items: center;
+    background: var(--primary-color);
+    overflow: hidden;
+    margin: 2.5rem auto;
+}
+
+/* Imagen */
+.banner_imagen a {
+    display: block;
+}
+
+.banner_imagen picture,
+.banner_imagen img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Info */
+.banner_info {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    color: #ffffff;
+    padding: 32px;
+}
+
+/* Icono */
+.banner_info_icono {
+    flex-shrink: 0;
+    width: 140px;
+    height: 100px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner_info_icono img {
+    width: 64px;
+    height: 64px;
+}
+
+/* Copy */
+.banner_info_copy h4 {
+    margin: 0;
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.banner_info_copy h2 {
+    margin: 1rem 0;
+    font-size: var(--fs-h2);
+    line-height: 1.15;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.banner_info_copy a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.banner_info_copy a {
+    margin: 0;
+    font-size: var(--fs-link);
+    line-height: 1.4;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.banner_info_copy a:hover p {
+    transform: translateX(4px);
+    opacity: 0.85;
+}
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 768px) {
+    .banner {
+        grid-template-columns: 1fr;
+        margin: 0;
+        gap: 0;
+    }
+
+    .banner_info {
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .banner_info_copy {
+        gap: 0;
+    }
+
+    .banner_info_copy h2 {
+        margin: .4rem 0;
+    }
+    .banner_info_copy h4 {
+        margin: .4rem 0;
+    }
+
+    .banner_info_icono {
+        width: 100px;
+        height: 80px;
+    }
+
+    .banner_info_icono img {
+        width: 50px;
+        height: 50px;
+    }
+
+}
+
 .banners-productos {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -2499,6 +2630,7 @@ footer p {
 
 /* Ocultar secciones cuando hay búsqueda activa */
 body.searching .category-section,
+body.searching #banner1,
 body.searching #banner2,
 body.searching #banner3 {
     display: none;
