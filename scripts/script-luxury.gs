@@ -540,11 +540,11 @@ function configurarSecretos() {
   const actuales = scriptProperties.getProperties();
   // No se pisan los valores ya configurados: solo se crean las claves faltantes
   const nuevos = {
-    'GITHUB_TOKEN': actuales['GITHUB_TOKEN'] || '',
-    'GITHUB_OWNER': actuales['GITHUB_OWNER'] || '',
-    'GITHUB_REPO': actuales['GITHUB_REPO'] || '',
-    'DRIVE_FOLDER_ID': actuales['DRIVE_FOLDER_ID'] || '',
-    'WEB_API_KEY': actuales['WEB_API_KEY'] || ''
+    'GITHUB_TOKEN': 'GITHUB_TOKEN' || '',
+    'GITHUB_OWNER': 'GITHUB_OWNER' || '',
+    'GITHUB_REPO': 'GITHUB_REPO' || '',
+    'DRIVE_FOLDER_ID': 'DRIVE_FOLDER_ID' || '',
+    'WEB_API_KEY': 'WEB_API_KEY' || ''
   };
   scriptProperties.setProperties(nuevos);
   Logger.log('✅ Propiedades verificadas. Las claves faltantes se crearon vacías. Configura GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO, DRIVE_FOLDER_ID y WEB_API_KEY con sus valores.');
