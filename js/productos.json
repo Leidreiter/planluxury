@@ -6,7 +6,7 @@
     "descripcionDetallada": "Botas de cuero genuino diseñadas para hombres que buscan durabilidad y presencia. Ideales para uso diario o salidas, combinan comodidad con un diseño robusto y elegante.",
     "precio": 114000,
     "categoria": "Calzado",
-    "stock": 2,
+    "stock": 0,
     "caracteristicas": [
       "Cuero genuino",
       "Suela antideslizante",
@@ -14,10 +14,10 @@
       "Alta durabilidad"
     ],
     "carpetaImagenes": "Botas cuero",
-    "imagen": "https://lh3.googleusercontent.com/d/1Ba5xtv9-SwFO562P1-WMmHjNwGDm2MXL=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1Ba5xtv9-SwFO562P1-WMmHjNwGDm2MXL",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1Ba5xtv9-SwFO562P1-WMmHjNwGDm2MXL=s1920",
-      "https://lh3.googleusercontent.com/d/1IqnqIrbVSZwl9oBtKM-zHyo8TFDitdrw=s1920"
+      "https://lh3.googleusercontent.com/d/1Ba5xtv9-SwFO562P1-WMmHjNwGDm2MXL",
+      "https://lh3.googleusercontent.com/d/1IqnqIrbVSZwl9oBtKM-zHyo8TFDitdrw"
     ]
   },
   {
@@ -27,7 +27,7 @@
     "descripcionDetallada": "Botitas lowtops para mujer con diseño urbano, ideales para looks casuales. Livianas y cómodas, perfectas para acompañarte todo el día sin perder estilo.",
     "precio": 78000,
     "categoria": "Calzado",
-    "stock": 17,
+    "stock": 13,
     "caracteristicas": [
       "Diseño lowtop",
       "Material sintético premium",
@@ -35,10 +35,10 @@
       "Suela flexible"
     ],
     "carpetaImagenes": "Botitas lowtops",
-    "imagen": "https://lh3.googleusercontent.com/d/1chpIpDRi3entVZIyx263n07Xckfjj34A=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1chpIpDRi3entVZIyx263n07Xckfjj34A",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1chpIpDRi3entVZIyx263n07Xckfjj34A=s1920",
-      "https://lh3.googleusercontent.com/d/1_IHhJb5QW6Ie-NXl-8tVfxfH4Jqpx9Il=s1920"
+      "https://lh3.googleusercontent.com/d/1chpIpDRi3entVZIyx263n07Xckfjj34A",
+      "https://lh3.googleusercontent.com/d/1_IHhJb5QW6Ie-NXl-8tVfxfH4Jqpx9Il"
     ]
   },
   {
@@ -56,10 +56,10 @@
       "Corte regular"
     ],
     "carpetaImagenes": "Buzo canguro liso",
-    "imagen": "https://lh3.googleusercontent.com/d/173otchL7GYHVETPZLnR5OMzOvhVAUlLR=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/173otchL7GYHVETPZLnR5OMzOvhVAUlLR",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/173otchL7GYHVETPZLnR5OMzOvhVAUlLR=s1920",
-      "https://lh3.googleusercontent.com/d/1iW_uG4JVAe-fL_OY5Qfd773J0TJ1EZyF=s1920"
+      "https://lh3.googleusercontent.com/d/173otchL7GYHVETPZLnR5OMzOvhVAUlLR",
+      "https://lh3.googleusercontent.com/d/1iW_uG4JVAe-fL_OY5Qfd773J0TJ1EZyF"
     ]
   },
   {
@@ -77,10 +77,10 @@
       "Ajuste cómodo"
     ],
     "carpetaImagenes": "Buzo canguro",
-    "imagen": "https://lh3.googleusercontent.com/d/1lBZErffkP78i9QT0f1B3v3zZAqUHrMew=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1lBZErffkP78i9QT0f1B3v3zZAqUHrMew",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1lBZErffkP78i9QT0f1B3v3zZAqUHrMew=s1920",
-      "https://lh3.googleusercontent.com/d/1m1Tpfrb6esGhJh-00rvDgPj6sIsy6Kjr=s1920"
+      "https://lh3.googleusercontent.com/d/1lBZErffkP78i9QT0f1B3v3zZAqUHrMew",
+      "https://lh3.googleusercontent.com/d/1m1Tpfrb6esGhJh-00rvDgPj6sIsy6Kjr"
     ]
   },
   {
@@ -90,7 +90,7 @@
     "descripcionDetallada": "Buzo liso para mujer de diseño minimalista, fácil de combinar. Perfecto para looks casuales o deportivos.",
     "precio": 48000,
     "categoria": "Abrigos",
-    "stock": 35,
+    "stock": 34,
     "caracteristicas": [
       "Diseño minimalista",
       "Tela suave",
@@ -98,10 +98,10 @@
       "Fácil combinación"
     ],
     "carpetaImagenes": "Buzo liso",
-    "imagen": "https://lh3.googleusercontent.com/d/1COHCVlYKoP9mLjhDyFJV-RXDx2z4nv4Z=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1COHCVlYKoP9mLjhDyFJV-RXDx2z4nv4Z",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1COHCVlYKoP9mLjhDyFJV-RXDx2z4nv4Z=s1920",
-      "https://lh3.googleusercontent.com/d/1M3fksTv8rce5SIt1ZthOxltAnf9SX5sN=s1920"
+      "https://lh3.googleusercontent.com/d/1COHCVlYKoP9mLjhDyFJV-RXDx2z4nv4Z",
+      "https://lh3.googleusercontent.com/d/1M3fksTv8rce5SIt1ZthOxltAnf9SX5sN"
     ]
   },
   {
@@ -119,10 +119,10 @@
       "Máximo confort"
     ],
     "carpetaImagenes": "Buzo oversize",
-    "imagen": "https://lh3.googleusercontent.com/d/14TQIywEvQECz1Ncm7zcIWRYu-Eh2iky_=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/14TQIywEvQECz1Ncm7zcIWRYu-Eh2iky_",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/14TQIywEvQECz1Ncm7zcIWRYu-Eh2iky_=s1920",
-      "https://lh3.googleusercontent.com/d/1Z-Ks2eO_oen0WFcqLgKnS-hVLU87IcRt=s1920"
+      "https://lh3.googleusercontent.com/d/14TQIywEvQECz1Ncm7zcIWRYu-Eh2iky_",
+      "https://lh3.googleusercontent.com/d/1Z-Ks2eO_oen0WFcqLgKnS-hVLU87IcRt"
     ]
   },
   {
@@ -140,10 +140,10 @@
       "Diseño versátil"
     ],
     "carpetaImagenes": "Jean oscuro",
-    "imagen": "https://lh3.googleusercontent.com/d/1UZ58YlTmiD6vJG17KO5a9arMPazDZRhb=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1UZ58YlTmiD6vJG17KO5a9arMPazDZRhb",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1UZ58YlTmiD6vJG17KO5a9arMPazDZRhb=s1920",
-      "https://lh3.googleusercontent.com/d/1WSYhWlMtRdd5KTw2R_D_8sP85Y1_Aw84=s1920"
+      "https://lh3.googleusercontent.com/d/1UZ58YlTmiD6vJG17KO5a9arMPazDZRhb",
+      "https://lh3.googleusercontent.com/d/1WSYhWlMtRdd5KTw2R_D_8sP85Y1_Aw84"
     ]
   },
   {
@@ -153,7 +153,7 @@
     "descripcionDetallada": "Jeans para hombre con corte tradicional, ideales para cualquier ocasión. Duraderos y cómodos para el día a día.",
     "precio": 72000,
     "categoria": "Pantalones",
-    "stock": 32,
+    "stock": 31,
     "caracteristicas": [
       "Corte clásico",
       "Denim resistente",
@@ -161,10 +161,10 @@
       "Alta durabilidad"
     ],
     "carpetaImagenes": "Jeans clásicos",
-    "imagen": "https://lh3.googleusercontent.com/d/1hQm8KY4BylP2HGX6fF1TSp5yVSEk5Fg-=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1hQm8KY4BylP2HGX6fF1TSp5yVSEk5Fg-",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1hQm8KY4BylP2HGX6fF1TSp5yVSEk5Fg-=s1920",
-      "https://lh3.googleusercontent.com/d/12IBqcVguZy3sji3OB46wzl5DpEwOPVxX=s1920"
+      "https://lh3.googleusercontent.com/d/1hQm8KY4BylP2HGX6fF1TSp5yVSEk5Fg-",
+      "https://lh3.googleusercontent.com/d/12IBqcVguZy3sji3OB46wzl5DpEwOPVxX"
     ]
   },
   {
@@ -182,10 +182,10 @@
       "Tiro medio/alto"
     ],
     "carpetaImagenes": "Jeans pata elefante",
-    "imagen": "https://lh3.googleusercontent.com/d/198k0iQV1AIsxAPjUn637oALOsCymoAHK=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/198k0iQV1AIsxAPjUn637oALOsCymoAHK",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/198k0iQV1AIsxAPjUn637oALOsCymoAHK=s1920",
-      "https://lh3.googleusercontent.com/d/1fWLYOS2a4S5GmzPMDsssXkAGIycTvL15=s1920"
+      "https://lh3.googleusercontent.com/d/198k0iQV1AIsxAPjUn637oALOsCymoAHK",
+      "https://lh3.googleusercontent.com/d/1fWLYOS2a4S5GmzPMDsssXkAGIycTvL15"
     ]
   },
   {
@@ -203,10 +203,10 @@
       "Ajuste moderno"
     ],
     "carpetaImagenes": "Jeans rotura",
-    "imagen": "https://lh3.googleusercontent.com/d/17hoYbcXrmDnud2xdASaG8a9Hje5hcBp8=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/17hoYbcXrmDnud2xdASaG8a9Hje5hcBp8",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/17hoYbcXrmDnud2xdASaG8a9Hje5hcBp8=s1920",
-      "https://lh3.googleusercontent.com/d/1-maAOR-8vDr08Fae8zyMi9xjRfD1SESv=s1920"
+      "https://lh3.googleusercontent.com/d/17hoYbcXrmDnud2xdASaG8a9Hje5hcBp8",
+      "https://lh3.googleusercontent.com/d/1-maAOR-8vDr08Fae8zyMi9xjRfD1SESv"
     ]
   },
   {
@@ -224,10 +224,10 @@
       "Alta calidad de impresión"
     ],
     "carpetaImagenes": "Remera calavera",
-    "imagen": "https://lh3.googleusercontent.com/d/1i9_wsEzbhsJEg_38eC-871rGTOht707S=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1i9_wsEzbhsJEg_38eC-871rGTOht707S",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1i9_wsEzbhsJEg_38eC-871rGTOht707S=s1920",
-      "https://lh3.googleusercontent.com/d/1TNEQaI12VC-_V1A-509MLndU9O8DHRuv=s1920"
+      "https://lh3.googleusercontent.com/d/1i9_wsEzbhsJEg_38eC-871rGTOht707S",
+      "https://lh3.googleusercontent.com/d/1TNEQaI12VC-_V1A-509MLndU9O8DHRuv"
     ]
   },
   {
@@ -245,10 +245,10 @@
       "Estampa duradera"
     ],
     "carpetaImagenes": "Remera game over",
-    "imagen": "https://lh3.googleusercontent.com/d/1hHhV8QWwB2ZR1EvFoTDvJxuLrOsXcdkE=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1hHhV8QWwB2ZR1EvFoTDvJxuLrOsXcdkE",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1hHhV8QWwB2ZR1EvFoTDvJxuLrOsXcdkE=s1920",
-      "https://lh3.googleusercontent.com/d/17FmdrshomW8qPnt6uta1TibqUy_OZZOA=s1920"
+      "https://lh3.googleusercontent.com/d/1hHhV8QWwB2ZR1EvFoTDvJxuLrOsXcdkE",
+      "https://lh3.googleusercontent.com/d/17FmdrshomW8qPnt6uta1TibqUy_OZZOA"
     ]
   },
   {
@@ -266,10 +266,10 @@
       "Colores vivos"
     ],
     "carpetaImagenes": "Remera tucán",
-    "imagen": "https://lh3.googleusercontent.com/d/17Z0xkc7TToqhWKEhEcikkfTB1wyn4KCv=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/17Z0xkc7TToqhWKEhEcikkfTB1wyn4KCv",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/17Z0xkc7TToqhWKEhEcikkfTB1wyn4KCv=s1920",
-      "https://lh3.googleusercontent.com/d/10GcXtskh8OX4mh_kDOJ9QOEsrnuYRfnr=s1920"
+      "https://lh3.googleusercontent.com/d/17Z0xkc7TToqhWKEhEcikkfTB1wyn4KCv",
+      "https://lh3.googleusercontent.com/d/10GcXtskh8OX4mh_kDOJ9QOEsrnuYRfnr"
     ]
   },
   {
@@ -287,10 +287,10 @@
       "Fácil de transportar"
     ],
     "carpetaImagenes": "Suéter traveller",
-    "imagen": "https://lh3.googleusercontent.com/d/1wf4nMMrzwYeMCHg68TqTEDpmkxS27BN0=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1wf4nMMrzwYeMCHg68TqTEDpmkxS27BN0",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1wf4nMMrzwYeMCHg68TqTEDpmkxS27BN0=s1920",
-      "https://lh3.googleusercontent.com/d/13KA6zyWGpalYHI_f1VmFIln7E5AzDRSS=s1920"
+      "https://lh3.googleusercontent.com/d/1wf4nMMrzwYeMCHg68TqTEDpmkxS27BN0",
+      "https://lh3.googleusercontent.com/d/13KA6zyWGpalYHI_f1VmFIln7E5AzDRSS"
     ]
   },
   {
@@ -300,7 +300,7 @@
     "descripcionDetallada": "Zapatillas de caña alta para mujer, ideales para looks urbanos y modernos. Combinan diseño y comodidad.",
     "precio": 84000,
     "categoria": "Calzado",
-    "stock": 16,
+    "stock": 15,
     "caracteristicas": [
       "Caña alta",
       "Diseño moderno",
@@ -308,10 +308,10 @@
       "Ajuste seguro"
     ],
     "carpetaImagenes": "Zapatillas hightop",
-    "imagen": "https://lh3.googleusercontent.com/d/1zOHzeyvKYqJY87Lm98ElW0ShZyx2GCGM=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1zOHzeyvKYqJY87Lm98ElW0ShZyx2GCGM",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1zOHzeyvKYqJY87Lm98ElW0ShZyx2GCGM=s1920",
-      "https://lh3.googleusercontent.com/d/1r-jP3oBqp9zRj51PuN5y0MaQDYwIg3Rk=s1920"
+      "https://lh3.googleusercontent.com/d/1zOHzeyvKYqJY87Lm98ElW0ShZyx2GCGM",
+      "https://lh3.googleusercontent.com/d/1r-jP3oBqp9zRj51PuN5y0MaQDYwIg3Rk"
     ]
   },
   {
@@ -329,10 +329,10 @@
       "Uso diario"
     ],
     "carpetaImagenes": "Zapatillas urbanas",
-    "imagen": "https://lh3.googleusercontent.com/d/1Cr9wWp58riNVbQWbXV-w83pIwb56QFt6=s600",
+    "imagen": "https://lh3.googleusercontent.com/d/1Cr9wWp58riNVbQWbXV-w83pIwb56QFt6",
     "galeria": [
-      "https://lh3.googleusercontent.com/d/1Cr9wWp58riNVbQWbXV-w83pIwb56QFt6=s1920",
-      "https://lh3.googleusercontent.com/d/1-nkFYu8z8wdfn9NBkHNaag94qrdPulAF=s1920"
+      "https://lh3.googleusercontent.com/d/1Cr9wWp58riNVbQWbXV-w83pIwb56QFt6",
+      "https://lh3.googleusercontent.com/d/1-nkFYu8z8wdfn9NBkHNaag94qrdPulAF"
     ]
   }
 ]
