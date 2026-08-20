@@ -4,7 +4,7 @@
 // El frontend solo conoce /api/pedido (misma origin).
 
 const GOOGLE_SCRIPT_URL =
-    'https://script.google.com/macros/s/AKfycbxVFEwoX7Mfbp5w2TrmDKsNvpwe0J4yQm3DvnyxZzUhRox-RjyEcfc-gtWfBSLtHUgf/exec';
+    'https://script.google.com/macros/s/AKfycbw4Z7_WaH7BBOwx4i_stMskzBx5h3yYs3TnzO3l4cUNHO8FB8Qv2-ryhMRLK-BVwEzV/exec';
 
 module.exports = async function handler(request, response) {
     response.setHeader('Cache-Control', 'no-store');
