@@ -28,5 +28,11 @@
     "textoSoporte": "Estamos para ayudarte antes y después de tu compra",
     "imagen": "https://lh3.googleusercontent.com/d/1QN9jdND9_g3v0zcdNgFG8ucZYamAaIkV=s1920",
     "link": ""
+  },
+  {
+    "titulo": "Novedades todas las semanas",
+    "textoSoporte": "Descubrí nuevos productos y oportunidades increíbles",
+    "imagen": "img/productos/slider.png",
+    "link": ""
   }
 ]
