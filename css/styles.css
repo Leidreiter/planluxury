@@ -3595,6 +3595,14 @@ body.zoom-active {
 
 .slider-slide.active {
     opacity: 1;
+    z-index: 1;
+}
+
+/* Anchor opcional del slide dinámico: neutraliza estilos de link sin alterar el diseño */
+.slider-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 /*

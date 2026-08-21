@@ -167,6 +167,33 @@ export async function obtenerResenas() {
     }
 }
 
+// Cargar slides del hero desde JSON dinámico (generado por Google Sheets + Drive)
+export async function obtenerSlider() {
+    const cachedData = sessionStorage.getItem('cache_slider');
+    const cachedVersion = sessionStorage.getItem('cache_slider_version');
+
+    try {
+        const headResponse = await fetch('js/slider.json', { method: 'HEAD' });
+        const serverVersion = headResponse.headers.get('Last-Modified') || headResponse.headers.get('ETag');
+
+        if (cachedData && cachedVersion === serverVersion) {
+            return JSON.parse(cachedData);
+        }
+
+        const response = await fetch('js/slider.json');
+        if (!response.ok) throw new Error('Error al cargar slider');
+        const slides = await response.json();
+
+        sessionStorage.setItem('cache_slider', JSON.stringify(slides));
+        if (serverVersion) sessionStorage.setItem('cache_slider_version', serverVersion);
+
+        return slides;
+    } catch (error) {
+        if (cachedData) return JSON.parse(cachedData);
+        return null; // Sin datos: el slider usa el fallback estático
+    }
+}
+
 // Precio anterior tachado: solo si es válido y mayor al precio actual
 export function renderPrecioAnterior(producto) {
     const pa = producto.precioAnterior;

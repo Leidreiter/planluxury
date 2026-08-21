@@ -26,6 +26,14 @@ const CONFIG = {
     GITHUB_RESENAS_FILE_PATH: 'js/resenas.json',
     IMAGEN_FALLBACK_RESENAS: 'img/productos/profile.png',
 
+    // Hero Slider del index
+    SLIDER_SHEET_NAME: 'Slider',
+    SLIDER_FOLDER_NAME: 'slider',
+    GITHUB_SLIDER_FILE_PATH: 'js/slider.json',
+    SLIDER_MAX_SLIDES: 6,
+    SLIDER_TITULO_MAX: 80,
+    SLIDER_TEXTO_MAX: 180,
+
     // Seguridad del endpoint de pedidos
     WEB_API_KEY: PropertiesService.getScriptProperties().getProperty('WEB_API_KEY'),
     TOPE_CANTIDAD_POR_PRODUCTO: 50,
@@ -602,11 +610,22 @@ function sincronizarTodoCore() {
         cantidadResenas = resenasConImagenes.length;
     }
 
+    // 4. Sincronizar Hero Slider
+    const slides = leerSliderDeSheet();
+    let cantidadSlides = 0;
+    if (slides.length > 0) {
+        const slidesConImagenes = procesarImagenesSlider(slides);
+        const contenidoSliderJSON = JSON.stringify(slidesConImagenes, null, 2);
+        subirArchivoAGitHub(contenidoSliderJSON, 'application/json; charset=utf-8', CONFIG.GITHUB_SLIDER_FILE_PATH);
+        cantidadSlides = slidesConImagenes.length;
+    }
+
     return {
         cantidad: productosConImagenes.length,
         carpetas: carpetasCreadas,
         cantidadCupones: cantidadCupones,
-        cantidadResenas: cantidadResenas
+        cantidadResenas: cantidadResenas,
+        cantidadSlides: cantidadSlides
     };
 }
 
@@ -622,6 +641,24 @@ function sincronizarResenas() {
     const contenidoResenasJSON = JSON.stringify(resenasConImagenes, null, 2);
     subirArchivoAGitHub(contenidoResenasJSON, 'application/json; charset=utf-8', CONFIG.GITHUB_RESENAS_FILE_PATH);
     SpreadsheetApp.getUi().alert('✅ Reseñas sincronizadas', `Se publicaron ${resenasConImagenes.length} reseñas en el sitio.`, SpreadsheetApp.getUi().ButtonSet.OK);
+}
+
+// Sincronizar solo el hero slider (accesible desde el menú)
+function sincronizarSlider() {
+    garantizarHojaSlider(SpreadsheetApp.getActiveSpreadsheet());
+    const slides = leerSliderDeSheet();
+    if (slides.length === 0) {
+        SpreadsheetApp.getUi().alert('ℹ️ Sin slides', 'La hoja "Slider" está vacía o sin filas válidas. Agrega slides (título e imagen obligatorios) y volvé a intentar.', SpreadsheetApp.getUi().ButtonSet.OK);
+        return;
+    }
+    const slidesConImagenes = procesarImagenesSlider(slides);
+    if (slidesConImagenes.length === 0) {
+        SpreadsheetApp.getUi().alert('⚠️ Sin imágenes', `No se encontró la carpeta "slider" en Drive o ningún archivo de imagen coincide con los nombres de la columna Imagen.`, SpreadsheetApp.getUi().ButtonSet.OK);
+        return;
+    }
+    const contenidoSliderJSON = JSON.stringify(slidesConImagenes, null, 2);
+    subirArchivoAGitHub(contenidoSliderJSON, 'application/json; charset=utf-8', CONFIG.GITHUB_SLIDER_FILE_PATH);
+    SpreadsheetApp.getUi().alert('✅ Slider sincronizado', `Se publicaron ${slidesConImagenes.length} slides en el sitio.`, SpreadsheetApp.getUi().ButtonSet.OK);
 }
 
 // ============ LEER CUPONES DE GOOGLE SHEETS ============
@@ -777,6 +814,141 @@ function normalizarNombreArchivo(nombre) {
         .replace(/[\u0300-\u036f]/g, '')
         .toLowerCase()
         .trim();
+}
+
+// ============ HERO SLIDER (Google Sheets + Drive) ============
+
+// Trunca al límite cortando en el último espacio completo antes del máximo
+function truncarPorPalabra(texto, max) {
+    if (texto.length <= max) return texto;
+    const cortado = texto.slice(0, max);
+    const ultimoEspacio = cortado.lastIndexOf(' ');
+    return (ultimoEspacio > 0 ? cortado.slice(0, ultimoEspacio) : cortado).trim();
+}
+
+// Crear la hoja "Slider" con encabezados si no existe
+function garantizarHojaSlider(ss) {
+    let sheet = ss.getSheetByName(CONFIG.SLIDER_SHEET_NAME);
+
+    if (!sheet) {
+        sheet = ss.insertSheet(CONFIG.SLIDER_SHEET_NAME);
+        const encabezados = ['Titulo', 'Texto Soporte', 'Imagen', 'Link'];
+        sheet.getRange(1, 1, 1, encabezados.length).setValues([encabezados]);
+        sheet.getRange(1, 1, 1, encabezados.length).setFontWeight('bold');
+        sheet.setFrozenRows(1);
+        sheet.setColumnWidth(1, 300);
+        sheet.setColumnWidth(2, 450);
+        sheet.setColumnWidth(3, 220);
+        sheet.setColumnWidth(4, 300);
+        Logger.log(`✅ Hoja "${CONFIG.SLIDER_SHEET_NAME}" creada con encabezados.`);
+    }
+
+    return sheet;
+}
+
+// Leer slides de la hoja (Titulo | Texto Soporte | Imagen | Link)
+// Valida título + imagen; trunca titulo a 80 y texto a 180 por palabra completa.
+function leerSliderDeSheet() {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName(CONFIG.SLIDER_SHEET_NAME);
+
+    if (!sheet) {
+        Logger.log(`⚠️ No se encontró la hoja "${CONFIG.SLIDER_SHEET_NAME}". Saltando sincronización del slider.`);
+        return [];
+    }
+
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return [];
+
+    const datos = sheet.getRange(2, 1, lastRow - 1, 4).getValues();
+
+    return datos
+        .map((fila, index) => {
+            const numeroFila = index + 2;
+            const titulo = String(fila[0] || '').trim();
+            const textoSoporte = String(fila[1] || '').trim();
+            const imagen = String(fila[2] || '').trim();
+            const link = String(fila[3] || '').trim();
+
+            if (!titulo || !imagen) {
+                if (titulo || textoSoporte || imagen || link) {
+                    Logger.log(`⚠️ Slide fila ${numeroFila} omitido: faltan datos obligatorios (título e imagen).`);
+                }
+                return null;
+            }
+
+            let tituloFinal = titulo;
+            let textoFinal = textoSoporte;
+            if (titulo.length > CONFIG.SLIDER_TITULO_MAX) {
+                tituloFinal = truncarPorPalabra(titulo, CONFIG.SLIDER_TITULO_MAX);
+                Logger.log(`⚠️ Título de la fila ${numeroFila} truncado a ${CONFIG.SLIDER_TITULO_MAX} caracteres.`);
+            }
+            if (textoSoporte.length > CONFIG.SLIDER_TEXTO_MAX) {
+                textoFinal = truncarPorPalabra(textoSoporte, CONFIG.SLIDER_TEXTO_MAX);
+                Logger.log(`⚠️ Texto soporte de la fila ${numeroFila} truncado a ${CONFIG.SLIDER_TEXTO_MAX} caracteres.`);
+            }
+
+            return { titulo: tituloFinal, textoSoporte: textoFinal, imagen, link };
+        })
+        .filter(Boolean);
+}
+
+// Asociar imágenes desde la carpeta "slider" de Drive.
+// La columna "Imagen" indica el nombre EXACTO del archivo (sin ruta ni URL).
+// Fila sin imagen válida -> se salta (un slide sin imagen rompería el diseño).
+// Tope duro: CONFIG.SLIDER_MAX_SLIDES slides publicados.
+function procesarImagenesSlider(slides) {
+    const carpetaRaiz = DriveApp.getFolderById(CONFIG.DRIVE_FOLDER_ID);
+
+    let carpeta = null;
+    const carpetas = carpetaRaiz.getFolders();
+    while (carpetas.hasNext()) {
+        const f = carpetas.next();
+        if (f.getName().toLowerCase() === CONFIG.SLIDER_FOLDER_NAME) {
+            carpeta = f;
+            break;
+        }
+    }
+
+    if (!carpeta) {
+        Logger.log(`⚠️ No se encontró la carpeta "${CONFIG.SLIDER_FOLDER_NAME}" en Drive. No se publicarán slides.`);
+        return [];
+    }
+
+    // Mapa nombre-normalizado -> archivo (tolera tildes y codificación NFC/NFD)
+    const mapaArchivos = {};
+    const archivos = carpeta.getFiles();
+    while (archivos.hasNext()) {
+        const archivo = archivos.next();
+        const nombreArchivo = archivo.getName();
+        if (nombreArchivo.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+            mapaArchivos[normalizarNombreArchivo(nombreArchivo)] = archivo;
+        }
+    }
+
+    const resueltos = [];
+    for (const slide of slides) {
+        if (resueltos.length >= CONFIG.SLIDER_MAX_SLIDES) break;
+
+        const archivo = mapaArchivos[normalizarNombreArchivo(slide.imagen)];
+        if (!archivo) {
+            Logger.log(`⚠️ Slide "${slide.titulo}" omitido: no se encontró el archivo "${slide.imagen}" en la carpeta "slider".`);
+            continue;
+        }
+
+        resueltos.push({
+            titulo: slide.titulo,
+            textoSoporte: slide.textoSoporte,
+            imagen: obtenerUrlPublicaGDrive(archivo.getId(), 1920),
+            link: slide.link
+        });
+    }
+
+    if (slides.length > resueltos.length) {
+        Logger.log(`⚠️ Se publicaron ${resueltos.length} de ${slides.length} filas (máximo ${CONFIG.SLIDER_MAX_SLIDES} slides o filas sin imagen válida).`);
+    }
+
+    return resueltos;
 }
 
 // ============ LEER DATOS DE GOOGLE SHEETS ============

@@ -14,6 +14,7 @@ function onOpen() {
     ui.createMenu('🚀 Actualizar Web')
         .addItem('📤 Publicar Web (GitHub)', 'actualizarProductosEnGitHub')
         .addItem('📝 Sincronizar Reseñas', 'sincronizarResenas')
+        .addItem('🎞️ Sincronizar Slider', 'sincronizarSlider')
         .addSeparator()
         .addItem('📁 Crear Carpetas Drive', 'crearCarpetasProductos')
         .addSeparator()

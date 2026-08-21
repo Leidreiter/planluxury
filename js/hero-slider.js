@@ -1,4 +1,7 @@
 // Hero Slider - Autoplay, Loop, Swipe, Stop on Hover
+// Slides dinámicos desde la hoja "Slider" (js/slider.json); fallback estático del HTML
+
+import { obtenerSlider } from './utils.js';
 
 class HeroSlider {
     constructor() {
@@ -11,10 +14,10 @@ class HeroSlider {
         this.isTransitioning = false;
         this.touchStartX = 0;
         this.touchEndX = 0;
-        
+
         this.init();
     }
-    
+
     init() {
         // Esperar a que el DOM esté listo
         if (document.readyState === 'loading') {
@@ -23,24 +26,53 @@ class HeroSlider {
             this.setup();
         }
     }
-    
-    setup() {
+
+    async setup() {
         this.slider = document.querySelector('.hero-slider');
         if (!this.slider) return;
-        
+
         this.track = this.slider.querySelector('.slider-track');
+
+        // Slides dinámicos desde la hoja "Slider"; si falla o viene vacío,
+        // se conservan los slides estáticos del HTML (fallback)
+        const datos = await obtenerSlider();
+        if (Array.isArray(datos) && datos.length > 0) {
+            this.construirSlides(datos);
+        }
+
         this.slides = this.slider.querySelectorAll('.slider-slide');
-        
+
         if (this.slides.length === 0) return;
-        
+
         // Configurar eventos
         this.setupNavigation();
         this.setupAutoplay();
         this.setupTouch();
         this.setupKeyboard();
-        
+
         // Mostrar primer slide
         this.goToSlide(0);
+    }
+
+    // Misma estructura de clases que los slides estáticos del index.html
+    construirSlides(datos) {
+        this.track.innerHTML = datos.map((slide, i) => {
+            const contenido = `
+                    <img src="${slide.imagen}" alt="${slide.titulo}" width="1920" height="1280"${i === 0 ? ' fetchpriority="high"' : ''}>
+
+                    <div class="slider-content">
+                        <div class="slider-text">
+                            <h1>${slide.titulo}</h1>
+                            ${slide.textoSoporte ? `<p>${slide.textoSoporte}</p>` : ''}
+                        </div>
+                    </div>
+            `;
+            return `
+                <div class="slider-slide${i === 0 ? ' active' : ''}">
+                    ${slide.link ? `<a href="${slide.link}" target="_self" class="slider-link">${contenido}</a>` : contenido}
+                </div>
+            `;
+        }).join('');
     }
     
     setupNavigation() {
