@@ -3598,9 +3598,12 @@ body.zoom-active {
     z-index: 1;
 }
 
-/* Anchor opcional del slide dinámico: neutraliza estilos de link sin alterar el diseño */
+/* Anchor opcional del slide dinámico: neutraliza estilos de link sin alterar el diseño.
+   width/height 100% dan altura definida para que el height:100% de la img resuelva igual que sin link */
 .slider-link {
     display: block;
+    width: 100%;
+    height: 100%;
     text-decoration: none;
     color: inherit;
 }
