@@ -71,14 +71,6 @@ function renderFooter() {
     const footer = document.createElement('footer');
     footer.innerHTML = `
         <p>&copy; ${new Date().getFullYear()} ${obtenerNombreSitio()}. Todos los derechos reservados. Hecho con <i class="fa-solid fa-heart footer-heart"></i> por <a href="https://lemora.lat" target="_blank"><img src="img/lemora.svg" alt="Diseño y Desarrollo por Lemora" class="devBy"></a></p>
-        <div class="whatsapp">
-            <a href="https://wa.me/${WHATSAPP_CONFIG.number}?text=${encodeURIComponent(WHATSAPP_CONFIG.defaultMessage)}" 
-               target="_blank" 
-               rel="noopener" 
-               aria-label="Contactar por WhatsApp">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
-        </div>
         `;
 
     return footer;
@@ -108,7 +100,17 @@ function initMarquee() {
 // Inicializar template
 async function initTemplate(activePage = '') {
     const body = document.body;
-    
+
+    // Envolver el contenido principal en un contenedor full-width opaco
+    // (necesario para el efecto reveal/stacking del footer)
+    const main = body.querySelector('main');
+    if (main) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'site-content';
+        main.parentNode.insertBefore(wrapper, main);
+        wrapper.appendChild(main);
+    }
+
     // Obtener categorías dinámicas
     let categorias = [];
     try {
@@ -127,6 +129,20 @@ async function initTemplate(activePage = '') {
     // Insertar footer al final del body
     const footer = renderFooter();
     body.appendChild(footer);
+
+    // WhatsApp flotante como hijo directo del body: el footer sticky crea su
+    // propio stacking context y dejaría el botón atrapado detrás del contenido
+    const whatsapp = document.createElement('div');
+    whatsapp.className = 'whatsapp';
+    whatsapp.innerHTML = `
+        <a href="https://wa.me/${WHATSAPP_CONFIG.number}?text=${encodeURIComponent(WHATSAPP_CONFIG.defaultMessage)}" 
+           target="_blank" 
+           rel="noopener" 
+           aria-label="Contactar por WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+    `;
+    body.appendChild(whatsapp);
 }
 
 // Actualizar contador de favoritos en el nav
