@@ -5,6 +5,7 @@
     "descripcion": "Botas de cuero resistentes con estilo clásico masculino",
     "descripcionDetallada": "Botas de cuero genuino diseñadas para hombres que buscan durabilidad y presencia. Ideales para uso diario o salidas, combinan comodidad con un diseño robusto y elegante.",
     "precio": 114000,
+    "precioAnterior": 125000,
     "categoria": "Calzado",
     "stock": 4,
     "caracteristicas": [
@@ -26,6 +27,7 @@
     "descripcion": "Botitas bajas modernas y versátiles para uso diario",
     "descripcionDetallada": "Botitas lowtops para mujer con diseño urbano, ideales para looks casuales. Livianas y cómodas, perfectas para acompañarte todo el día sin perder estilo.",
     "precio": 78000,
+    "precioAnterior": 80000,
     "categoria": "Calzado",
     "stock": 12,
     "caracteristicas": [
@@ -47,6 +49,7 @@
     "descripcion": "Buzo canguro básico y cómodo para uso diario",
     "descripcionDetallada": "Buzo canguro liso para hombre, ideal para un look relajado. Fabricado con materiales suaves que brindan abrigo y confort en cualquier ocasión.",
     "precio": 54000,
+    "precioAnterior": 60000,
     "categoria": "Abrigos",
     "stock": 30,
     "caracteristicas": [
@@ -68,6 +71,7 @@
     "descripcion": "Buzo canguro femenino cómodo y versátil",
     "descripcionDetallada": "Buzo canguro para mujer con diseño moderno, ideal para outfits casuales. Ofrece abrigo y estilo en una sola prenda.",
     "precio": 57600,
+    "precioAnterior": 60000,
     "categoria": "Abrigos",
     "stock": 9,
     "caracteristicas": [
@@ -89,6 +93,7 @@
     "descripcion": "Buzo básico femenino, ideal para cualquier ocasión",
     "descripcionDetallada": "Buzo liso para mujer de diseño minimalista, fácil de combinar. Perfecto para looks casuales o deportivos.",
     "precio": 48000,
+    "precioAnterior": 45000,
     "categoria": "Abrigos",
     "stock": 34,
     "caracteristicas": [
@@ -110,6 +115,7 @@
     "descripcion": "Buzo oversize con estilo relajado y moderno",
     "descripcionDetallada": "Buzo oversize para mujer, tendencia actual que combina comodidad y estilo urbano. Ideal para looks sueltos y descontracturados.",
     "precio": 62400,
+    "precioAnterior": 60000,
     "categoria": "Abrigos",
     "stock": 22,
     "caracteristicas": [
@@ -131,6 +137,7 @@
     "descripcion": "Jean oscuro elegante y versátil",
     "descripcionDetallada": "Jean para mujer en tono oscuro, ideal para looks tanto casuales como formales. Ajuste cómodo que resalta la silueta.",
     "precio": 66000,
+    "precioAnterior": null,
     "categoria": "Pantalones",
     "stock": 27,
     "caracteristicas": [
@@ -152,6 +159,7 @@
     "descripcion": "Jeans clásicos masculinos de uso diario",
     "descripcionDetallada": "Jeans para hombre con corte tradicional, ideales para cualquier ocasión. Duraderos y cómodos para el día a día.",
     "precio": 72000,
+    "precioAnterior": null,
     "categoria": "Pantalones",
     "stock": 31,
     "caracteristicas": [
@@ -173,6 +181,7 @@
     "descripcion": "Jeans pata elefante con estilo retro",
     "descripcionDetallada": "Jeans para mujer con corte pata elefante, inspirados en tendencias vintage. Perfectos para destacar con un look único.",
     "precio": 69600,
+    "precioAnterior": null,
     "categoria": "Pantalones",
     "stock": 17,
     "caracteristicas": [
@@ -194,6 +203,7 @@
     "descripcion": "Jeans desgastados con roturas modernas",
     "descripcionDetallada": "Jeans para hombre con roturas estratégicas que aportan un look urbano y actual. Ideales para outfits informales.",
     "precio": 74400,
+    "precioAnterior": null,
     "categoria": "Pantalones",
     "stock": 22,
     "caracteristicas": [
@@ -215,6 +225,7 @@
     "descripcion": "Remera con diseño de calavera llamativo",
     "descripcionDetallada": "Remera para hombre con estampado de calavera, perfecta para un estilo rebelde y moderno.",
     "precio": 36000,
+    "precioAnterior": null,
     "categoria": "Remeras",
     "stock": 10,
     "caracteristicas": [
@@ -236,6 +247,7 @@
     "descripcion": "Remera gamer con diseño “Game Over”",
     "descripcionDetallada": "Remera para mujer con estampa divertida “Game Over”, ideal para fanáticas del gaming y el estilo casual.",
     "precio": 33600,
+    "precioAnterior": null,
     "categoria": "Remeras",
     "stock": 4,
     "caracteristicas": [
@@ -257,6 +269,7 @@
     "descripcion": "Remera con estampa de tucán colorida",
     "descripcionDetallada": "Remera femenina con diseño de tucán vibrante, ideal para looks frescos y veraniegos",
     "precio": 32400,
+    "precioAnterior": null,
     "categoria": "Remeras",
     "stock": 22,
     "caracteristicas": [
@@ -278,6 +291,7 @@
     "descripcion": "Suéter cómodo ideal para viajes",
     "descripcionDetallada": "Suéter para mujer pensado para viajes y uso diario, combinando abrigo ligero con estilo moderno.",
     "precio": 60000,
+    "precioAnterior": null,
     "categoria": "Remeras",
     "stock": 5,
     "caracteristicas": [
@@ -299,8 +313,9 @@
     "descripcion": "Zapatillas high top con estilo urbano",
     "descripcionDetallada": "Zapatillas de caña alta para mujer, ideales para looks urbanos y modernos. Combinan diseño y comodidad.",
     "precio": 84000,
+    "precioAnterior": null,
     "categoria": "Calzado",
-    "stock": 15,
+    "stock": 14,
     "caracteristicas": [
       "Caña alta",
       "Diseño moderno",
@@ -320,6 +335,7 @@
     "descripcion": "Zapatillas urbanas cómodas para el día a día",
     "descripcionDetallada": "Zapatillas para mujer con estilo urbano, pensadas para uso diario. Livianas, cómodas y fáciles de combinar.",
     "precio": 81600,
+    "precioAnterior": null,
     "categoria": "Calzado",
     "stock": 10,
     "caracteristicas": [
