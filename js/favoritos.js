@@ -1,6 +1,6 @@
 // favoritos.js
 
-import { obtenerProductos, generarHTMLTarjetaProducto, mostrarNotificacion } from './utils.js';
+import { obtenerProductos, generarHTMLTarjetaProducto, mostrarNotificacion, renderPrecioAnterior } from './utils.js';
 
 let allProducts = []; // Para almacenar todos los productos una vez cargados
 
@@ -62,7 +62,7 @@ function renderizarFavoritos() {
             <div class="favorito-info">
                 <a href="producto.html?id=${p.id}" class="favorito-nombre">${p.nombre}</a>
                 <p class="favorito-categoria">${p.categoria}</p>
-                <p class="favorito-precio">$${formatearPrecio(p.precio)}</p>
+                <p class="favorito-precio">${renderPrecioAnterior(p)}$${formatearPrecio(p.precio)}</p>
             </div>
             <div class="favorito-acciones">
                 <a href="producto.html?id=${p.id}" class="favorito-ver-btn btn-border">

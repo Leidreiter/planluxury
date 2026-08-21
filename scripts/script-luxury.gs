@@ -43,10 +43,11 @@ const CONFIG = {
         DESCRIPCION: 2,
         DESCRIPCION_DET: 3,
         PRECIO: 4,
-        CATEGORIA: 5,
-        STOCK: 6,
-        CARACTERISTICAS: 7,
-        CARPETA_IMAGENES: 8
+        PRECIO_ANTERIOR: 5,
+        CATEGORIA: 6,
+        STOCK: 7,
+        CARACTERISTICAS: 8,
+        CARPETA_IMAGENES: 9
     }
 };
 
@@ -315,7 +316,7 @@ function obtenerCatalogoParaVenta() {
     const lastRow = sheet.getLastRow();
     if (lastRow < 2) return [];
 
-    return sheet.getRange(2, 1, lastRow - 1, 9).getValues()
+    return sheet.getRange(2, 1, lastRow - 1, 10).getValues()
         .filter(fila => fila[CONFIG.COLUMNAS.ID])
         .map(fila => ({
             nombreNormalizado: normalizarTexto(fila[CONFIG.COLUMNAS.NOMBRE]),
@@ -805,19 +806,23 @@ function leerProductosDeSheet() {
             }
             return precioValido && stockValido;
         })
-        .map(fila => ({
-            id: fila[CONFIG.COLUMNAS.ID],
-            nombre: fila[CONFIG.COLUMNAS.NOMBRE],
-            descripcion: fila[CONFIG.COLUMNAS.DESCRIPCION],
-            descripcionDetallada: fila[CONFIG.COLUMNAS.DESCRIPCION_DET],
-            precio: parseFloat(fila[CONFIG.COLUMNAS.PRECIO]),
-            categoria: fila[CONFIG.COLUMNAS.CATEGORIA],
-            stock: parseInt(fila[CONFIG.COLUMNAS.STOCK]),
-            caracteristicas: fila[CONFIG.COLUMNAS.CARACTERISTICAS]
-                ? fila[CONFIG.COLUMNAS.CARACTERISTICAS].split('.').map(c => c.trim())
-                : [],
-            carpetaImagenes: fila[CONFIG.COLUMNAS.CARPETA_IMAGENES]
-        }));
+        .map(fila => {
+            const precioAnterior = parseFloat(fila[CONFIG.COLUMNAS.PRECIO_ANTERIOR]);
+            return {
+                id: fila[CONFIG.COLUMNAS.ID],
+                nombre: fila[CONFIG.COLUMNAS.NOMBRE],
+                descripcion: fila[CONFIG.COLUMNAS.DESCRIPCION],
+                descripcionDetallada: fila[CONFIG.COLUMNAS.DESCRIPCION_DET],
+                precio: parseFloat(fila[CONFIG.COLUMNAS.PRECIO]),
+                precioAnterior: precioAnterior > 0 ? precioAnterior : null,
+                categoria: fila[CONFIG.COLUMNAS.CATEGORIA],
+                stock: parseInt(fila[CONFIG.COLUMNAS.STOCK]),
+                caracteristicas: fila[CONFIG.COLUMNAS.CARACTERISTICAS]
+                    ? fila[CONFIG.COLUMNAS.CARACTERISTICAS].split('.').map(c => c.trim())
+                    : [],
+                carpetaImagenes: fila[CONFIG.COLUMNAS.CARPETA_IMAGENES]
+            };
+        });
 
     return productos;
 }

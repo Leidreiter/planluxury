@@ -943,6 +943,15 @@ body {
     margin-bottom: 0;
 }
 
+/* Precio anterior tachado (cards, detalle y favoritos) */
+.precio-anterior {
+    text-decoration: line-through;
+    color: var(--secondary-color);
+    font-weight: normal;
+    font-size: 0.85em;
+    margin-right: 0.5rem;
+}
+
 .product-actions {
     padding: 0 1.5rem 1.5rem;
     display: flex;

@@ -167,6 +167,14 @@ export async function obtenerResenas() {
     }
 }
 
+// Precio anterior tachado: solo si es válido y mayor al precio actual
+export function renderPrecioAnterior(producto) {
+    const pa = producto.precioAnterior;
+    return (pa && pa > producto.precio)
+        ? `<span class="precio-anterior">$${formatearPrecio(pa)}</span>`
+        : '';
+}
+
 // Generar el HTML de una tarjeta de producto (estándar para toda la web)
 export function generarHTMLTarjetaProducto(producto) {
     const esAgotado = producto.stock === 0;
@@ -184,7 +192,7 @@ export function generarHTMLTarjetaProducto(producto) {
                 </div>
             </a>
             <div class="product-actions">
-                <p class="product-price">$${formatearPrecio(producto.precio)}</p>
+                <p class="product-price">${renderPrecioAnterior(producto)}$${formatearPrecio(producto.precio)}</p>
                 <button class="view-product-btn btn-border" onclick="window.location.href='producto.html?id=${producto.id}'" aria-label="Ver detalles de ${producto.nombre}">
                     Ver producto
                 </button>

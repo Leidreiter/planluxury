@@ -1,6 +1,6 @@
 // Página de detalle de producto con galería de imágenes y zoom
 
-import { formatearPrecio, mostrarNotificacion, obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, renderPrecioAnterior } from './utils.js';
 
 let imagenActualIndex = 0;
 let zoomActivo = false;
@@ -165,7 +165,7 @@ function renderizarDetalleProducto(producto) {
                 
                 <p class="product-stock ${stockClass}">${stockText}</p>
                 
-                <p class="product-detail-price">$${formatearPrecio(producto.precio)}</p>
+                <p class="product-detail-price">${renderPrecioAnterior(producto)}$${formatearPrecio(producto.precio)}</p>
                 
                 <p class="product-detail-description">${producto.descripcionDetallada}</p>
                 
