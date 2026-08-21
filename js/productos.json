@@ -93,7 +93,7 @@
     "descripcion": "Buzo básico femenino, ideal para cualquier ocasión",
     "descripcionDetallada": "Buzo liso para mujer de diseño minimalista, fácil de combinar. Perfecto para looks casuales o deportivos.",
     "precio": 48000,
-    "precioAnterior": 45000,
+    "precioAnterior": 50000,
     "categoria": "Abrigos",
     "stock": 34,
     "caracteristicas": [
@@ -115,7 +115,7 @@
     "descripcion": "Buzo oversize con estilo relajado y moderno",
     "descripcionDetallada": "Buzo oversize para mujer, tendencia actual que combina comodidad y estilo urbano. Ideal para looks sueltos y descontracturados.",
     "precio": 62400,
-    "precioAnterior": 60000,
+    "precioAnterior": 70000,
     "categoria": "Abrigos",
     "stock": 22,
     "caracteristicas": [
@@ -137,7 +137,7 @@
     "descripcion": "Jean oscuro elegante y versátil",
     "descripcionDetallada": "Jean para mujer en tono oscuro, ideal para looks tanto casuales como formales. Ajuste cómodo que resalta la silueta.",
     "precio": 66000,
-    "precioAnterior": null,
+    "precioAnterior": 70000,
     "categoria": "Pantalones",
     "stock": 27,
     "caracteristicas": [
@@ -159,7 +159,7 @@
     "descripcion": "Jeans clásicos masculinos de uso diario",
     "descripcionDetallada": "Jeans para hombre con corte tradicional, ideales para cualquier ocasión. Duraderos y cómodos para el día a día.",
     "precio": 72000,
-    "precioAnterior": null,
+    "precioAnterior": 75000,
     "categoria": "Pantalones",
     "stock": 31,
     "caracteristicas": [
@@ -181,7 +181,7 @@
     "descripcion": "Jeans pata elefante con estilo retro",
     "descripcionDetallada": "Jeans para mujer con corte pata elefante, inspirados en tendencias vintage. Perfectos para destacar con un look único.",
     "precio": 69600,
-    "precioAnterior": null,
+    "precioAnterior": 75000,
     "categoria": "Pantalones",
     "stock": 17,
     "caracteristicas": [
@@ -203,7 +203,7 @@
     "descripcion": "Jeans desgastados con roturas modernas",
     "descripcionDetallada": "Jeans para hombre con roturas estratégicas que aportan un look urbano y actual. Ideales para outfits informales.",
     "precio": 74400,
-    "precioAnterior": null,
+    "precioAnterior": 82000,
     "categoria": "Pantalones",
     "stock": 22,
     "caracteristicas": [
@@ -225,7 +225,7 @@
     "descripcion": "Remera con diseño de calavera llamativo",
     "descripcionDetallada": "Remera para hombre con estampado de calavera, perfecta para un estilo rebelde y moderno.",
     "precio": 36000,
-    "precioAnterior": null,
+    "precioAnterior": 42000,
     "categoria": "Remeras",
     "stock": 10,
     "caracteristicas": [
@@ -247,7 +247,7 @@
     "descripcion": "Remera gamer con diseño “Game Over”",
     "descripcionDetallada": "Remera para mujer con estampa divertida “Game Over”, ideal para fanáticas del gaming y el estilo casual.",
     "precio": 33600,
-    "precioAnterior": null,
+    "precioAnterior": 45000,
     "categoria": "Remeras",
     "stock": 4,
     "caracteristicas": [
@@ -269,7 +269,7 @@
     "descripcion": "Remera con estampa de tucán colorida",
     "descripcionDetallada": "Remera femenina con diseño de tucán vibrante, ideal para looks frescos y veraniegos",
     "precio": 32400,
-    "precioAnterior": null,
+    "precioAnterior": 42000,
     "categoria": "Remeras",
     "stock": 22,
     "caracteristicas": [
@@ -291,7 +291,7 @@
     "descripcion": "Suéter cómodo ideal para viajes",
     "descripcionDetallada": "Suéter para mujer pensado para viajes y uso diario, combinando abrigo ligero con estilo moderno.",
     "precio": 60000,
-    "precioAnterior": null,
+    "precioAnterior": 70000,
     "categoria": "Remeras",
     "stock": 5,
     "caracteristicas": [
@@ -313,7 +313,7 @@
     "descripcion": "Zapatillas high top con estilo urbano",
     "descripcionDetallada": "Zapatillas de caña alta para mujer, ideales para looks urbanos y modernos. Combinan diseño y comodidad.",
     "precio": 84000,
-    "precioAnterior": null,
+    "precioAnterior": 100000,
     "categoria": "Calzado",
     "stock": 14,
     "caracteristicas": [
@@ -335,7 +335,7 @@
     "descripcion": "Zapatillas urbanas cómodas para el día a día",
     "descripcionDetallada": "Zapatillas para mujer con estilo urbano, pensadas para uso diario. Livianas, cómodas y fáciles de combinar.",
     "precio": 81600,
-    "precioAnterior": null,
+    "precioAnterior": 82000,
     "categoria": "Calzado",
     "stock": 10,
     "caracteristicas": [
