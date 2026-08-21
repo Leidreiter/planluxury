@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# Scripts de Apps Script (fuente local, no se publica en el repo)
+scripts/
