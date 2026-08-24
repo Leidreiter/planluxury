@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "imagen": "https://lh3.googleusercontent.com/d/1iGHNrNwm7EmYIwnz7W3K7jiUDC31OlCx=s1200",
+    "badge": "Promociona",
+    "titulo": "Productos en tienda con banners destacables",
+    "boton": "Ver producto",
+    "link": "https://planluxury.lemora.lat/producto.html?id=1"
+  },
+  {
+    "imagen": "https://lh3.googleusercontent.com/d/1jGefjHB-Dfgvs3kJGNr3Lca02xH-uOmf=s1200",
+    "badge": "Promociona",
+    "titulo": "Productos en tienda con banners destacables",
+    "boton": "",
+    "link": ""
+  },
+  {
+    "imagen": "https://lh3.googleusercontent.com/d/1vTXk1ssQ6JvB5lgQgzdFmUGVHERG8_9V=s1200",
+    "badge": "Promociona",
+    "titulo": "Productos en tienda con banners destacables",
+    "boton": "",
+    "link": ""
+  },
+  {
+    "imagen": "https://lh3.googleusercontent.com/d/1wBBfRuFVHx3tQYlREsmztDab8ZGANisu=s1200",
+    "badge": "Promociona",
+    "titulo": "Productos en tienda con banners destacables",
+    "boton": "Ver producto",
+    "link": "https://planluxury.lemora.lat/producto.html?id=16"
+  },
+  {
+    "imagen": "https://lh3.googleusercontent.com/d/1RVlmPcd8SsV8S_KYgdCzfknadfJSoOck=s1200",
+    "badge": "Promociona",
+    "titulo": "Pagando con tarjeta \"X\" cuotas sin interés",
+    "boton": "",
+    "link": ""
+  }
+]
