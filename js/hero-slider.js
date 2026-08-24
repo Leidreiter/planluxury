@@ -1,5 +1,6 @@
 // Hero Slider - Autoplay, Loop, Swipe, Stop on Hover
-// Slides dinámicos desde la hoja "Slider" (js/slider.json); fallback estático del HTML
+// Slides dinámicos desde la hoja "Slider" (js/slider.json).
+// Sin slides => la sección se mantiene oculta (hidden en el HTML).
 
 import { obtenerSlider } from './utils.js';
 
@@ -31,18 +32,27 @@ class HeroSlider {
         this.slider = document.querySelector('.hero-slider');
         if (!this.slider) return;
 
-        this.track = this.slider.querySelector('.slider-track');
-
-        // Slides dinámicos desde la hoja "Slider"; si falla o viene vacío,
-        // se conservan los slides estáticos del HTML (fallback)
+        // La sección llega oculta del HTML (hidden): solo se muestra con slides reales.
+        // El administrador decide desde la hoja "Slider": hoja vacía => slider.json con []
+        // => la sección desaparece por completo (sin estático, sin JSON viejo).
         const datos = await obtenerSlider();
-        if (Array.isArray(datos) && datos.length > 0) {
-            this.construirSlides(datos);
+
+        if (!Array.isArray(datos) || datos.length === 0) {
+            this.slider.hidden = true;
+            return;
         }
+
+        this.track = this.slider.querySelector('.slider-track');
+        this.construirSlides(datos);
 
         this.slides = this.slider.querySelectorAll('.slider-slide');
 
-        if (this.slides.length === 0) return;
+        if (this.slides.length === 0) {
+            this.slider.hidden = true;
+            return;
+        }
+
+        this.slider.hidden = false;
 
         // Configurar eventos
         this.setupNavigation();
