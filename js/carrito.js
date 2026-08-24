@@ -1,6 +1,6 @@
 // Gestión del carrito de compras
 
-import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones, obtenerBanners, escaparHtml } from './utils.js';
 
 let productosGlobales = [];
 
@@ -246,11 +246,46 @@ async function cargarProductosReferencia() {
     }
 }
 
+// Banner del carrito: fila 5 de la hoja "Banners". Sin fila 5 => el contenedor queda oculto.
+function renderizarBannerCarrito(banners) {
+    const contenedor = document.getElementById('banner-carrito');
+    if (!contenedor) return;
+
+    const banner = Array.isArray(banners) ? banners[4] : null; // índice 4 = fila 5
+    if (!banner) return;
+
+    const titulo = escaparHtml(banner.titulo);
+    const link = escaparHtml(banner.link || '');
+    const tieneBoton = Boolean(banner.boton && banner.link);
+
+    contenedor.innerHTML = `
+        <div class="banner banner-border">
+            <div class="banner_imagen">
+                ${banner.link ? `<a href="${link}" target="_self">` : ''}
+                    <img loading="lazy" src="${escaparHtml(banner.imagen)}" alt="${titulo}" width="1200" height="400">
+                ${banner.link ? '</a>' : ''}
+            </div>
+            <div class="banner_info">
+                <div class="banner_info_icono banner-border">
+                    <img loading="lazy" src="img/icons/icon-banner3.png" alt="" class="block" width="60" height="60">
+                </div>
+                <div class="banner_info_copy">
+                    ${banner.badge ? `<h4>${escaparHtml(banner.badge)}</h4>` : ''}
+                    <h2>${titulo}</h2>
+                    ${tieneBoton ? `<a href="${link}" target="_self">${escaparHtml(banner.boton)} <i class="fa-solid fa-chevron-right"></i></a>` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+    contenedor.hidden = false;
+}
+
 // Event listener para el botón de checkout
 document.addEventListener('DOMContentLoaded', async function() {
     await cargarProductosReferencia();
     await obtenerCupones();
     renderizarCarrito();
+    renderizarBannerCarrito(await obtenerBanners());
     
     // Alerta inicial si hay productos que se quedaron sin stock
     const cart = obtenerCarrito();

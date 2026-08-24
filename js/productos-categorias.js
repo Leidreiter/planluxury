@@ -1,14 +1,16 @@
 // Renderizar productos por categorías en el index
-import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase } from './utils.js';
+import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, obtenerBanners, escaparHtml } from './utils.js';
 
 let productos = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Cargar productos usando el sistema centralizado con caché
     productos = await obtenerProductos();
-    
+
     if (productos.length > 0) {
-        renderizarCategoriasAutomaticas();
+        // Banners dinámicos desde la hoja "Banners"; sin datos o error => sin banners
+        const banners = await obtenerBanners();
+        renderizarCategoriasAutomaticas(Array.isArray(banners) ? banners : []);
 
         // Scroll al hash si se viene desde otra página (ej: index.html#cat-calzado)
         if (window.location.hash) {
@@ -20,12 +22,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function renderizarCategoriasAutomaticas() {
+function renderizarCategoriasAutomaticas(banners) {
     const container = document.getElementById('tienda');
     if (!container) return;
 
     // Extraer categorías únicas de los productos
     const categorias = [...new Set(productos.map(p => p.categoria))].filter(Boolean);
+
+    // Intercalar banners dinámicos entre las categorías (máx 4 en el index; la fila 5 es del carrito)
+    const bannersIndex = banners.slice(0, 4);
+    let bannerActual = 0;
 
     let htmlFinal = '';
 
@@ -42,17 +48,52 @@ function renderizarCategoriasAutomaticas() {
             </section>
         `;
 
-        // Intercalar los banners (banner1, banner2, banner3) entre las categorías
-        const bannerId = `banner${index + 1}`;
-        const bannerElement = document.getElementById(bannerId);
-        
-        if (bannerElement && index < 3) {
-            htmlFinal += bannerElement.outerHTML;
-            bannerElement.remove(); // Eliminar el original del fondo de la página para evitar duplicados
+        // Banner después de cada categoría mientras haya disponibles
+        if (bannerActual < bannersIndex.length) {
+            htmlFinal += generarHTMLBannerDinamico(bannersIndex[bannerActual], bannerActual);
+            bannerActual++;
         }
     });
 
+    // Banners sobrantes al final (más banners que categorías)
+    while (bannerActual < bannersIndex.length) {
+        htmlFinal += generarHTMLBannerDinamico(bannersIndex[bannerActual], bannerActual);
+        bannerActual++;
+    }
+
     container.innerHTML = htmlFinal;
+}
+
+// Misma estructura visual que los banners estáticos de la plantilla.
+// Reglas: badge vacío => sin h4 · botón solo con texto Y link · imagen siempre presente (placeholder si falta).
+function generarHTMLBannerDinamico(banner, posicion) {
+    const titulo = escaparHtml(banner.titulo);
+    const link = escaparHtml(banner.link || '');
+    const tieneBoton = Boolean(banner.boton && banner.link);
+
+    return `
+        <section class="banner-intercalado">
+            <div class="banner banner-border">
+                <div class="banner_imagen">
+                    ${banner.link ? `<a href="${link}" target="_self">` : ''}
+                        <img loading="lazy" src="${escaparHtml(banner.imagen)}" alt="${titulo}" width="1200" height="400">
+                    ${banner.link ? '</a>' : ''}
+                </div>
+
+                <div class="banner_info">
+                    <div class="banner_info_icono banner-border">
+                        <img loading="lazy" src="img/icons/icon-banner${(posicion % 3) + 1}.png" alt="" class="block" width="60" height="60">
+                    </div>
+
+                    <div class="banner_info_copy">
+                        ${banner.badge ? `<h4>${escaparHtml(banner.badge)}</h4>` : ''}
+                        <h2>${titulo}</h2>
+                        ${tieneBoton ? `<a href="${link}" target="_self">${escaparHtml(banner.boton)} <i class="fa-solid fa-chevron-right"></i></a>` : ''}
+                    </div>
+                </div>
+            </div>
+        </section>
+    `;
 }
 
 // Lógica para agregar al carrito desde las tarjetas de esta página

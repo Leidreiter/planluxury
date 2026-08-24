@@ -2650,6 +2650,7 @@ footer p {
 
 /* Ocultar secciones cuando hay búsqueda activa */
 body.searching .category-section,
+body.searching .banner-intercalado,
 body.searching #banner1,
 body.searching #banner2,
 body.searching #banner3 {

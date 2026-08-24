@@ -41,6 +41,9 @@
 
     <main class="cart-page contenedor">
 
+        <!-- Banner estático DESACTIVADO: el banner del carrito ahora es la fila 5 de la hoja "Banners"
+             (js/banners.json, renderizado por js/carrito.js). Sin fila 5 => sección oculta.
+             Para restaurar el modo estático: descomentar este bloque y borrar el contenedor dinámico de abajo.
         <section>
             <div class="banner banner-border">
                 <div class="banner_imagen">
@@ -60,6 +63,10 @@
                 </div>
             </div>
         </section>
+        -->
+
+        <!-- Banner dinámico (fila 5 de la hoja "Banners"); js/carrito.js lo muestra si existe -->
+        <section id="banner-carrito" hidden></section>
 
         <h1>Tu Carrito de Compras</h1>
 
