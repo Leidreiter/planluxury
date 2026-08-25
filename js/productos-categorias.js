@@ -50,14 +50,14 @@ function renderizarCategoriasAutomaticas(banners) {
 
         // Banner después de cada categoría mientras haya disponibles
         if (bannerActual < bannersIndex.length) {
-            htmlFinal += generarHTMLBannerDinamico(bannersIndex[bannerActual], bannerActual);
+            htmlFinal += generarHTMLBannerDinamico(bannersIndex[bannerActual]);
             bannerActual++;
         }
     });
 
     // Banners sobrantes al final (más banners que categorías)
     while (bannerActual < bannersIndex.length) {
-        htmlFinal += generarHTMLBannerDinamico(bannersIndex[bannerActual], bannerActual);
+        htmlFinal += generarHTMLBannerDinamico(bannersIndex[bannerActual]);
         bannerActual++;
     }
 
@@ -65,8 +65,8 @@ function renderizarCategoriasAutomaticas(banners) {
 }
 
 // Misma estructura visual que los banners estáticos de la plantilla.
-// Reglas: badge vacío => sin h4 · botón solo con texto Y link · imagen siempre presente (placeholder si falta).
-function generarHTMLBannerDinamico(banner, posicion) {
+// Reglas: badge vacío => sin h4 · botón solo con texto Y link · logo vacío => sin bloque de ícono.
+function generarHTMLBannerDinamico(banner) {
     const titulo = escaparHtml(banner.titulo);
     const link = escaparHtml(banner.link || '');
     const tieneBoton = Boolean(banner.boton && banner.link);
@@ -81,9 +81,11 @@ function generarHTMLBannerDinamico(banner, posicion) {
                 </div>
 
                 <div class="banner_info">
+                    ${banner.logo ? `
                     <div class="banner_info_icono banner-border">
-                        <img loading="lazy" src="img/icons/icon-banner${(posicion % 3) + 1}.png" alt="" class="block" width="60" height="60">
+                        <img loading="lazy" src="${escaparHtml(banner.logo)}" alt="" class="block" width="60" height="60">
                     </div>
+                    ` : ''}
 
                     <div class="banner_info_copy">
                         ${banner.badge ? `<h4>${escaparHtml(banner.badge)}</h4>` : ''}

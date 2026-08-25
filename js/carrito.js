@@ -266,9 +266,12 @@ function renderizarBannerCarrito(banners) {
                 ${banner.link ? '</a>' : ''}
             </div>
             <div class="banner_info">
+                ${banner.logo ? `
                 <div class="banner_info_icono banner-border">
-                    <img loading="lazy" src="img/icons/icon-banner3.png" alt="" class="block" width="60" height="60">
+                    <img loading="lazy" src="${escaparHtml(banner.logo)}" alt="" class="block" width="60" height="60">
                 </div>
+                ` : ''}
+
                 <div class="banner_info_copy">
                     ${banner.badge ? `<h4>${escaparHtml(banner.badge)}</h4>` : ''}
                     <h2>${titulo}</h2>
