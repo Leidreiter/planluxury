@@ -167,7 +167,8 @@ html {
 /* Icono */
 .banner_info_icono {
     flex-shrink: 0;
-    width: 160px;
+    width: 140px;
+    height: 100px;
     background-color: #ffffff;
     display: flex;
     align-items: center;
@@ -175,8 +176,7 @@ html {
 }
 
 .banner_info_icono img {
-    width: 64px;
-    height: 64px;
+    width: 80px;
 }
 
 /* Copy */
