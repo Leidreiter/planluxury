@@ -337,6 +337,22 @@ html {
     border-radius: 0 16px 16px 0;
 }
 
+/* Imagen dinámica de las tarjetas del par (URL de Drive vía estilo inline).
+   Clona posición/tamaño/radio de .banner-img1/2 pero sin imagen fija en CSS. */
+.banner-img-dinamica {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 0 16px 16px 0;
+    min-height: 220px;
+}
+
+@media (max-width: 768px) {
+    .banner-img-dinamica {
+        min-height: 160px;
+    }
+}
+
 /* Clase universal para border-radius en banners */
 .banner-border {
     border-radius: 16px;
