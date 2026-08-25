@@ -301,7 +301,8 @@ html {
     .banner-promo-info {
         padding: 20px;
     }
-    .banner-promo-info h4{
+    .banner-promo-info h4 {
+        margin: .4rem 0;
     }
 }
 
@@ -313,6 +314,17 @@ html {
 .banner-promo-info h2,
 .banner-promo-info h4 {
     text-transform: uppercase;
+}
+
+/* Badge de las tarjetas: mismo estilo de label que el banner completo,
+   pero en color oscuro por vivir sobre tarjeta blanca */
+.banner-promo-info h4 {
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-color);
 }
 
 .banner-img1 {
