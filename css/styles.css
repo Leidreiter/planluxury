@@ -304,6 +304,9 @@ html {
     .banner-promo-info h4 {
         margin: .4rem 0;
     }
+    .banner-promo-info h2 {
+        margin: .4rem 0;
+    }
 }
 
 .banner-promo-info .btn {
@@ -324,6 +327,18 @@ html {
     line-height: 1.2;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    color: var(--text-color);
+}
+
+/* Título de las tarjetas: mismas tipografía y márgenes que el h2 del banner completo,
+   en oscuro sobre tarjeta blanca */
+.banner-promo-info h2 {
+    margin: 1rem 0;
+    font-size: var(--fs-h2);
+    line-height: 1.15;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: left;
     color: var(--text-color);
 }
 
