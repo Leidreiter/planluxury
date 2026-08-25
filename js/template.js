@@ -101,16 +101,6 @@ function initMarquee() {
 async function initTemplate(activePage = '') {
     const body = document.body;
 
-    // Envolver el contenido principal en un contenedor full-width opaco
-    // (necesario para el efecto reveal/stacking del footer)
-    const main = body.querySelector('main');
-    if (main) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'site-content';
-        main.parentNode.insertBefore(wrapper, main);
-        wrapper.appendChild(main);
-    }
-
     // Obtener categorías dinámicas
     let categorias = [];
     try {
@@ -130,8 +120,7 @@ async function initTemplate(activePage = '') {
     const footer = renderFooter();
     body.appendChild(footer);
 
-    // WhatsApp flotante como hijo directo del body: el footer sticky crea su
-    // propio stacking context y dejaría el botón atrapado detrás del contenido
+    // WhatsApp flotante (posición fija, independiente del footer)
     const whatsapp = document.createElement('div');
     whatsapp.className = 'whatsapp';
     whatsapp.innerHTML = `

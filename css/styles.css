@@ -1587,18 +1587,7 @@ body {
 }
 
 /* Footer */
-/* Contenido principal: capa superior opaca que cubre el footer
-   mientras se hace scroll (efecto reveal/stacking) */
-.site-content {
-    position: relative;
-    z-index: var(--z-base);
-    background-color: var(--bg-color);
-}
-
 footer {
-    position: sticky;
-    bottom: 0;
-    z-index: 0;
     background: white;
     text-align: center;
     padding: 2rem;
