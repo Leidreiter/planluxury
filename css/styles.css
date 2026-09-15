@@ -3644,6 +3644,15 @@ body.zoom-active {
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Desktop: descripción del slider con tamaño aumentado */
+@media (min-width: 769px) {
+    .slider-text p {
+        font-size: calc(var(--fs-body) * 1.4);
+        line-height: 1.4;
+        font-weight: 400;
+    }
+}
+
 /* Botones de navegación */
 .slider-nav {
     position: absolute;
