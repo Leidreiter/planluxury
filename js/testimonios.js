@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     viewport.addEventListener('pointermove', function (e) {
         if (!arrastrando) return;
         const delta = e.clientX - dragStartX;
-        offset = dragStartOffset + delta;
+        offset = dragStartOffset - delta;
         render();
     });
 
