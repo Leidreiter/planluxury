@@ -1,6 +1,6 @@
 // Gestión del carrito de compras
 
-import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones, obtenerBanners, escaparHtml } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones, obtenerBanners, escaparHtml, claveItemCarrito } from './utils.js';
 
 let productosGlobales = [];
 
@@ -38,23 +38,25 @@ function renderizarCarrito() {
         const productoRef = productosGlobales.find(p => p.id === item.id);
         const sinStock = productoRef && productoRef.stock === 0;
         const stockBajo = productoRef && productoRef.stock > 0 && productoRef.stock < 5;
+        const clave = claveItemCarrito(item.id, item.varianteTexto);
 
         return `
-        <div class="cart-item${sinStock ? ' sin-stock' : ''}" data-id="${item.id}">
+        <div class="cart-item${sinStock ? ' sin-stock' : ''}" data-clave="${escaparHtml(clave)}">
             <img src="${item.imagen}" alt="${item.nombre}" class="item-image" loading="lazy">
             <div class="item-details">
                 <h3 class="item-title">${item.nombre}</h3>
+                ${item.varianteTexto ? `<p class="item-variant">${escaparHtml(item.varianteTexto)}</p>` : ''}
                 ${sinStock ? `<p class="stock-alert stock-alert-danger">⚠️ Este producto se agotó. Debes eliminarlo para continuar.</p>` : ''}
                 ${stockBajo ? `<p class="stock-alert stock-alert-warn">⚠️ ¡Últimas unidades disponibles! (Quedan ${productoRef.stock})</p>` : ''}
                 <p class="item-price">$${formatearPrecio(item.precio)}</p>
             </div>
             <div class="item-controls">
                 <div class="quantity-controls">
-                    <button class="qty-btn btn-border" onclick="actualizarCantidad(${item.id}, -1)" aria-label="Disminuir cantidad" ${sinStock ? 'disabled' : ''}>-</button>
+                    <button class="qty-btn btn-border" onclick="actualizarCantidad(this.dataset.clave, -1)" data-clave="${escaparHtml(clave)}" aria-label="Disminuir cantidad" ${sinStock ? 'disabled' : ''}>-</button>
                     <span class="qty-display">${item.quantity}</span>
-                    <button class="qty-btn btn-border" onclick="actualizarCantidad(${item.id}, 1)" aria-label="Aumentar cantidad" ${sinStock ? 'disabled' : ''}>+</button>
+                    <button class="qty-btn btn-border" onclick="actualizarCantidad(this.dataset.clave, 1)" data-clave="${escaparHtml(clave)}" aria-label="Aumentar cantidad" ${sinStock ? 'disabled' : ''}>+</button>
                 </div>
-                <button class="remove-btn btn-border" onclick="eliminarDelCarrito(${item.id})" aria-label="Eliminar ${item.nombre}">
+                <button class="remove-btn btn-border" onclick="eliminarDelCarrito(this.dataset.clave)" data-clave="${escaparHtml(clave)}" aria-label="Eliminar ${item.nombre}">
                     <i class="fa-solid fa-trash-can"></i> Eliminar
                 </button>
             </div>
@@ -65,25 +67,30 @@ function renderizarCarrito() {
     actualizarTotales();
 }
 
-// Actualizar cantidad de un producto
-function actualizarCantidad(id, cambio) {
+// Actualizar cantidad de un producto (por clave de línea)
+function actualizarCantidad(clave, cambio) {
     let cart = obtenerCarrito();
-    const item = cart.find(i => i.id === id);
+    const item = cart.find(i => claveItemCarrito(i.id, i.varianteTexto) === clave);
 
     if (item) {
-        // Validar stock si se intenta aumentar la cantidad
+        // Validar stock si se intenta aumentar la cantidad (sumado entre líneas del mismo producto)
         if (cambio > 0) {
-            const productoRef = productosGlobales.find(p => p.id === id);
-            if (productoRef && item.quantity + cambio > productoRef.stock) {
-                mostrarNotificacion(`Límite de stock alcanzado (${productoRef.stock} disponibles)`);
-                return;
+            const productoRef = productosGlobales.find(p => p.id === item.id);
+            if (productoRef) {
+                const enCarrito = cart
+                    .filter(i => i.id === item.id)
+                    .reduce((sum, i) => sum + i.quantity, 0);
+                if (enCarrito + cambio > productoRef.stock) {
+                    mostrarNotificacion(`Límite de stock alcanzado (${productoRef.stock} disponibles)`);
+                    return;
+                }
             }
         }
 
         item.quantity += cambio;
         
         if (item.quantity <= 0) {
-            eliminarDelCarrito(id);
+            eliminarDelCarrito(clave);
             return;
         }
 
@@ -92,10 +99,10 @@ function actualizarCantidad(id, cambio) {
     }
 }
 
-// Eliminar producto del carrito
-function eliminarDelCarrito(id) {
+// Eliminar producto del carrito (por clave de línea)
+function eliminarDelCarrito(clave) {
     let cart = obtenerCarrito();
-    cart = cart.filter(item => item.id !== id);
+    cart = cart.filter(item => claveItemCarrito(item.id, item.varianteTexto) !== clave);
     guardarCarrito(cart);
     renderizarCarrito();
 }

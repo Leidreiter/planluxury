@@ -1,6 +1,6 @@
 // Página de detalle de producto con galería de imágenes y zoom
 
-import { formatearPrecio, mostrarNotificacion, obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, renderPrecioAnterior } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, renderPrecioAnterior, tieneVariantes, escaparHtml, claveItemCarrito } from './utils.js';
 
 let imagenActualIndex = 0;
 let zoomActivo = false;
@@ -177,6 +177,23 @@ function renderizarDetalleProducto(producto) {
                         `).join('')}
                     </ul>
                 </div>
+                
+                ${tieneVariantes(producto) ? `
+                <div class="variant-selector">
+                    <h3>Elegí tu opción:</h3>
+                    ${producto.variantes.map((v, i) => `
+                        <div class="variant-group">
+                            <label for="variantSelect${i}">${escaparHtml(v.opcion)}:</label>
+                            <select id="variantSelect${i}" class="variant-select">
+                                <option value="">Seleccioná ${escaparHtml(v.opcion)}</option>
+                                ${v.valores.map(val => `
+                                    <option value="${escaparHtml(val)}">${escaparHtml(val)}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    `).join('')}
+                </div>
+                ` : ''}
                 
                 <div class="quantity-selector">
                     <label for="quantity">Cantidad:</label>
@@ -580,10 +597,11 @@ function cambiarCantidad(cambio) {
     const producto = productos.find(p => p.id === productoId);
     if (!producto) return;
 
-    // Calcular stock disponible real (total - lo que ya está en el carrito)
+    // Calcular stock disponible real (total - lo que ya está en el carrito en todas sus líneas)
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const itemEnCarrito = cart.find(item => item.id === producto.id);
-    const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.quantity : 0;
+    const cantidadEnCarrito = cart
+        .filter(item => item.id === producto.id)
+        .reduce((sum, item) => sum + item.quantity, 0);
     const stockDisponibleReal = producto.stock - cantidadEnCarrito;
 
     if (stockDisponibleReal <= 0) {
@@ -608,30 +626,52 @@ function cambiarCantidad(cambio) {
     }
 }
 
-// Agregar al carrito desde detalle
+// Agregar al carrito desde detalle. Devuelve true si se agregó.
 function agregarAlCarritoDetalle(id) {
     const producto = productos.find(p => p.id === id);
-    if (!producto) return;
+    if (!producto) return false;
+
+    // Validar que estén elegidas todas las variantes del producto
+    let varianteTexto = '';
+    if (tieneVariantes(producto)) {
+        const elegidas = producto.variantes.map((v, i) => {
+            const select = document.getElementById(`variantSelect${i}`);
+            return { opcion: v.opcion, valor: select ? select.value.trim() : '' };
+        });
+
+        const pendientes = elegidas.filter(x => !x.valor);
+        if (pendientes.length > 0) {
+            mostrarNotificacion(`Elegí ${pendientes.map(x => x.opcion).join(', ')} para continuar`, 'error');
+            return false;
+        }
+        varianteTexto = elegidas.map(x => `${x.opcion}: ${x.valor}`).join(', ');
+    }
 
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingItem = cart.find(item => item.id === id);
+    const clave = claveItemCarrito(id, varianteTexto);
+    const existingItem = cart.find(item => claveItemCarrito(item.id, item.varianteTexto) === clave);
 
-    const currentInCart = existingItem ? existingItem.quantity : 0;
+    const cantidadDeEsteProducto = cart
+        .filter(item => item.id === id)
+        .reduce((sum, item) => sum + item.quantity, 0);
+
+    if (cantidadDeEsteProducto + cantidadSeleccionada > producto.stock) {
+        mostrarNotificacion('No puedes agregar más de este producto (límite de stock)', 'error');
+        return false;
+    }
 
     if (existingItem) {
-        if (currentInCart + cantidadSeleccionada > producto.stock) {
-            mostrarNotificacion('No puedes agregar más de este producto (límite de stock)', 'error');
-            return;
-        }
         existingItem.quantity += cantidadSeleccionada;
     } else {
-        cart.push({
+        const nuevoItem = {
             id: producto.id,
             nombre: producto.nombre,
             precio: producto.precio,
             imagen: producto.imagen,
             quantity: cantidadSeleccionada
-        });
+        };
+        if (varianteTexto) nuevoItem.varianteTexto = varianteTexto;
+        cart.push(nuevoItem);
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -650,14 +690,17 @@ function agregarAlCarritoDetalle(id) {
     // Resetear cantidad
     cantidadSeleccionada = 1;
     cambiarCantidad(0);
+
+    return true;
 }
 
 // Comprar ahora
 function comprarAhora(id) {
-    agregarAlCarritoDetalle(id);
-    setTimeout(() => {
-        window.location.href = 'carrito.html';
-    }, 500);
+    if (agregarAlCarritoDetalle(id)) {
+        setTimeout(() => {
+            window.location.href = 'carrito.html';
+        }, 500);
+    }
 }
 
 // Cargar productos relacionados

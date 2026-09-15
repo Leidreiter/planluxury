@@ -199,7 +199,8 @@ function construirUrlWhatsApp(datos, cart, subtotal, descuento, total, cupon) {
     
     mensaje += `*Productos:*\n`;
     cart.forEach((item, index) => {
-        mensaje += `${index + 1}. ${item.nombre}\n`;
+        const variante = item.varianteTexto ? ` [${String(item.varianteTexto).replace(/[\r\n]+/g, ' ')}]` : '';
+        mensaje += `${index + 1}. ${item.nombre}${variante}\n`;
         mensaje += `   Cantidad: ${item.quantity}\n`;
         mensaje += `   Precio unitario: $${formatearPrecio(item.precio)}\n`;
         mensaje += `   Subtotal: $${formatearPrecio(item.precio * item.quantity)}\n\n`;

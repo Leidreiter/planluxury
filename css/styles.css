@@ -1265,6 +1265,12 @@ body {
     margin-bottom: 0.5rem;
 }
 
+.item-variant {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #555);
+    margin-bottom: 0.35rem;
+}
+
 .item-price {
     color: var(--primary-color);
     font-weight: bold;
@@ -2250,6 +2256,40 @@ footer p {
     font-weight: bold;
     min-width: 40px;
     text-align: center;
+}
+
+.variant-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.variant-group {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.variant-group label {
+    font-weight: 500;
+    min-width: 110px;
+}
+
+.variant-select {
+    flex: 1;
+    max-width: 280px;
+    padding: 0.55rem 0.75rem;
+    border: 2px solid var(--border-color, #e2e2e2);
+    border-radius: var(--radius, 6px);
+    background: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.variant-select:focus {
+    border-color: var(--primary-color);
+    outline: none;
 }
 
 .product-actions-detail {

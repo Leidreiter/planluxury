@@ -11,6 +11,7 @@
       {
         "opcion": "Talles",
         "valores": [
+<<<<<<< HEAD
           "40",
           "41",
           "42",
@@ -23,6 +24,20 @@
         "valores": [
           "Cuero",
           "Simil cuero"
+=======
+          "39",
+          "40",
+          "41",
+          "42",
+          "43"
+        ]
+      },
+      {
+        "opcion": "Color",
+        "valores": [
+          "Negro",
+          "Marrón"
+>>>>>>> f6f1764 (cambios al script)
         ]
       }
     ],

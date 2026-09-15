@@ -240,11 +240,38 @@ export function renderPrecioAnterior(producto) {
         : '';
 }
 
+// ¿El producto tiene variantes seleccionables? (opción + al menos un valor)
+export function tieneVariantes(producto) {
+    return Array.isArray(producto.variantes)
+        && producto.variantes.some(v => v && v.opcion && Array.isArray(v.valores) && v.valores.length > 0);
+}
+
+// Clave única de línea de carrito: mismo producto + misma variante se agrupan;
+// mismo producto con variante distinta quedan en líneas separadas.
+export function claveItemCarrito(id, varianteTexto = '') {
+    return `${id}||${varianteTexto || ''}`;
+}
+
 // Generar el HTML de una tarjeta de producto (estándar para toda la web)
 export function generarHTMLTarjetaProducto(producto) {
     const esAgotado = producto.stock === 0;
-    
-   
+    const conVariantes = tieneVariantes(producto);
+
+    const botonPrincipal = conVariantes
+        ? `
+            <button class="add-to-cart-btn btn-border" onclick="window.location.href='producto.html?id=${producto.id}'"
+                aria-label="Elegir variante de ${producto.nombre}">
+                Elegir variante
+            </button>
+        `
+        : `
+            <button class="add-to-cart-btn btn-border" onclick="agregarAlCarrito(${producto.id})"
+                ${esAgotado ? 'disabled' : ''}
+                aria-label="Agregar ${producto.nombre} al carrito">
+                ${esAgotado ? 'Agotado' : 'Agregar al Carrito'}
+            </button>
+        `;
+
     return `
         <article class="product-card ${esAgotado ? 'out-of-stock' : ''}">
             ${esAgotado ? '<span class="out-of-stock-badge">Sin Stock</span>' : ''}
@@ -253,7 +280,7 @@ export function generarHTMLTarjetaProducto(producto) {
                 <div class="product-info">
                     <h3 class="product-title">${producto.nombre}</h3>
                     <p class="product-description">${producto.descripcion}</p>
-                    
+
                 </div>
             </a>
             <div class="product-actions">
@@ -262,13 +289,9 @@ export function generarHTMLTarjetaProducto(producto) {
                     Ver producto
                 </button>
 
-                <button class="add-to-cart-btn btn-border" onclick="agregarAlCarrito(${producto.id})" 
-                    ${esAgotado ? 'disabled' : ''} 
-                    aria-label="Agregar ${producto.nombre} al carrito">
-                    ${esAgotado ? 'Agotado' : 'Agregar al Carrito'}
-                </button>
-                
-                
+                ${botonPrincipal}
+
+
             </div>
         </article>
     `;
@@ -278,6 +301,12 @@ export function generarHTMLTarjetaProducto(producto) {
 export function agregarAlCarritoBase(id, listaProductos) {
     const producto = listaProductos.find(p => p.id === id);
     if (!producto) return;
+
+    // Productos con variantes se eligen en la página de detalle
+    if (tieneVariantes(producto)) {
+        window.location.href = `producto.html?id=${id}`;
+        return;
+    }
 
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const existingItem = cart.find(item => item.id === id);
