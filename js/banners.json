@@ -1,15 +1,15 @@
 [
   {
     "imagen": "https://lh3.googleusercontent.com/d/1iGHNrNwm7EmYIwnz7W3K7jiUDC31OlCx=s1200",
-    "logo": "",
-    "badge": "",
-    "titulo": "",
-    "boton": "",
+    "logo": "https://lh3.googleusercontent.com/d/1MSIaEOo1DUlkJKox3ssA687CJmrHnEoF=s240",
+    "badge": "Promociona",
+    "titulo": "Producto destacado",
+    "boton": "Ver producto",
     "link": "https://planluxury.lemora.lat/producto.html?id=2"
   },
   {
     "imagen": "https://lh3.googleusercontent.com/d/1jGefjHB-Dfgvs3kJGNr3Lca02xH-uOmf=s1200",
-    "logo": "",
+    "logo": "https://lh3.googleusercontent.com/d/165MhCr5wFsx6rzSRR9Nzh_FbpzUuJQLB=s240",
     "badge": "Promociona",
     "titulo": "Producto destacado",
     "boton": "Ver producto",
@@ -17,7 +17,7 @@
   },
   {
     "imagen": "https://lh3.googleusercontent.com/d/1vTXk1ssQ6JvB5lgQgzdFmUGVHERG8_9V=s1200",
-    "logo": "",
+    "logo": "https://lh3.googleusercontent.com/d/1iMGaXcjO1fs3NYidCh5MM4YBl-1QXtaI=s240",
     "badge": "Promociona",
     "titulo": "Producto destacado",
     "boton": "Ver producto",
@@ -25,7 +25,7 @@
   },
   {
     "imagen": "https://lh3.googleusercontent.com/d/1wBBfRuFVHx3tQYlREsmztDab8ZGANisu=s1200",
-    "logo": "https://lh3.googleusercontent.com/d/165MhCr5wFsx6rzSRR9Nzh_FbpzUuJQLB=s240",
+    "logo": "",
     "badge": "Promociona",
     "titulo": "Ofertas o promociones en la tienda con banners",
     "boton": "Ver producto",
@@ -33,10 +33,10 @@
   },
   {
     "imagen": "https://lh3.googleusercontent.com/d/1RVlmPcd8SsV8S_KYgdCzfknadfJSoOck=s1200",
-    "logo": "https://lh3.googleusercontent.com/d/1iMGaXcjO1fs3NYidCh5MM4YBl-1QXtaI=s240",
+    "logo": "",
     "badge": "Aprovecha",
     "titulo": "Pagando con tarjeta VISA hasta 3 cuotas sin interés",
-    "boton": "",
-    "link": ""
+    "boton": "Ver producto",
+    "link": "https://planluxury.lemora.lat/producto.html?id=16"
   }
 ]
