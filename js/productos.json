@@ -7,6 +7,25 @@
     "precio": 114000,
     "precioAnterior": 125000,
     "categoria": "Calzado",
+    "variantes": [
+      {
+        "opcion": "Talles",
+        "valores": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44"
+        ]
+      },
+      {
+        "opcion": "Estilo",
+        "valores": [
+          "Cuero",
+          "Simil cuero"
+        ]
+      }
+    ],
     "stock": 4,
     "caracteristicas": [
       "Cuero genuino",
@@ -29,6 +48,7 @@
     "precio": 78000,
     "precioAnterior": 80000,
     "categoria": "Calzado",
+    "variantes": null,
     "stock": 12,
     "caracteristicas": [
       "Diseño lowtop",
@@ -51,6 +71,7 @@
     "precio": 54000,
     "precioAnterior": 60000,
     "categoria": "Abrigos",
+    "variantes": null,
     "stock": 30,
     "caracteristicas": [
       "Bolsillo frontal",
@@ -73,6 +94,7 @@
     "precio": 57600,
     "precioAnterior": 60000,
     "categoria": "Abrigos",
+    "variantes": null,
     "stock": 9,
     "caracteristicas": [
       "Capucha con cordón",
@@ -95,6 +117,7 @@
     "precio": 48000,
     "precioAnterior": 50000,
     "categoria": "Abrigos",
+    "variantes": null,
     "stock": 34,
     "caracteristicas": [
       "Diseño minimalista",
@@ -117,6 +140,7 @@
     "precio": 62400,
     "precioAnterior": 70000,
     "categoria": "Abrigos",
+    "variantes": null,
     "stock": 22,
     "caracteristicas": [
       "Fit oversize",
@@ -139,6 +163,7 @@
     "precio": 66000,
     "precioAnterior": 70000,
     "categoria": "Pantalones",
+    "variantes": null,
     "stock": 27,
     "caracteristicas": [
       "Color oscuro",
@@ -161,6 +186,7 @@
     "precio": 72000,
     "precioAnterior": 75000,
     "categoria": "Pantalones",
+    "variantes": null,
     "stock": 31,
     "caracteristicas": [
       "Corte clásico",
@@ -183,6 +209,7 @@
     "precio": 69600,
     "precioAnterior": 75000,
     "categoria": "Pantalones",
+    "variantes": null,
     "stock": 17,
     "caracteristicas": [
       "Corte amplio",
@@ -205,6 +232,7 @@
     "precio": 74400,
     "precioAnterior": 82000,
     "categoria": "Pantalones",
+    "variantes": null,
     "stock": 22,
     "caracteristicas": [
       "Diseño con roturas",
@@ -227,6 +255,7 @@
     "precio": 36000,
     "precioAnterior": 42000,
     "categoria": "Remeras",
+    "variantes": null,
     "stock": 10,
     "caracteristicas": [
       "Estampa frontal",
@@ -249,6 +278,7 @@
     "precio": 33600,
     "precioAnterior": 45000,
     "categoria": "Remeras",
+    "variantes": null,
     "stock": 4,
     "caracteristicas": [
       "Diseño gamer",
@@ -271,6 +301,7 @@
     "precio": 32400,
     "precioAnterior": 42000,
     "categoria": "Remeras",
+    "variantes": null,
     "stock": 22,
     "caracteristicas": [
       "Estampa tropical",
@@ -293,6 +324,7 @@
     "precio": 60000,
     "precioAnterior": 70000,
     "categoria": "Remeras",
+    "variantes": null,
     "stock": 5,
     "caracteristicas": [
       "Tela térmica ligera",
@@ -315,6 +347,7 @@
     "precio": 84000,
     "precioAnterior": 100000,
     "categoria": "Calzado",
+    "variantes": null,
     "stock": 14,
     "caracteristicas": [
       "Caña alta",
@@ -337,6 +370,7 @@
     "precio": 81600,
     "precioAnterior": 82000,
     "categoria": "Calzado",
+    "variantes": null,
     "stock": 10,
     "caracteristicas": [
       "Diseño urbano",
