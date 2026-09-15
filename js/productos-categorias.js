@@ -1,5 +1,5 @@
 // Renderizar productos por categorías en el index
-import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, obtenerBanners, escaparHtml } from './utils.js';
+import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, obtenerBanners, escaparHtml, esBannerSoloImagen } from './utils.js';
 
 let productos = [];
 
@@ -31,25 +31,52 @@ function renderizarCategoriasAutomaticas(banners) {
 
     // Intercalar banners dinámicos entre las categorías (máx 4 en el index; la fila 5 es del carrito)
     const bannersIndex = banners.slice(0, 4);
-    let bannerActual = 0;
+
+    // Construir la secuencia de bloques en orden:
+    // - "solo imagen" => bloque full-width independiente (nunca entra en el par)
+    // - banners CON contenido => patrón: 1º completo, 2º+3º par lado a lado, 4º completo, etc.
+    //   (si queda una sola del par, sale como tarjeta completa)
+    const bloques = [];
+    let bufferContenido = [];
+
+    const vaciarBuffer = () => {
+        if (bufferContenido.length === 0) return;
+        bloques.push({ tipo: 'completo', banner: bufferContenido[0] });
+        for (let i = 1; i < bufferContenido.length; i += 2) {
+            if (i + 1 < bufferContenido.length) {
+                bloques.push({ tipo: 'par', a: bufferContenido[i], b: bufferContenido[i + 1] });
+            } else {
+                bloques.push({ tipo: 'completo', banner: bufferContenido[i] });
+            }
+        }
+        bufferContenido = [];
+    };
+
+    bannersIndex.forEach(banner => {
+        if (esBannerSoloImagen(banner)) {
+            vaciarBuffer();
+            bloques.push({ tipo: 'solo', banner });
+        } else {
+            bufferContenido.push(banner);
+        }
+    });
+    vaciarBuffer();
+
+    let bloqueActual = 0;
+
+    const emitirSiguienteBloque = () => {
+        if (bloqueActual >= bloques.length) return;
+        const bloque = bloques[bloqueActual++];
+        if (bloque.tipo === 'solo') {
+            htmlFinal += generarHTMLBannerSoloImagen(bloque.banner);
+        } else if (bloque.tipo === 'par') {
+            htmlFinal += generarHTMLParBanners(bloque.a, bloque.b);
+        } else {
+            htmlFinal += generarHTMLBannerDinamico(bloque.banner);
+        }
+    };
 
     let htmlFinal = '';
-
-    // Emite el siguiente bloque según la posición:
-    // fila 1 -> tarjeta completa · filas 2+3 -> par lado a lado · fila 4 -> tarjeta completa.
-    // Si queda una sola del par (hoja con filas impares), sale como tarjeta completa.
-    const emitirSiguienteBloque = () => {
-        if (bannerActual >= bannersIndex.length) return;
-
-        if (bannerActual === 1 && bannersIndex[2]) {
-            htmlFinal += generarHTMLParBanners(bannersIndex[1], bannersIndex[2]);
-            bannerActual += 2;
-            return;
-        }
-
-        htmlFinal += generarHTMLBannerDinamico(bannersIndex[bannerActual]);
-        bannerActual++;
-    };
 
     categorias.forEach((categoria, index) => {
         const productosFiltrados = productos.filter(p => p.categoria === categoria);
@@ -69,11 +96,27 @@ function renderizarCategoriasAutomaticas(banners) {
     });
 
     // Banners sobrantes al final (más banners que categorías)
-    while (bannerActual < bannersIndex.length) {
+    while (bloqueActual < bloques.length) {
         emitirSiguienteBloque();
     }
 
     container.innerHTML = htmlFinal;
+}
+
+// Banner "solo imagen": imagen a ancho completo como fondo con cover,
+// mismo alto de banner (aspect-ratio 3:1). Con link => bloque clicable.
+function generarHTMLBannerSoloImagen(banner) {
+    const img = escaparHtml(banner.imagen);
+    const link = escaparHtml(banner.link || '');
+    const etiqueta = banner.link ? `aria-label="${escaparHtml(banner.titulo || 'Banner')}" ` : '';
+
+    return `
+        <section class="banner-intercalado">
+            <div class="banner-solo-imagen banner-border" style="background-image:url('${img}')">
+                ${banner.link ? `<a href="${link}" target="_self" ${etiqueta}></a>` : ''}
+            </div>
+        </section>
+    `;
 }
 
 // Fila de dos tarjetas blancas lado a lado (diseño original .banners-productos)

@@ -224,6 +224,23 @@ html {
     opacity: 0.85;
 }
 
+/* Banner "solo imagen": imagen a ancho completo como fondo con cover,
+   mantiene el mismo alto del banner (aspect-ratio 3:1, imágenes 1200x400). */
+.banner-solo-imagen {
+    width: 100%;
+    aspect-ratio: 3 / 1;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.banner-solo-imagen a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 /* =========================
    Responsive
    ========================= */

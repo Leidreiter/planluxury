@@ -232,6 +232,19 @@ export async function obtenerBanners() {
     }
 }
 
+// Banner "solo imagen": tiene imagen y ningún otro contenido publicado
+// (sin logo, badge, título ni botón). Se renderiza a ancho completo con cover.
+export function esBannerSoloImagen(banner) {
+    return Boolean(
+        banner &&
+        banner.imagen &&
+        !banner.logo &&
+        !banner.badge &&
+        !banner.titulo &&
+        !banner.boton
+    );
+}
+
 // Precio anterior tachado: solo si es válido y mayor al precio actual
 export function renderPrecioAnterior(producto) {
     const pa = producto.precioAnterior;

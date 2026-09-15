@@ -1,6 +1,6 @@
 // Gestión del carrito de compras
 
-import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones, obtenerBanners, escaparHtml, claveItemCarrito } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones, obtenerBanners, escaparHtml, claveItemCarrito, esBannerSoloImagen } from './utils.js';
 
 let productosGlobales = [];
 
@@ -260,6 +260,20 @@ function renderizarBannerCarrito(banners) {
 
     const banner = Array.isArray(banners) ? banners[4] : null; // índice 4 = fila 5
     if (!banner) return;
+
+    // Banner "solo imagen": imagen a ancho completo como fondo con cover
+    if (esBannerSoloImagen(banner)) {
+        const img = escaparHtml(banner.imagen);
+        const link = escaparHtml(banner.link || '');
+        const etiqueta = banner.link ? `aria-label="${escaparHtml(banner.titulo || 'Banner')}" ` : '';
+        contenedor.innerHTML = `
+            <div class="banner-solo-imagen banner-border" style="background-image:url('${img}')">
+                ${banner.link ? `<a href="${link}" target="_self" ${etiqueta}></a>` : ''}
+            </div>
+        `;
+        contenedor.hidden = false;
+        return;
+    }
 
     const titulo = escaparHtml(banner.titulo);
     const link = escaparHtml(banner.link || '');
