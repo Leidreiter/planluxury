@@ -29,9 +29,10 @@ function renderizarCategoriasAutomaticas(banners) {
     // Extraer categorías únicas de los productos
     const categorias = [...new Set(productos.map(p => p.categoria))].filter(Boolean);
 
-    const bannersIndex = banners.slice(0, 4);
+    // Todos menos el último (tope 4): el último banner de la hoja es el del carrito.
+    const bannersIndex = banners.slice(0, Math.min(4, banners.length - 1));
 
-    // Intercalar banners dinámicos entre las categorías (máx 4 en el index; la fila 5 es del carrito).
+    // Intercalar banners dinámicos entre las categorías (máx 4 en el index; el último banner va al carrito).
     // Todos los banners usan el mismo estilo (banner 1, ancho completo);
     // los "solo imagen" se renderizan a ancho completo con cover.
     const bloques = bannersIndex.map(banner => ({

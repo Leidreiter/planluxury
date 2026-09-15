@@ -253,12 +253,12 @@ async function cargarProductosReferencia() {
     }
 }
 
-// Banner del carrito: fila 5 de la hoja "Banners". Sin fila 5 => el contenedor queda oculto.
+// Banner del carrito: el último banner de la hoja "Banners". Sin banners => el contenedor queda oculto.
 function renderizarBannerCarrito(banners) {
     const contenedor = document.getElementById('banner-carrito');
     if (!contenedor) return;
 
-    const banner = Array.isArray(banners) ? banners[4] : null; // índice 4 = fila 5
+    const banner = Array.isArray(banners) && banners.length > 0 ? banners[banners.length - 1] : null; // último banner publicado
     if (!banner) return;
 
     // Banner "solo imagen": imagen a ancho completo como fondo con cover
