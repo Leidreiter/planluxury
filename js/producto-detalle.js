@@ -211,9 +211,11 @@ function renderizarDetalleProducto(producto) {
                     <a href="carrito.html" class="btn-go-cart btn-border hidden" id="btnGoCart">
                         Ir al Carrito →
                     </a>
+                    ${!tieneVariantes(producto) ? `
                     <button class="btn-buy-now btn-border" onclick="comprarAhora(${producto.id})" ${producto.stock === 0 ? 'disabled' : ''}>
                         Comprar Ahora
                     </button>
+                    ` : ''}
                 </div>
                 
                 <div class="product-share">
@@ -678,12 +680,11 @@ function agregarAlCarritoDetalle(id) {
     if (window.actualizarContadorCarrito) window.actualizarContadorCarrito();
     mostrarNotificacion(`${cantidadSeleccionada} ${cantidadSeleccionada === 1 ? 'producto agregado' : 'productos agregados'} al carrito`);
     
-    // Mostrar botón "Ir al Carrito"
-    const btnAddCart = document.getElementById('btnAddCart');
+    // Mostrar "Ir al Carrito" sin ocultar "Agregar al Carrito": el usuario puede
+    // seguir agregando (otra variante o más cantidad) antes de ir al carrito
     const btnGoCart = document.getElementById('btnGoCart');
-    
-    if (btnAddCart && btnGoCart) {
-        btnAddCart.style.display = 'none';
+
+    if (btnGoCart) {
         btnGoCart.classList.remove('hidden');
     }
     
