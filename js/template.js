@@ -1,6 +1,6 @@
 // Template dinámico para Header y Footer
 
-import { WHATSAPP_CONFIG, obtenerProductos, obtenerNombreSitio } from './utils.js';
+import { WHATSAPP_CONFIG, obtenerProductos, obtenerNombreSitio, formatearPrecio, calcularTotales, escaparHtml, claveItemCarrito, mostrarNotificacion } from './utils.js';
 
 // Renderizar Header
 function renderHeader(activePage = '', categorias = []) {
@@ -54,11 +54,11 @@ function renderHeader(activePage = '', categorias = []) {
                         <span class="nav-label">Favoritos</span>
                         <span class="favorites-count">0</span>
                     </a>
-                    <a href="carrito.html" class="nav-link cart-link ${activePage === 'carrito' ? 'active' : ''}" aria-label="Carrito de compras">
+                    <button type="button" class="nav-link cart-link ${activePage === 'carrito' ? 'active' : ''}" aria-label="Abrir carrito de compras" onclick="abrirCarritoSidemenu()">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="nav-label">Carrito</span>
                         <span class="cart-count">0</span>
-                    </a>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -106,6 +106,7 @@ async function initTemplate(activePage = '') {
     try {
         const productos = await obtenerProductos();
         categorias = [...new Set(productos.map(p => p.categoria))].filter(Boolean);
+        productosRef = productos;
     } catch (e) { console.error("Error cargando categorías para el menú", e); }
 
     // 1. Insertar Marquee (siempre primero)
@@ -132,6 +133,22 @@ async function initTemplate(activePage = '') {
         </a>
     `;
     body.appendChild(whatsapp);
+
+    // 3. Sidemenu del carrito: panel deslizante desde la derecha
+    body.appendChild(crearEstructuraSidemenu());
+    const sidemenu = document.getElementById('cartSidemenu');
+    if (sidemenu) {
+        sidemenu.addEventListener('click', function (e) {
+            if (e.target.closest('[data-cerrar-sidemenu]')) {
+                cerrarCarritoSidemenu();
+            }
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && sidemenu.classList.contains('active')) {
+                cerrarCarritoSidemenu();
+            }
+        });
+    }
 }
 
 // Actualizar contador de favoritos en el nav
@@ -161,6 +178,162 @@ function actualizarContadorCarrito() {
             contador.style.display = 'none';
         }
     });
+}
+
+// ===================== Sidemenu del Carrito =====================
+let productosRef = [];
+
+function crearEstructuraSidemenu() {
+    const overlay = document.createElement('div');
+    overlay.className = 'cart-sidemenu-overlay';
+    overlay.id = 'cartSidemenu';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Carrito de compras');
+    overlay.innerHTML = `
+        <div class="cart-sidemenu-backdrop" data-cerrar-sidemenu></div>
+        <aside class="cart-sidemenu-panel">
+            <div class="cart-sidemenu-header">
+                <h2><i class="fa-solid fa-cart-shopping"></i> Tu Carrito</h2>
+                <button type="button" class="cart-sidemenu-close" data-cerrar-sidemenu aria-label="Cerrar carrito">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="cart-sidemenu-items" id="cartSidemenuItems"></div>
+            <div class="cart-sidemenu-footer" id="cartSidemenuFooter"></div>
+        </aside>
+    `;
+    return overlay;
+}
+
+function renderSidemenuCarrito() {
+    const contenedorItems = document.getElementById('cartSidemenuItems');
+    const contenedorFooter = document.getElementById('cartSidemenuFooter');
+    if (!contenedorItems || !contenedorFooter) return;
+
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (window.actualizarContadorCarrito) window.actualizarContadorCarrito();
+
+    if (cart.length === 0) {
+        contenedorItems.innerHTML = `
+            <div class="side-cart-empty">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <h3>Tu carrito está vacío</h3>
+                <p>Agregá productos para comenzar tu compra</p>
+                <a href="index.html" class="shop-btn btn-border">Ir a la tienda</a>
+            </div>
+        `;
+        contenedorFooter.innerHTML = '';
+        return;
+    }
+
+    const itemHTML = cart.map(item => {
+        const ref = productosRef.find(p => p.id === item.id);
+        const sinStock = ref && ref.stock === 0;
+        const clave = claveItemCarrito(item.id, item.varianteTexto);
+        const claveEscapada = escaparHtml(clave);
+
+        return `
+        <div class="side-cart-item${sinStock ? ' sin-stock' : ''}" data-clave="${claveEscapada}">
+            <img src="${escaparHtml(item.imagen)}" alt="${escaparHtml(item.nombre)}" class="item-image" loading="lazy">
+            <div class="side-item-details">
+                <h4 class="item-title">${escaparHtml(item.nombre)}</h4>
+                ${item.varianteTexto ? `<p class="item-variant">${escaparHtml(item.varianteTexto)}</p>` : ''}
+                ${sinStock ? `<p class="stock-alert stock-alert-danger">⚠️ Se agotó</p>` : ''}
+                <p class="item-price">$${formatearPrecio(item.precio)}</p>
+                <div class="side-item-controls">
+                    <div class="quantity-controls">
+                        <button type="button" class="qty-btn btn-border" onclick="sideCambiarCantidad(this.dataset.clave, -1)" data-clave="${claveEscapada}" aria-label="Disminuir cantidad" ${sinStock ? 'disabled' : ''}>-</button>
+                        <span class="qty-display">${item.quantity}</span>
+                        <button type="button" class="qty-btn btn-border" onclick="sideCambiarCantidad(this.dataset.clave, 1)" data-clave="${claveEscapada}" aria-label="Aumentar cantidad" ${sinStock ? 'disabled' : ''}>+</button>
+                    </div>
+                    <button type="button" class="side-remove-btn" onclick="sideEliminarItem(this.dataset.clave)" data-clave="${claveEscapada}" aria-label="Eliminar ${escaparHtml(item.nombre)}">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    }).join('');
+
+    contenedorItems.innerHTML = itemHTML;
+
+    const cupon = sessionStorage.getItem('appliedCoupon');
+    const { subtotal, descuento, total } = calcularTotales(cart, cupon);
+
+    contenedorFooter.innerHTML = `
+        <div class="side-summary-row">
+            <span>Subtotal</span>
+            <span>$${formatearPrecio(subtotal)}</span>
+        </div>
+        ${descuento > 0 ? `
+        <div class="side-summary-row">
+            <span>Descuento</span>
+            <span>−$${formatearPrecio(descuento)}</span>
+        </div>` : ''}
+        <div class="side-summary-row side-total-row">
+            <span>Total</span>
+            <span>$${formatearPrecio(total)}</span>
+        </div>
+        <a href="carrito.html" class="side-cart-checkout">
+            Ir al carrito <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <button type="button" class="side-cart-continue" data-cerrar-sidemenu>Seguir comprando</button>
+    `;
+}
+
+function sideCambiarCantidad(clave, cambio) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const item = cart.find(i => claveItemCarrito(i.id, i.varianteTexto) === clave);
+    if (!item) return;
+
+    if (cambio > 0) {
+        const ref = productosRef.find(p => p.id === item.id);
+        if (ref) {
+            const enCarrito = cart
+                .filter(i => i.id === item.id)
+                .reduce((sum, i) => sum + i.quantity, 0);
+            if (enCarrito + cambio > ref.stock) {
+                mostrarNotificacion(`Límite de stock alcanzado (${ref.stock} disponibles)`);
+                return;
+            }
+        }
+    }
+
+    item.quantity += cambio;
+    if (item.quantity <= 0) {
+        cart = cart.filter(i => claveItemCarrito(i.id, i.varianteTexto) !== clave);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    if (window.actualizarContadorCarrito) window.actualizarContadorCarrito();
+    renderSidemenuCarrito();
+}
+
+function sideEliminarItem(clave) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart = cart.filter(i => claveItemCarrito(i.id, i.varianteTexto) !== clave);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    if (window.actualizarContadorCarrito) window.actualizarContadorCarrito();
+    renderSidemenuCarrito();
+}
+
+function abrirCarritoSidemenu() {
+    const overlay = document.getElementById('cartSidemenu');
+    if (!overlay) return;
+    renderSidemenuCarrito();
+    overlay.classList.add('active');
+    document.documentElement.classList.add('cart-sidemenu-locked');
+    const closeBtn = overlay.querySelector('.cart-sidemenu-close');
+    if (closeBtn) closeBtn.focus();
+}
+
+function cerrarCarritoSidemenu() {
+    const overlay = document.getElementById('cartSidemenu');
+    if (!overlay) return;
+    overlay.classList.remove('active');
+    document.documentElement.classList.remove('cart-sidemenu-locked');
 }
 
 // Actualizar elementos de WhatsApp en el contenido de la página
@@ -199,4 +372,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     window.actualizarContadorFavoritosGlobal = actualizarContadorFavoritosGlobal;
     // Hacer que la función de actualizar carrito sea accesible para otros módulos
     window.actualizarContadorCarrito = actualizarContadorCarrito;
+    // Funciones del sidemenu del carrito (usadas por eventos inline en el header y el panel)
+    window.abrirCarritoSidemenu = abrirCarritoSidemenu;
+    window.cerrarCarritoSidemenu = cerrarCarritoSidemenu;
+    window.sideCambiarCantidad = sideCambiarCantidad;
+    window.sideEliminarItem = sideEliminarItem;
 });
