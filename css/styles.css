@@ -473,14 +473,20 @@ body {
     }
 
     .mobile-search {
-        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: var(--z-nav);
+        background: white;
         max-height: 0;
         overflow: hidden;
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
         transition: max-height 0.35s ease;
     }
 
     .mobile-search.open {
-        max-height: 120px;
+        max-height: 70vh;
         border-top: 1px solid var(--border-color);
     }
 
@@ -506,6 +512,36 @@ body {
         cursor: pointer;
         z-index: 1;
         transition: color 0.25s ease;
+    }
+
+    .mobile-results-count {
+        padding: 0.25rem 1rem 0.5rem;
+        font-size: 0.85rem;
+        color: var(--secondary-color);
+        border-bottom: 1px solid var(--border-color);
+        margin: 0 0.75rem 0.5rem;
+    }
+
+    .mobile-results {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        padding: 0 0.75rem 0.75rem;
+        max-height: calc(70vh - 96px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-results-empty {
+        display: none;
+        padding: 1.5rem 1rem 2rem;
+        text-align: center;
+        color: var(--secondary-color);
+        font-size: 0.95rem;
+    }
+
+    .mobile-results-empty.visible {
+        display: block;
     }
 
     /* Ocultar buscador grande del body en móvil (vive en el header) */

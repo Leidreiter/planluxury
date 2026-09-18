@@ -8,11 +8,24 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Cargar productos usando el sistema centralizado
     productos = await obtenerProductos();
 
-    // Se vincula por clase para soportar el buscador desktop y el panel móvil
-    const searchInputs = document.querySelectorAll('.search-input');
-    if (searchInputs.length === 0) return;
+    // Definir agregarAlCarrito si la página no lo provee (tarjetas del panel móvil)
+    asegurarAgregarAlCarrito();
 
-    searchInputs.forEach(function(searchInput) {
+    // Vincular inputs del buscador. El header se inyecta de forma asíncrona en
+    // template.js, así que también esperamos el evento 'lemora:header-ready'.
+    conectarBuscador();
+    document.addEventListener('lemora:header-ready', conectarBuscador, { once: true });
+});
+
+// Vincular todos los inputs de búsqueda (idempotente por input).
+function conectarBuscador() {
+    let hayInputs = false;
+
+    document.querySelectorAll('.search-input').forEach(function(searchInput) {
+        if (searchInput.dataset.searchBound === '1') return;
+        searchInput.dataset.searchBound = '1';
+        hayInputs = true;
+
         // Mostrar/ocultar botón de limpiar según haya o no texto
         const clearButton = searchInput
             .closest('.search-container')
@@ -45,28 +58,35 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Botones de limpiar (desktop y móvil)
     document.querySelectorAll('.clear-search').forEach(btn => {
+        if (btn.dataset.searchBound === '1') return;
+        btn.dataset.searchBound = '1';
         btn.addEventListener('click', limpiarBusqueda);
     });
-});
+
+    return hayInputs;
+}
 
 // Función principal de búsqueda
 function buscarProductos(query) {
     const grid = document.getElementById('productsGrid');
     const noResults = document.getElementById('noResults');
     const searchResults = document.getElementById('searchResults');
-    
-    if (!grid || !productos) return;
+    const movilResultados = document.getElementById('mobileSearchResults');
+    const movilCount = document.getElementById('mobileSearchCount');
+    const movilVacío = document.getElementById('mobileSearchEmpty');
 
-    // Si no hay búsqueda, mostrar categorías
+    // Si no hay búsqueda, volver al estado normal
     if (!query || query.length === 0) {
-        document.body.classList.remove('searching');
-        if (noResults) noResults.classList.remove('visible');
+        if (grid && noResults) {
+            document.body.classList.remove('searching');
+            noResults.classList.remove('visible');
+        }
         if (searchResults) searchResults.textContent = '';
+        if (movilCount) movilCount.textContent = '';
+        if (movilResultados) movilResultados.innerHTML = '';
+        if (movilVacío) movilVacío.classList.remove('visible');
         return;
     }
-
-    // Activar modo búsqueda (oculta las secciones de categorías)
-    document.body.classList.add('searching');
 
     // Normalizar query (minúsculas, sin acentos)
     const queryNormalizado = normalizarTexto(query);
@@ -76,36 +96,52 @@ function buscarProductos(query) {
         const nombreNormalizado = normalizarTexto(producto.nombre);
         const descripcionNormalizada = normalizarTexto(producto.descripcion);
         const categoriaNormalizada = normalizarTexto(producto.categoria);
-        
-        return nombreNormalizado.includes(queryNormalizado) || 
+
+        return nombreNormalizado.includes(queryNormalizado) ||
                descripcionNormalizada.includes(queryNormalizado) ||
                categoriaNormalizada.includes(queryNormalizado);
     });
 
-    // Mostrar resultados
-    if (productosFiltrados.length > 0) {
-        renderizarProductosFiltrados(productosFiltrados);
-        if (noResults) noResults.classList.remove('visible');
-        
-        // Mostrar cantidad de resultados
-        if (searchResults) {
-            const plural = productosFiltrados.length === 1 ? 'producto encontrado' : 'productos encontrados';
-            searchResults.textContent = `${productosFiltrados.length} ${plural}`;
+    // Grid de la página de inicio (desktop / sección tienda)
+    if (grid) {
+        if (productosFiltrados.length > 0) {
+            grid.innerHTML = productosFiltrados.map(p => generarHTMLTarjetaProducto(p)).join('');
+            if (noResults) noResults.classList.remove('visible');
+            if (searchResults) {
+                const plural = productosFiltrados.length === 1 ? 'producto encontrado' : 'productos encontrados';
+                searchResults.textContent = `${productosFiltrados.length} ${plural}`;
+            }
+        } else {
+            grid.innerHTML = '';
+            if (noResults) noResults.classList.add('visible');
+            if (searchResults) searchResults.textContent = 'No se encontraron resultados';
         }
-    } else {
-        // No hay resultados
-        grid.innerHTML = '';
-        if (noResults) noResults.classList.add('visible');
-        if (searchResults) searchResults.textContent = 'No se encontraron resultados';
+        document.body.classList.add('searching');
+    }
+
+    // Panel de búsqueda móvil (funciona en todas las páginas)
+    if (movilResultados) {
+        if (productosFiltrados.length > 0) {
+            movilResultados.innerHTML = productosFiltrados
+                .map(p => generarHTMLTarjetaProducto(p)).join('');
+            if (movilCount) {
+                const plural = productosFiltrados.length === 1 ? 'producto' : 'productos';
+                movilCount.textContent = `${productosFiltrados.length} ${plural} encontrados`;
+            }
+        } else {
+            movilResultados.innerHTML = '';
+            if (movilCount) movilCount.textContent = '';
+        }
+        if (movilVacío) movilVacío.classList.toggle('visible', productosFiltrados.length === 0);
     }
 }
 
-// Renderizar productos filtrados
-function renderizarProductosFiltrados(productosFiltrados) {
-    const grid = document.getElementById('productsGrid');
-    if (!grid) return;
-
-    grid.innerHTML = productosFiltrados.map(p => generarHTMLTarjetaProducto(p)).join('');
+// Definir agregarAlCarrito global si la página no lo provee (tarjetas del panel móvil)
+function asegurarAgregarAlCarrito() {
+    if (typeof window.agregarAlCarrito === 'function') return;
+    window.agregarAlCarrito = function (id) {
+        agregarAlCarritoBase(id, productos);
+    };
 }
 
 // Limpiar búsqueda
@@ -123,6 +159,15 @@ function limpiarBusqueda() {
 
     const noResults = document.getElementById('noResults');
     if (noResults) noResults.classList.remove('visible');
+
+    const movilResultados = document.getElementById('mobileSearchResults');
+    if (movilResultados) movilResultados.innerHTML = '';
+
+    const movilCount = document.getElementById('mobileSearchCount');
+    if (movilCount) movilCount.textContent = '';
+
+    const movilVacío = document.getElementById('mobileSearchEmpty');
+    if (movilVacío) movilVacío.classList.remove('visible');
 
     // Volver a mostrar las secciones de categorías
     document.body.classList.remove('searching');

@@ -84,6 +84,9 @@ function renderHeader(activePage = '', categorias = []) {
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
+                <div class="mobile-results-count" id="mobileSearchCount"></div>
+                <div class="mobile-results" id="mobileSearchResults"></div>
+                <div class="mobile-results-empty" id="mobileSearchEmpty">No se encontraron resultados</div>
             </div>
         </nav>
     `;
@@ -140,6 +143,8 @@ async function initTemplate(activePage = '') {
     // 2. Insertar Header (después del marquee)
     const header = renderHeader(activePage, categorias);
     body.insertBefore(header, marquee.nextSibling);
+    // Avisar a módulos (ej. búsqueda) de que el header ya está en el DOM
+    document.dispatchEvent(new CustomEvent('lemora:header-ready'));
 
     // Insertar footer al final del body
     const footer = renderFooter();
