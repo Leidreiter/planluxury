@@ -289,7 +289,7 @@ function renderizarBannerCarrito(banners) {
             <div class="banner_info">
                 ${banner.logo ? `
                 <div class="banner_info_icono banner-border">
-                    <img loading="lazy" src="${escaparHtml(banner.logo)}" alt="" class="block" width="60" height="60">
+                    <img loading="lazy" src="${escaparHtml(banner.logo)}" alt="" class="block" width="60">
                 </div>
                 ` : ''}
 
