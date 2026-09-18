@@ -1770,7 +1770,7 @@ footer p {
         overflow: hidden;
         transform: none;
         box-shadow: none;
-        padding: 0 0 0 20px;
+        padding: 0;
         display: block;
         transition: max-height 0.4s ease-in-out, opacity 0.3s ease, padding 0.4s ease;
     }
@@ -1780,11 +1780,17 @@ footer p {
         max-height: 500px; /* Un valor mayor al contenido esperado para permitir el deslizamiento */
         opacity: 1;
         visibility: visible;
-        padding: 10px 0 10px 20px;
+        padding: 0;
     }
 
     .nav-item-dropdown.active .nav-link i {
         transform: rotate(180deg);
+    }
+
+    .submenu li a {
+        font-size: inherit;
+        font-weight: 500;
+        padding: 0.5rem 0;
     }
 
     .nav-menu.active {
