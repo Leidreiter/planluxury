@@ -473,6 +473,7 @@ body {
     }
 
     .mobile-search {
+        display: block;
         position: absolute;
         top: 100%;
         left: 0;
