@@ -1,5 +1,5 @@
 // Sistema de búsqueda de productos en tiempo real - Compatible con categorías
-import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, normalizarTexto } from './utils.js';
+import { obtenerProductos, generarHTMLTarjetaProducto, normalizarTexto } from './utils.js';
 
 let productos = [];
 let debounceTimer;
@@ -7,9 +7,6 @@ let debounceTimer;
 document.addEventListener('DOMContentLoaded', async function() {
     // Cargar productos usando el sistema centralizado
     productos = await obtenerProductos();
-
-    // Definir agregarAlCarrito si la página no lo provee (tarjetas del panel móvil)
-    asegurarAgregarAlCarrito();
 
     // Vincular inputs del buscador. El header se inyecta de forma asíncrona en
     // template.js, así que también esperamos el evento 'lemora:header-ready'.
@@ -134,14 +131,6 @@ function buscarProductos(query) {
         }
         if (movilVacío) movilVacío.classList.toggle('visible', productosFiltrados.length === 0);
     }
-}
-
-// Definir agregarAlCarrito global si la página no lo provee (tarjetas del panel móvil)
-function asegurarAgregarAlCarrito() {
-    if (typeof window.agregarAlCarrito === 'function') return;
-    window.agregarAlCarrito = function (id) {
-        agregarAlCarritoBase(id, productos);
-    };
 }
 
 // Limpiar búsqueda

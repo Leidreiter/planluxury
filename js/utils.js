@@ -266,47 +266,20 @@ export function claveItemCarrito(id, varianteTexto = '') {
 }
 
 // Generar el HTML de una tarjeta de producto (estándar para toda la web)
+// Toda la tarjeta enlaza al detalle; sin botones internos.
 export function generarHTMLTarjetaProducto(producto) {
     const esAgotado = producto.stock === 0;
-    const conVariantes = tieneVariantes(producto);
-
-    const botonPrincipal = conVariantes
-        ? `
-            <button class="add-to-cart-btn btn-border" onclick="window.location.href='producto.html?id=${producto.id}'"
-                aria-label="Elegir variante de ${producto.nombre}">
-                Elegir variante
-            </button>
-        `
-        : `
-            <button class="add-to-cart-btn btn-border" onclick="agregarAlCarrito(${producto.id})"
-                ${esAgotado ? 'disabled' : ''}
-                aria-label="Agregar ${producto.nombre} al carrito">
-                ${esAgotado ? 'Agotado' : 'Agregar al Carrito'}
-            </button>
-        `;
 
     return `
-        <article class="product-card ${esAgotado ? 'out-of-stock' : ''}">
+        <a href="producto.html?id=${producto.id}" class="product-card product-link ${esAgotado ? 'out-of-stock' : ''}" aria-label="Ver detalle de ${producto.nombre}">
             ${esAgotado ? '<span class="out-of-stock-badge">Sin Stock</span>' : ''}
-            <a href="producto.html?id=${producto.id}" class="product-link">
-                <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" loading="lazy">
-                <div class="product-info">
-                    <h3 class="product-title">${producto.nombre}</h3>
-                    <p class="product-description">${producto.descripcion}</p>
-
-                </div>
-            </a>
-            <div class="product-actions">
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" loading="lazy">
+            <div class="product-info">
+                <h3 class="product-title">${producto.nombre}</h3>
+                <p class="product-description">${producto.descripcion}</p>
                 <p class="product-price">${renderPrecioAnterior(producto)}$${formatearPrecio(producto.precio)}</p>
-                <button class="view-product-btn btn-border" onclick="window.location.href='producto.html?id=${producto.id}'" aria-label="Ver detalles de ${producto.nombre}">
-                    Ver producto
-                </button>
-
-                ${botonPrincipal}
-
-
             </div>
-        </article>
+        </a>
     `;
 }
 
