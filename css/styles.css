@@ -435,7 +435,7 @@ body {
     .header-actions-mobile {
         display: flex;
         align-items: center;
-        gap: 0.25rem;
+        gap: 0.1rem;
         margin-left: auto;
         margin-right: 0.5rem;
     }
@@ -510,6 +510,11 @@ body {
 
     /* Ocultar buscador grande del body en móvil (vive en el header) */
     .search-section {
+        display: none;
+    }
+
+    /* En móvil, al buscar, el slider no debe tapar los resultados */
+    body.searching .hero-slider {
         display: none;
     }
 
