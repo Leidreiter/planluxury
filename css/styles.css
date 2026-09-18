@@ -373,6 +373,10 @@ body {
         text-align: center;
     }
 
+    .redes .contenedor {
+        width: 100%;
+    }
+
     .redes a {
         font-size: 1.6rem;
     }
@@ -1581,6 +1585,13 @@ footer p {
 @media (max-width: 768px) {
     .menu-toggle {
         display: flex;
+        padding: 0.5rem;
+        gap: 4px;
+    }
+
+    .menu-toggle span {
+        width: 22px;
+        height: 3px;
     }
 
     .nav-menu {
@@ -1636,7 +1647,7 @@ footer p {
     }
 
     .menu-toggle.active span:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 5px);
+        transform: rotate(45deg) translate(3.5px, 3.5px);
     }
 
     .menu-toggle.active span:nth-child(2) {
@@ -1644,7 +1655,7 @@ footer p {
     }
 
     .menu-toggle.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(7px, -7px);
+        transform: rotate(-45deg) translate(3.5px, -3.5px);
     }
 
 
