@@ -8,38 +8,44 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Cargar productos usando el sistema centralizado
     productos = await obtenerProductos();
 
-    const searchInput = document.getElementById('searchInput');
-    const clearButton = document.getElementById('clearSearch');
-    const searchResults = document.getElementById('searchResults');
-    
-    if (!searchInput) return;
+    // Se vincula por clase para soportar el buscador desktop y el panel móvil
+    const searchInputs = document.querySelectorAll('.search-input');
+    if (searchInputs.length === 0) return;
 
-    // Búsqueda en tiempo real mientras se escribe
-    searchInput.addEventListener('input', function(e) {
-        const query = e.target.value.trim();
-        
-        // Mostrar/ocultar botón de limpiar
-        if (query.length > 0) {
-            clearButton.classList.add('visible');
-        } else {
-            clearButton.classList.remove('visible');
-        }
-        
-        // Realizar búsqueda con debounce para rendimiento
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => buscarProductos(query), 300);
+    searchInputs.forEach(function(searchInput) {
+        // Mostrar/ocultar botón de limpiar según haya o no texto
+        const clearButton = searchInput
+            .closest('.search-container')
+            ?.querySelector('.clear-search');
+
+        // Búsqueda en tiempo real mientras se escribe
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.trim();
+
+            if (clearButton) {
+                if (query.length > 0) {
+                    clearButton.classList.add('visible');
+                } else {
+                    clearButton.classList.remove('visible');
+                }
+            }
+
+            // Realizar búsqueda con debounce para rendimiento
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => buscarProductos(query), 300);
+        });
+
+        // Limpiar al presionar ESC
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                limpiarBusqueda();
+            }
+        });
     });
 
-    // Limpiar búsqueda
-    if (clearButton) {
-        clearButton.addEventListener('click', limpiarBusqueda);
-    }
-
-    // Limpiar al presionar ESC
-    searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            limpiarBusqueda();
-        }
+    // Botones de limpiar (desktop y móvil)
+    document.querySelectorAll('.clear-search').forEach(btn => {
+        btn.addEventListener('click', limpiarBusqueda);
     });
 });
 
@@ -104,21 +110,27 @@ function renderizarProductosFiltrados(productosFiltrados) {
 
 // Limpiar búsqueda
 function limpiarBusqueda() {
-    const searchInput = document.getElementById('searchInput');
-    const clearButton = document.getElementById('clearSearch');
+    // Limpiar todos los inputs (desktop y panel móvil)
+    document.querySelectorAll('.search-input').forEach(input => {
+        input.value = '';
+    });
+    document.querySelectorAll('.clear-search').forEach(btn => {
+        btn.classList.remove('visible');
+    });
+
     const searchResults = document.getElementById('searchResults');
-    const noResults = document.getElementById('noResults');
-    
-    if (searchInput) searchInput.value = '';
-    if (clearButton) clearButton.classList.remove('visible');
     if (searchResults) searchResults.textContent = '';
+
+    const noResults = document.getElementById('noResults');
     if (noResults) noResults.classList.remove('visible');
-    
+
     // Volver a mostrar las secciones de categorías
     document.body.classList.remove('searching');
-    
-    // Hacer foco en el input
-    if (searchInput) searchInput.focus();
+
+    // Hacer foco en el primer input visible (desktop; el del panel móvil se enfoca al abrirlo)
+    const visibleInput = [...document.querySelectorAll('.search-input')]
+        .find(input => input.offsetParent !== null && !input.closest('#mobileSearch'));
+    if (visibleInput) visibleInput.focus();
 }
 
 // Exponer funciones globalmente

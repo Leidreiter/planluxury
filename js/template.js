@@ -33,6 +33,20 @@ function renderHeader(activePage = '', categorias = []) {
                     <img src="img/logo.svg" alt="Logo de la tienda" class="logo">
                 </a>
 
+                <div class="header-actions-mobile">
+                    <button type="button" class="header-icon" onclick="toggleBusquedaMovil()" aria-label="Buscar productos">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <a href="favoritos.html" class="header-icon" aria-label="Mis favoritos">
+                        <i class="fa-solid fa-heart"></i>
+                        <span class="favorites-count">0</span>
+                    </a>
+                    <button type="button" class="header-icon" onclick="abrirCarritoSidemenu()" aria-label="Abrir carrito de compras">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                </div>
+
                 <button class="menu-toggle" aria-label="Abrir menú de navegación">
                     <span></span>
                     <span></span>
@@ -58,6 +72,16 @@ function renderHeader(activePage = '', categorias = []) {
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="nav-label">Carrito</span>
                         <span class="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mobile-search" id="mobileSearch">
+                <div class="search-container">
+                    <input type="search" class="search-input" placeholder="Buscar productos..."
+                        aria-label="Buscar productos">
+                    <button class="search-close" onclick="cerrarBusquedaMovil()" aria-label="Cerrar búsqueda">
+                        <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
             </div>
@@ -336,6 +360,26 @@ function cerrarCarritoSidemenu() {
     document.documentElement.classList.remove('cart-sidemenu-locked');
 }
 
+// ===================== Búsqueda móvil (panel bajo el navbar) =====================
+function toggleBusquedaMovil() {
+    const panel = document.getElementById('mobileSearch');
+    if (!panel) return;
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) {
+        const input = panel.querySelector('.search-input');
+        if (input) input.focus();
+    } else {
+        cerrarBusquedaMovil();
+    }
+}
+
+function cerrarBusquedaMovil() {
+    const panel = document.getElementById('mobileSearch');
+    if (!panel) return;
+    panel.classList.remove('open');
+    if (window.limpiarBusqueda) window.limpiarBusqueda();
+}
+
 // Actualizar elementos de WhatsApp en el contenido de la página
 function actualizarElementosWhatsApp() {
     const links = document.querySelectorAll('.wa-link');
@@ -377,4 +421,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     window.cerrarCarritoSidemenu = cerrarCarritoSidemenu;
     window.sideCambiarCantidad = sideCambiarCantidad;
     window.sideEliminarItem = sideEliminarItem;
+    window.toggleBusquedaMovil = toggleBusquedaMovil;
+    window.cerrarBusquedaMovil = cerrarBusquedaMovil;
 });
