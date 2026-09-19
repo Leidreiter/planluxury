@@ -2254,6 +2254,8 @@ footer p {
 .product-features ul {
     list-style: none;
     padding: 0;
+    column-count: 2;
+    column-gap: 2.5rem;
 }
 
 .product-features li {
@@ -2273,6 +2275,12 @@ footer p {
 
 .product-features li:last-child {
     border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .product-features ul {
+        column-count: 1;
+    }
 }
 
 .quantity-selector {

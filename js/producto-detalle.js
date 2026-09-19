@@ -172,7 +172,7 @@ function renderizarDetalleProducto(producto) {
                 <div class="product-features">
                     <h3>Características:</h3>
                     <ul>
-                        ${producto.caracteristicas.map(caracteristica => `
+                        ${(producto.caracteristicas || []).slice(0, 10).map(caracteristica => `
                             <li>${caracteristica}</li>
                         `).join('')}
                     </ul>
