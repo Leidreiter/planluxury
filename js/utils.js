@@ -274,7 +274,7 @@ export function generarHTMLTarjetaProducto(producto) {
         <a href="producto.html?id=${producto.id}" class="product-card product-link ${esAgotado ? 'out-of-stock' : ''}" aria-label="Ver detalle de ${producto.nombre}">
             ${esAgotado ? '<span class="out-of-stock-badge">Sin Stock</span>' : ''}
             <div class="product-image-wrapper">
-                <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" loading="lazy">
+                <img src="${imagenOptimizada(producto.imagen)}" alt="${producto.nombre}" class="product-image" loading="lazy">
                 <span class="quick-add-btn" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
             </div>
             <div class="product-info">
@@ -323,6 +323,15 @@ export function formatearPrecio(precio) {
 export function recortarTexto(texto, max = 60) {
     const t = String(texto ?? '');
     return t.length > max ? t.slice(0, max - 3).trimEnd() + '...' : t;
+}
+
+// Fuerza al CDN de Google a entregar WebP (sufijo "-rw") sin cambiar el tamaño pedido.
+// Solo toca URLs de Drive (lh3.googleusercontent.com); deja intactas las rutas locales.
+export function imagenOptimizada(url) {
+    const u = String(url ?? '');
+    if (!u.includes('lh3.googleusercontent.com')) return u;
+    if (/-rw/.test(u)) return u;
+    return /=[swh]\d+$/.test(u) ? `${u}-rw` : u;
 }
 
 // Mostrar notificación

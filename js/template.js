@@ -1,6 +1,6 @@
 // Template dinámico para Header y Footer
 
-import { WHATSAPP_CONFIG, obtenerProductos, obtenerNombreSitio, formatearPrecio, calcularTotales, escaparHtml, claveItemCarrito, mostrarNotificacion } from './utils.js';
+import { WHATSAPP_CONFIG, obtenerProductos, obtenerNombreSitio, formatearPrecio, calcularTotales, escaparHtml, claveItemCarrito, mostrarNotificacion, imagenOptimizada } from './utils.js';
 
 // Renderizar Header
 function renderHeader(activePage = '', categorias = []) {
@@ -267,7 +267,7 @@ function renderSidemenuCarrito() {
 
         return `
         <div class="side-cart-item${sinStock ? ' sin-stock' : ''}" data-clave="${claveEscapada}">
-            <img src="${escaparHtml(item.imagen)}" alt="${escaparHtml(item.nombre)}" class="item-image" loading="lazy">
+            <img src="${escaparHtml(imagenOptimizada(item.imagen))}" alt="${escaparHtml(item.nombre)}" class="item-image" loading="lazy">
             <div class="side-item-details">
                 <h4 class="item-title">${escaparHtml(item.nombre)}</h4>
                 ${item.varianteTexto ? `<p class="item-variant">${escaparHtml(item.varianteTexto)}</p>` : ''}

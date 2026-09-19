@@ -1,6 +1,6 @@
 // Página de detalle de producto con galería de imágenes y zoom
 
-import { formatearPrecio, mostrarNotificacion, obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, renderPrecioAnterior, tieneVariantes, escaparHtml, claveItemCarrito, recortarTexto } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, renderPrecioAnterior, tieneVariantes, escaparHtml, claveItemCarrito, recortarTexto, imagenOptimizada } from './utils.js';
 
 let imagenActualIndex = 0;
 let zoomActivo = false;
@@ -103,9 +103,9 @@ function renderizarDetalleProducto(producto) {
     const nextProduct = productos.find(p => p.id === producto.id + 1);
     
     // Usar galería si existe, sino usar imagen principal
-    const imagenesGaleria = producto.galeria && producto.galeria.length > 0 
+    const imagenesGaleria = (producto.galeria && producto.galeria.length > 0 
         ? producto.galeria 
-        : [producto.imagen];
+        : [producto.imagen]).map(imagenOptimizada);
     
     container.innerHTML = `
         <div class="product-detail-grid">
@@ -301,7 +301,7 @@ function actualizarImagenPrincipal() {
         // Efecto de transición
         mainImage.style.opacity = '0';
         setTimeout(() => {
-            mainImage.src = producto.galeria[imagenActualIndex];
+            mainImage.src = imagenOptimizada(producto.galeria[imagenActualIndex]);
             mainImage.style.opacity = '1';
         }, 200);
     }
@@ -327,9 +327,9 @@ function toggleZoom() {
     
     if (!producto) return;
     
-    const imagenesGaleria = producto.galeria && producto.galeria.length > 0 
+    const imagenesGaleria = (producto.galeria && producto.galeria.length > 0 
         ? producto.galeria 
-        : [producto.imagen];
+        : [producto.imagen]).map(imagenOptimizada);
     
     // Crear modal de zoom
     const zoomModal = document.createElement('div');
@@ -450,7 +450,7 @@ function actualizarImagenZoom() {
         zoomImage.style.transform = 'scale(0.95)';
         
         setTimeout(() => {
-            zoomImage.src = producto.galeria[imagenActualIndex];
+            zoomImage.src = imagenOptimizada(producto.galeria[imagenActualIndex]);
             zoomImage.style.opacity = '1';
             zoomImage.style.transform = 'scale(1)';
             

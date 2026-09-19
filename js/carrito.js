@@ -1,6 +1,6 @@
 // Gestión del carrito de compras
 
-import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones, obtenerBanners, escaparHtml, claveItemCarrito, esBannerSoloImagen, recortarTexto } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones, obtenerBanners, escaparHtml, claveItemCarrito, esBannerSoloImagen, recortarTexto, imagenOptimizada } from './utils.js';
 
 let productosGlobales = [];
 
@@ -42,7 +42,7 @@ function renderizarCarrito() {
 
         return `
         <div class="cart-item${sinStock ? ' sin-stock' : ''}" data-clave="${escaparHtml(clave)}">
-            <img src="${item.imagen}" alt="${item.nombre}" class="item-image" loading="lazy">
+            <img src="${imagenOptimizada(item.imagen)}" alt="${item.nombre}" class="item-image" loading="lazy">
             <div class="item-details">
                 <h3 class="item-title">${recortarTexto(item.nombre)}</h3>
                 ${item.varianteTexto ? `<p class="item-variant">${escaparHtml(item.varianteTexto)}</p>` : ''}
@@ -263,7 +263,7 @@ function renderizarBannerCarrito(banners) {
 
     // Banner "solo imagen": imagen a ancho completo como fondo con cover
     if (esBannerSoloImagen(banner)) {
-        const img = escaparHtml(banner.imagen);
+        const img = escaparHtml(imagenOptimizada(banner.imagen));
         const link = escaparHtml(banner.link || '');
         const etiqueta = banner.link ? `aria-label="${escaparHtml(banner.titulo || 'Banner')}" ` : '';
         contenedor.innerHTML = `
@@ -283,13 +283,13 @@ function renderizarBannerCarrito(banners) {
         <div class="banner banner-border">
             <div class="banner_imagen">
                 ${banner.link ? `<a href="${link}" target="_self">` : ''}
-                    <img loading="lazy" src="${escaparHtml(banner.imagen)}" alt="${titulo}" width="1200" height="400">
+                    <img loading="lazy" src="${escaparHtml(imagenOptimizada(banner.imagen))}" alt="${titulo}" width="1200" height="400">
                 ${banner.link ? '</a>' : ''}
             </div>
             <div class="banner_info">
                 ${banner.logo ? `
                 <div class="banner_info_icono banner-border">
-                    <img loading="lazy" src="${escaparHtml(banner.logo)}" alt="" class="block" width="60">
+                    <img loading="lazy" src="${escaparHtml(imagenOptimizada(banner.logo))}" alt="" class="block" width="60">
                 </div>
                 ` : ''}
 

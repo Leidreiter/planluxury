@@ -1,5 +1,5 @@
 // Renderizar productos por categorías en el index
-import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, obtenerBanners, escaparHtml, esBannerSoloImagen, recortarTexto } from './utils.js';
+import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, obtenerBanners, escaparHtml, esBannerSoloImagen, recortarTexto, imagenOptimizada } from './utils.js';
 
 let productos = [];
 
@@ -80,7 +80,7 @@ function renderizarCategoriasAutomaticas(banners) {
 // Banner "solo imagen": imagen a ancho completo como fondo con cover,
 // mismo alto de banner (aspect-ratio 3:1). Con link => bloque clicable.
 function generarHTMLBannerSoloImagen(banner) {
-    const img = escaparHtml(banner.imagen);
+    const img = escaparHtml(imagenOptimizada(banner.imagen));
     const link = escaparHtml(banner.link || '');
     const etiqueta = banner.link ? `aria-label="${escaparHtml(banner.titulo || 'Banner')}" ` : '';
 
@@ -105,14 +105,14 @@ function generarHTMLBannerDinamico(banner) {
             <div class="banner banner-border">
                 <div class="banner_imagen">
                     ${banner.link ? `<a href="${link}" target="_self">` : ''}
-                        <img loading="lazy" src="${escaparHtml(banner.imagen)}" alt="${titulo}" width="1200" height="400">
+                        <img loading="lazy" src="${escaparHtml(imagenOptimizada(banner.imagen))}" alt="${titulo}" width="1200" height="400">
                     ${banner.link ? '</a>' : ''}
                 </div>
 
                 <div class="banner_info">
                     ${banner.logo ? `
                     <div class="banner_info_icono banner-border">
-                        <img loading="lazy" src="${escaparHtml(banner.logo)}" alt="" class="block" width="60">
+                        <img loading="lazy" src="${escaparHtml(imagenOptimizada(banner.logo))}" alt="" class="block" width="60">
                     </div>
                     ` : ''}
 

@@ -1,6 +1,6 @@
 // Testimonios - carrusel de reseñas (motor JS + drag/swipe)
 
-import { obtenerResenas } from './utils.js';
+import { obtenerResenas, imagenOptimizada } from './utils.js';
 
 const TESTIMONIOS = [
     {
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const datos = (resenas || TESTIMONIOS).map(r => ({
         nombre: r.nombre,
-        avatar: r.imagen || 'img/productos/profile.png',
+        avatar: imagenOptimizada(r.imagen) || 'img/productos/profile.png',
         rating: r.valoracion ?? r.rating ?? 5,
         fecha: r.fecha,
         texto: r.resena || r.texto
