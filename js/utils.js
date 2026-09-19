@@ -279,7 +279,7 @@ export function generarHTMLTarjetaProducto(producto) {
             </div>
             <div class="product-info">
                 <h3 class="product-title">${recortarTexto(producto.nombre)}</h3>
-                <p class="product-description">${producto.descripcion}</p>
+                <p class="product-description">${recortarTexto(producto.descripcion, 100)}</p>
                 <p class="product-price">${renderPrecioAnterior(producto)}$${formatearPrecio(producto.precio)}</p>
             </div>
         </a>
