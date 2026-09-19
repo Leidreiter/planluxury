@@ -1688,11 +1688,28 @@ footer p {
     text-decoration: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, background-color 0.3s ease;
+    animation: whatsappPulse 2s ease-out infinite;
 }
 
 .whatsapp a:hover {
     transform: scale(1.1);
     background-color: #00a650;
+    animation: none;
+}
+
+/* Pulso del botón flotante de WhatsApp */
+@keyframes whatsappPulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(0, 166, 80, 0.55);
+    }
+
+    70% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 18px rgba(0, 166, 80, 0);
+    }
+
+    100% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(0, 166, 80, 0);
+    }
 }
 
 @keyframes fadeInBtn {
@@ -1709,6 +1726,12 @@ footer p {
         width: 50px;
         height: 50px;
         font-size: 1.8rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .whatsapp a {
+        animation: none;
     }
 }
 
