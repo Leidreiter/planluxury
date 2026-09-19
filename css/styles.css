@@ -31,7 +31,7 @@ html {
     --z-back: -1;
     --z-base: 1;
     --z-nav: 1000;
-    --z-marquee: 1010;
+    /* --z-marquee: 1010; */
     --z-notif: 2000;
     --z-modal: 3000;
     --z-overlay: 3010;
@@ -4464,9 +4464,10 @@ body.zoom-active {
 }
 
 /* ===================================
-   MARQUEE PROMOCIONAL
+   MARQUEE PROMOCIONAL (desactivado)
    =================================== */
 
+/*
 .marquee-bar {
     background-color: #000000;
     color: #ffffff;
@@ -4511,8 +4512,10 @@ body.zoom-active {
     position: relative;
     top: -1px;
 }
+*/
 
 /* Animación de desplazamiento continuo */
+/*
 @keyframes marquee-scroll {
     0% {
         transform: translateX(0);
@@ -4522,6 +4525,7 @@ body.zoom-active {
         transform: translateX(-50%);
     }
 }
+*/
 
 /* ============ Testimonios (carrusel de reseñas) ============ */
 
@@ -4645,6 +4649,7 @@ body.zoom-active {
 }
 
 /* Responsive */
+/*
 @media (max-width: 768px) {
     .marquee-bar {
         padding: 8px 0;
@@ -4658,7 +4663,9 @@ body.zoom-active {
         animation-duration: 20s;
     }
 }
+*/
 
+/*
 @media (max-width: 480px) {
     .marquee-bar {
         padding: 7px 0;
@@ -4672,6 +4679,7 @@ body.zoom-active {
         animation-duration: 18s;
     }
 }
+*/
 
 /* ========================
         Página 404

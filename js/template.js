@@ -103,6 +103,7 @@ function renderFooter() {
     return footer;
 }
 
+/*
 // Función para inicializar el Marquee (integrada para evitar conflictos de orden)
 function initMarquee() {
     const textos = [
@@ -123,6 +124,7 @@ function initMarquee() {
     marqueeBar.appendChild(marqueeTrack);
     return marqueeBar;
 }
+*/
 
 // Inicializar template
 async function initTemplate(activePage = '') {
@@ -136,13 +138,13 @@ async function initTemplate(activePage = '') {
         productosRef = productos;
     } catch (e) { console.error("Error cargando categorías para el menú", e); }
 
-    // 1. Insertar Marquee (siempre primero)
-    const marquee = initMarquee();
-    body.insertBefore(marquee, body.firstChild);
+    // 1. Insertar Marquee (desactivado)
+    // const marquee = initMarquee();
+    // body.insertBefore(marquee, body.firstChild);
 
-    // 2. Insertar Header (después del marquee)
+    // 2. Insertar Header (primero, ya que el marquee está desactivado)
     const header = renderHeader(activePage, categorias);
-    body.insertBefore(header, marquee.nextSibling);
+    body.insertBefore(header, body.firstChild);
     // Avisar a módulos (ej. búsqueda) de que el header ya está en el DOM
     document.dispatchEvent(new CustomEvent('lemora:header-ready'));
 
