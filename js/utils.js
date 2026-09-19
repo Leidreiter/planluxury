@@ -273,7 +273,10 @@ export function generarHTMLTarjetaProducto(producto) {
     return `
         <a href="producto.html?id=${producto.id}" class="product-card product-link ${esAgotado ? 'out-of-stock' : ''}" aria-label="Ver detalle de ${producto.nombre}">
             ${esAgotado ? '<span class="out-of-stock-badge">Sin Stock</span>' : ''}
-            <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" loading="lazy">
+            <div class="product-image-wrapper">
+                <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" loading="lazy">
+                <span class="quick-add-btn" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+            </div>
             <div class="product-info">
                 <h3 class="product-title">${producto.nombre}</h3>
                 <p class="product-description">${producto.descripcion}</p>
