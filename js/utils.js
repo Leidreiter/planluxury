@@ -278,7 +278,7 @@ export function generarHTMLTarjetaProducto(producto) {
                 <span class="quick-add-btn" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
             </div>
             <div class="product-info">
-                <h3 class="product-title">${producto.nombre}</h3>
+                <h3 class="product-title">${recortarTexto(producto.nombre)}</h3>
                 <p class="product-description">${producto.descripcion}</p>
                 <p class="product-price">${renderPrecioAnterior(producto)}$${formatearPrecio(producto.precio)}</p>
             </div>
@@ -317,6 +317,12 @@ export function formatearPrecio(precio) {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
     });
+}
+
+// Recortar texto a un máximo de caracteres (con puntos suspensivos sin superar el máximo)
+export function recortarTexto(texto, max = 60) {
+    const t = String(texto ?? '');
+    return t.length > max ? t.slice(0, max - 3).trimEnd() + '...' : t;
 }
 
 // Mostrar notificación
