@@ -1,5 +1,5 @@
 // Renderizar productos por categorías en el index
-import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, obtenerBanners, escaparHtml, esBannerSoloImagen } from './utils.js';
+import { obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, obtenerBanners, escaparHtml, esBannerSoloImagen, recortarTexto } from './utils.js';
 
 let productos = [];
 
@@ -117,9 +117,9 @@ function generarHTMLBannerDinamico(banner) {
                     ` : ''}
 
                     <div class="banner_info_copy">
-                        ${banner.badge ? `<h4>${escaparHtml(banner.badge)}</h4>` : ''}
-                        <h2>${titulo}</h2>
-                        ${tieneBoton ? `<a href="${link}" target="_self">${escaparHtml(banner.boton)} <i class="fa-solid fa-chevron-right"></i></a>` : ''}
+                        ${banner.badge ? `<h4>${escaparHtml(recortarTexto(banner.badge, 20))}</h4>` : ''}
+                        <h2>${escaparHtml(recortarTexto(banner.titulo, 100))}</h2>
+                        ${tieneBoton ? `<a href="${link}" target="_self">${escaparHtml(recortarTexto(banner.boton, 15))} <i class="fa-solid fa-chevron-right"></i></a>` : ''}
                     </div>
                 </div>
             </div>
