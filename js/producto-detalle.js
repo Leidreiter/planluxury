@@ -211,11 +211,6 @@ function renderizarDetalleProducto(producto) {
                     <a href="carrito.html" class="btn-go-cart btn-border hidden" id="btnGoCart">
                         Ir al Carrito →
                     </a>
-                    ${!tieneVariantes(producto) ? `
-                    <button class="btn-buy-now btn-border" onclick="comprarAhora(${producto.id})" ${producto.stock === 0 ? 'disabled' : ''}>
-                        Comprar Ahora
-                    </button>
-                    ` : ''}
                 </div>
                 
                 <div class="product-share">
@@ -695,15 +690,6 @@ function agregarAlCarritoDetalle(id) {
     return true;
 }
 
-// Comprar ahora
-function comprarAhora(id) {
-    if (agregarAlCarritoDetalle(id)) {
-        setTimeout(() => {
-            window.location.href = 'carrito.html';
-        }, 500);
-    }
-}
-
 // Cargar productos relacionados
 function cargarProductosRelacionados() {
     const productoId = obtenerIdProducto();
@@ -813,4 +799,3 @@ window.seleccionarImagenZoom = seleccionarImagenZoom;
 window.toggleFavorito = toggleFavorito;
 window.cambiarCantidad = cambiarCantidad;
 window.agregarAlCarritoDetalle = agregarAlCarritoDetalle;
-window.comprarAhora = comprarAhora;

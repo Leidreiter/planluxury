@@ -71,6 +71,7 @@ html {
     /* 15px */
     --fs-small: 0.6875rem;
     /* 11px */
+    --fs-span: 0.75rem;
 
 
     /* E-commerce — Desktop */
@@ -214,6 +215,7 @@ html {
     text-transform: uppercase;
     color: #ffffff;
     font-weight: 400;
+    font-size: var(--fs-span);
 }
 
 .banner_info_copy h2 {
@@ -2452,24 +2454,6 @@ footer p {
     transform: none;
 }
 
-.btn-buy-now {
-    padding: 1rem 2rem;
-    background: var(--success-color);
-    color: white;
-    border: none;
-    font-size: var(--fs-button);
-    line-height: 1.2;
-    cursor: pointer;
-    font-weight: 400;
-    transition: all 0.3s;
-}
-
-.btn-buy-now:hover {
-    background: #00a650;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
 .product-navigation {
     display: flex;
     justify-content: space-between;
@@ -3769,6 +3753,7 @@ body.zoom-active {
     line-height: 1.1;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    font-weight: 600;
 }
 
 .slider-text p {
@@ -3881,7 +3866,7 @@ body.zoom-active {
 
     .slider-text {
         text-align: center;
-        padding: 0 1.5rem;
+        padding: 0;
     }
 
     .slider-text h1 {
