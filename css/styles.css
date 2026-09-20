@@ -203,7 +203,7 @@ html {
 }
 
 .banner_info_icono img {
-    width: 80px;
+    width: 100px;
     height: auto;
 }
 
@@ -2610,6 +2610,7 @@ footer p {
     width: 100%;
     height: auto;
     display: block;
+    cursor: zoom-in;
     transition: opacity 0.3s ease;
 }
 
@@ -3457,8 +3458,8 @@ body.zoom-active {
     justify-content: center;
     font-size: var(--fs-badge);
     position: absolute;
-    top: -8px;
-    right: -10px;
+    top: -10px;
+    right: -16px;
 }
 
 @media (max-width: 768px) {
@@ -3754,6 +3755,7 @@ body.zoom-active {
     margin-bottom: 1rem;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
     font-weight: 600;
+    font-size: 2rem;
 }
 
 .slider-text p {
