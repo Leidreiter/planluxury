@@ -54,6 +54,9 @@ function renderHeader(activePage = '', categorias = []) {
                 </button>
                 
                 <div class="nav-menu">
+                    <button type="button" class="nav-menu-close" aria-label="Cerrar menú">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                     <a href="index.html" class="nav-link ${activePage === 'inicio' ? 'active' : ''}">Inicio</a>
                     <div class="nav-item-dropdown">
                         <a href="index.html#tienda" class="nav-link ${activePage === 'productos' ? 'active' : ''}">Productos <i class="fa-solid fa-chevron-down"></i></a>
@@ -63,6 +66,10 @@ function renderHeader(activePage = '', categorias = []) {
                     <a href="faq.html" class="nav-link ${activePage === 'faq' ? 'active' : ''}">Preguntas</a> 
                     <!-- <a href="index.html#contacto" class="nav-link ${activePage === 'contacto' ? 'active' : ''}">Contacto</a>-->
                     <a href="contacto.html" class="nav-link ${activePage === 'contacto' ? 'active' : ''}">Contacto</a> 
+                    <button type="button" class="nav-link search-link" aria-label="Buscar productos" onclick="toggleBusquedaMovil()">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span class="nav-label">Buscar</span>
+                    </button>
                     <a href="favoritos.html" class="nav-link favorites-link ${activePage === 'favoritos' ? 'active' : ''}" aria-label="Mis Favoritos">
                         <i class="fa-solid fa-heart"></i>
                         <span class="nav-label">Favoritos</span>
@@ -76,10 +83,19 @@ function renderHeader(activePage = '', categorias = []) {
                 </div>
             </div>
 
+            <div class="search-sidemenu-overlay" id="searchSidemenuOverlay" onclick="cerrarBusquedaMovil()"></div>
             <div class="mobile-search" id="mobileSearch">
+                <div class="search-sidemenu-header">
+                    <span class="search-sidemenu-title"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="search" class="search-input search-side-input" placeholder="¿Qué estás buscando?"
+                        aria-label="¿Qué estás buscando?" autocomplete="off">
+                    <button type="button" class="search-sidemenu-close" onclick="cerrarBusquedaMovil()" aria-label="Cerrar búsqueda">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
                 <div class="search-container">
-                    <input type="search" class="search-input" placeholder="Buscar productos..."
-                        aria-label="Buscar productos">
+                    <input type="search" class="search-input" placeholder="¿Qué estás buscando?"
+                        aria-label="¿Qué estás buscando?">
                     <button class="search-close" onclick="cerrarBusquedaMovil()" aria-label="Cerrar búsqueda">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
@@ -177,6 +193,10 @@ async function initTemplate(activePage = '') {
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && sidemenu.classList.contains('active')) {
                 cerrarCarritoSidemenu();
+            }
+            const searchPanel = document.getElementById('mobileSearch');
+            if (e.key === 'Escape' && searchPanel && searchPanel.classList.contains('open')) {
+                cerrarBusquedaMovil();
             }
         });
     }
@@ -353,6 +373,8 @@ function sideEliminarItem(clave) {
 function abrirCarritoSidemenu() {
     const overlay = document.getElementById('cartSidemenu');
     if (!overlay) return;
+    // Si el buscador está abierto, lo cerramos primero
+    if (window.cerrarBusquedaMovil) window.cerrarBusquedaMovil();
     renderSidemenuCarrito();
     overlay.classList.add('active');
     document.documentElement.classList.add('cart-sidemenu-locked');
@@ -371,19 +393,30 @@ function cerrarCarritoSidemenu() {
 function toggleBusquedaMovil() {
     const panel = document.getElementById('mobileSearch');
     if (!panel) return;
-    panel.classList.toggle('open');
     if (panel.classList.contains('open')) {
-        const input = panel.querySelector('.search-input');
-        if (input) input.focus();
-    } else {
         cerrarBusquedaMovil();
+        return;
     }
+    // Abrir: si el carrito lateral estaba abierto, lo cerramos primero
+    if (window.cerrarCarritoSidemenu) window.cerrarCarritoSidemenu();
+    panel.classList.add('open');
+    const overlay = document.getElementById('searchSidemenuOverlay');
+    if (overlay) overlay.classList.add('active');
+    if (window.matchMedia('(min-width: 769px)').matches) {
+        document.documentElement.classList.add('search-sidemenu-locked');
+    }
+    const input = [...panel.querySelectorAll('.search-input')]
+        .find(i => i.offsetParent !== null) || panel.querySelector('.search-input');
+    if (input) input.focus();
 }
 
 function cerrarBusquedaMovil() {
     const panel = document.getElementById('mobileSearch');
     if (!panel) return;
     panel.classList.remove('open');
+    const overlay = document.getElementById('searchSidemenuOverlay');
+    if (overlay) overlay.classList.remove('active');
+    document.documentElement.classList.remove('search-sidemenu-locked');
     if (window.limpiarBusqueda) window.limpiarBusqueda();
 }
 

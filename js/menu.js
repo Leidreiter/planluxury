@@ -8,10 +8,19 @@ document.addEventListener('click', function(e) {
     if (!navMenu || !menuToggle) return;
 
     const isToggle = e.target.closest('.menu-toggle');
+    const isMenuClose = e.target.closest('.nav-menu-close');
     const isDropdownToggle = e.target.closest('.nav-item-dropdown > .nav-link');
     const isSubmenuLink = e.target.closest('.submenu a');
     const isRegularLink = e.target.closest('.nav-link') && !isDropdownToggle;
     const isClickInsideMenu = navMenu.contains(e.target);
+
+    // 0. Cerrar menú con el botón ✕ (móvil)
+    if (isMenuClose) {
+        navMenu.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.style.overflow = '';
+        return;
+    }
 
     // 0. Click en el desplegable de Productos (Móvil)
     if (isDropdownToggle && window.innerWidth <= 768) {

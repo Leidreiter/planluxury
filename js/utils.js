@@ -267,8 +267,12 @@ export function claveItemCarrito(id, varianteTexto = '') {
 
 // Generar el HTML de una tarjeta de producto (estándar para toda la web)
 // Toda la tarjeta enlaza al detalle; sin botones internos.
-export function generarHTMLTarjetaProducto(producto) {
+// Con la opción { soloNombrePrecio: true } se omiten la descripción y demás
+// texto extra: el resultado es un card completo pero solo con nombre y precio
+// (usado en los resultados del buscador).
+export function generarHTMLTarjetaProducto(producto, opciones = {}) {
     const esAgotado = producto.stock === 0;
+    const { soloNombrePrecio = false } = opciones;
 
     return `
         <a href="producto.html?id=${producto.id}" class="product-card product-link ${esAgotado ? 'out-of-stock' : ''}" aria-label="Ver detalle de ${producto.nombre}">
@@ -279,7 +283,7 @@ export function generarHTMLTarjetaProducto(producto) {
             </div>
             <div class="product-info">
                 <h3 class="product-title">${recortarTexto(producto.nombre)}</h3>
-                <p class="product-description">${recortarTexto(producto.descripcion, 100)}</p>
+                ${soloNombrePrecio ? '' : `<p class="product-description">${recortarTexto(producto.descripcion, 100)}</p>`}
                 <p class="product-price">${renderPrecioAnterior(producto)}$${formatearPrecio(producto.precio)}</p>
             </div>
         </a>

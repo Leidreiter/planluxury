@@ -120,7 +120,7 @@ function buscarProductos(query) {
     if (movilResultados) {
         if (productosFiltrados.length > 0) {
             movilResultados.innerHTML = productosFiltrados
-                .map(p => generarHTMLTarjetaProducto(p)).join('');
+                .map(p => generarHTMLTarjetaProducto(p, { soloNombrePrecio: true })).join('');
             if (movilCount) {
                 const plural = productosFiltrados.length === 1 ? 'producto' : 'productos';
                 movilCount.textContent = `${productosFiltrados.length} ${plural} encontrados`;
