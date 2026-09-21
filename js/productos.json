@@ -384,5 +384,27 @@
       "https://lh3.googleusercontent.com/d/1Cr9wWp58riNVbQWbXV-w83pIwb56QFt6=s1920-rw",
       "https://lh3.googleusercontent.com/d/1-nkFYu8z8wdfn9NBkHNaag94qrdPulAF=s1920-rw"
     ]
+  },
+  {
+    "id": 17,
+    "nombre": "Remerea AC/DC",
+    "descripcion": "Zapatillas urbanas cómodas para el día a día",
+    "descripcionDetallada": "Zapatillas para mujer con estilo urbano, pensadas para uso diario. Livianas, cómodas y fáciles de combinar.",
+    "precio": 9000,
+    "precioAnterior": 12000,
+    "categoria": "Rock",
+    "variantes": null,
+    "stock": 100,
+    "caracteristicas": [
+      "Diseño urbano",
+      "Material liviano",
+      "Suela flexible",
+      "Uso diario"
+    ],
+    "carpetaImagenes": "ACDC",
+    "imagen": "img/productos/placeholder.png",
+    "galeria": [
+      "img/productos/placeholder.png"
+    ]
   }
 ]
