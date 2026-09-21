@@ -232,6 +232,34 @@ export async function obtenerBanners() {
     }
 }
 
+// Cargar iconos de confianza del pie desde JSON generado por Google Sheets + Drive.
+// [] => la web oculta la sección. null (error sin caché) => ídem.
+export async function obtenerIconos() {
+    const cachedData = sessionStorage.getItem('cache_iconos');
+    const cachedVersion = sessionStorage.getItem('cache_iconos_version');
+
+    try {
+        const headResponse = await fetch('js/iconos-pie.json', { method: 'HEAD' });
+        const serverVersion = headResponse.headers.get('Last-Modified') || headResponse.headers.get('ETag');
+
+        if (cachedData && cachedVersion === serverVersion) {
+            return JSON.parse(cachedData);
+        }
+
+        const response = await fetch('js/iconos-pie.json');
+        if (!response.ok) throw new Error('Error al cargar iconos');
+        const iconos = await response.json();
+
+        sessionStorage.setItem('cache_iconos', JSON.stringify(iconos));
+        if (serverVersion) sessionStorage.setItem('cache_iconos_version', serverVersion);
+
+        return iconos;
+    } catch (error) {
+        if (cachedData) return JSON.parse(cachedData);
+        return null;
+    }
+}
+
 // Banner "solo imagen": tiene imagen y ningún otro contenido publicado
 // (sin logo, badge, título ni botón). Se renderiza a ancho completo con cover.
 export function esBannerSoloImagen(banner) {
