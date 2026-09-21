@@ -27,11 +27,11 @@ function validarDatos(datos) {
     const reglas = [
         { campo: 'nombre', valido: v => v.length >= 2, mensaje: 'Ingresá tu nombre completo (mínimo 2 caracteres)' },
         { campo: 'email', valido: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), mensaje: 'Ingresá un email válido (ej: nombre@dominio.com)' },
-        { campo: 'telefono', valido: v => /^[0-9+\s()-]{7,20}$/.test(v), mensaje: 'Ingresá un teléfono válido (ej: 11 1234 5678)' },
+        { campo: 'telefono', valido: v => /^[0-9+\s()-]{7,}$/.test(v), mensaje: 'Ingresá un teléfono válido (ej: 11 1234 5678)' },
         { campo: 'direccion', valido: v => v.length >= 2, mensaje: 'Ingresá tu dirección (mínimo 2 caracteres)' },
         { campo: 'ciudad', valido: v => v.length >= 2, mensaje: 'Ingresá tu ciudad (mínimo 2 caracteres)' },
         { campo: 'provincia', valido: v => v.length >= 2, mensaje: 'Ingresá tu provincia (mínimo 2 caracteres)' },
-        { campo: 'codigoPostal', valido: v => /^[A-Za-z0-9]{4,5}$/.test(v), mensaje: 'Ingresá un código postal válido (4 o 5 caracteres alfanuméricos)' },
+        { campo: 'codigoPostal', valido: v => /^[A-Za-z0-9]{4,}$/.test(v), mensaje: 'Ingresá un código postal válido (mínimo 4 caracteres alfanuméricos)' },
     ];
 
     let errores = 0;

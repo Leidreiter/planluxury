@@ -282,8 +282,8 @@ export function generarHTMLTarjetaProducto(producto, opciones = {}) {
                 <span class="quick-add-btn" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
             </div>
             <div class="product-info">
-                <h3 class="product-title">${recortarTexto(producto.nombre)}</h3>
-                ${soloNombrePrecio ? '' : `<p class="product-description">${recortarTexto(producto.descripcion, 100)}</p>`}
+                <h3 class="product-title">${producto.nombre}</h3>
+                ${soloNombrePrecio ? '' : `<p class="product-description">${producto.descripcion}</p>`}
                 <p class="product-price">${renderPrecioAnterior(producto)}$${formatearPrecio(producto.precio)}</p>
             </div>
         </a>
@@ -321,12 +321,6 @@ export function formatearPrecio(precio) {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
     });
-}
-
-// Recortar texto a un máximo de caracteres (con puntos suspensivos sin superar el máximo)
-export function recortarTexto(texto, max = 60) {
-    const t = String(texto ?? '');
-    return t.length > max ? t.slice(0, max - 3).trimEnd() + '...' : t;
 }
 
 // Fuerza al CDN de Google a entregar WebP (sufijo "-rw") sin cambiar el tamaño pedido.

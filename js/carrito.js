@@ -1,6 +1,6 @@
 // Gestión del carrito de compras
 
-import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones, obtenerBanners, escaparHtml, claveItemCarrito, esBannerSoloImagen, recortarTexto, imagenOptimizada } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, calcularTotales, CONFIG_DESCUENTO, CONFIG_CUPONES, obtenerProductos, obtenerCupones, obtenerBanners, escaparHtml, claveItemCarrito, esBannerSoloImagen, imagenOptimizada } from './utils.js';
 
 let productosGlobales = [];
 
@@ -44,7 +44,7 @@ function renderizarCarrito() {
         <div class="cart-item${sinStock ? ' sin-stock' : ''}" data-clave="${escaparHtml(clave)}">
             <img src="${imagenOptimizada(item.imagen)}" alt="${item.nombre}" class="item-image" loading="lazy">
             <div class="item-details">
-                <h3 class="item-title">${recortarTexto(item.nombre)}</h3>
+                <h3 class="item-title">${item.nombre}</h3>
                 ${item.varianteTexto ? `<p class="item-variant">${escaparHtml(item.varianteTexto)}</p>` : ''}
                 ${sinStock ? `<p class="stock-alert stock-alert-danger">⚠️ Este producto se agotó. Debes eliminarlo para continuar.</p>` : ''}
                 ${stockBajo ? `<p class="stock-alert stock-alert-warn">⚠️ ¡Últimas unidades disponibles! (Quedan ${productoRef.stock})</p>` : ''}
@@ -294,9 +294,9 @@ function renderizarBannerCarrito(banners) {
                 ` : ''}
 
                 <div class="banner_info_copy">
-                    ${banner.badge ? `<span>${escaparHtml(recortarTexto(banner.badge, 20))}</span>` : ''}
-                    <h2>${escaparHtml(recortarTexto(banner.titulo, 100))}</h2>
-                    ${tieneBoton ? `<a href="${link}" target="_self">${escaparHtml(recortarTexto(banner.boton, 15))} <i class="fa-solid fa-chevron-right"></i></a>` : ''}
+                    ${banner.badge ? `<span>${escaparHtml(banner.badge)}</span>` : ''}
+                    <h2>${escaparHtml(banner.titulo)}</h2>
+                    ${tieneBoton ? `<a href="${link}" target="_self">${escaparHtml(banner.boton)} <i class="fa-solid fa-chevron-right"></i></a>` : ''}
                 </div>
             </div>
         </div>

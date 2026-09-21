@@ -1,6 +1,6 @@
 // Página de detalle de producto con galería de imágenes y zoom
 
-import { formatearPrecio, mostrarNotificacion, obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, renderPrecioAnterior, tieneVariantes, escaparHtml, claveItemCarrito, recortarTexto, imagenOptimizada } from './utils.js';
+import { formatearPrecio, mostrarNotificacion, obtenerProductos, generarHTMLTarjetaProducto, agregarAlCarritoBase, renderPrecioAnterior, tieneVariantes, escaparHtml, claveItemCarrito, imagenOptimizada } from './utils.js';
 
 let imagenActualIndex = 0;
 let zoomActivo = false;
@@ -35,12 +35,12 @@ function cargarDetalleProducto() {
     }
     
     // Actualizar título de la página
-    document.title = `${recortarTexto(producto.nombre)} - Mi Tienda Online`;
+    document.title = `${producto.nombre} - Mi Tienda Online`;
     
     // Actualizar breadcrumb
     const breadcrumbProduct = document.getElementById('breadcrumbProduct');
     if (breadcrumbProduct) {
-        breadcrumbProduct.textContent = recortarTexto(producto.nombre);
+        breadcrumbProduct.textContent = producto.nombre;
     }
     
     // Renderizar detalle del producto
@@ -154,7 +154,7 @@ function renderizarDetalleProducto(producto) {
             <div class="product-detail-info">
                 <span class="product-category">${producto.categoria}</span>
                 <div class="product-title-row">
-                    <h1 class="product-detail-title">${recortarTexto(producto.nombre)}</h1>
+                    <h1 class="product-detail-title">${producto.nombre}</h1>
                     <button class="btn-favorito ${esFavorito(producto.id) ? 'active' : ''}" 
                             onclick="toggleFavorito(${producto.id})" 
                             aria-label="Agregar a favoritos"
@@ -167,7 +167,7 @@ function renderizarDetalleProducto(producto) {
                 
                 <p class="product-detail-price">${renderPrecioAnterior(producto)}$${formatearPrecio(producto.precio)}</p>
                 
-                <p class="product-detail-description">${recortarTexto(producto.descripcionDetallada, 400)}</p>
+                <p class="product-detail-description">${producto.descripcionDetallada}</p>
                 
                 <div class="product-features">
                     <h3>Características:</h3>
