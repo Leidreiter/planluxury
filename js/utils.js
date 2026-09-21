@@ -360,6 +360,12 @@ export function imagenOptimizada(url) {
     return /=[swh]\d+$/.test(u) ? `${u}-rw` : u;
 }
 
+// Atributos de navegación para links de slider/banners (columna "Navegacion" de Sheets).
+// "externo" => abre en pestaña nueva (_blank + noopener); cualquier otro valor => _self.
+export function atributoNavegacion(navegacion) {
+    return navegacion === 'externo' ? 'target="_blank" rel="noopener"' : 'target="_self"';
+}
+
 // Mostrar notificación
 export function mostrarNotificacion(mensaje, tipo = 'success') {
     const notif = document.createElement('div');
