@@ -26,8 +26,13 @@ function renderizarCategoriasAutomaticas(banners) {
     const container = document.getElementById('tienda');
     if (!container) return;
 
-    // Extraer categorías únicas de los productos
-    const categorias = [...new Set(productos.map(p => p.categoria))].filter(Boolean);
+    // Destacados (columna "Destacado" = "si"): se muestran todos primero en el home,
+    // sin importar su categoría. El resto se agrupa por categoría como siempre.
+    const destacados = productos.filter(p => p.destacado === 'si');
+    const resto = productos.filter(p => p.destacado !== 'si');
+
+    // Extraer categorías únicas de los productos (sin contar los destacados)
+    const categorias = [...new Set(resto.map(p => p.categoria))].filter(Boolean);
 
     // Todos menos el último (tope 4): el último banner de la hoja es el del carrito.
     const bannersIndex = banners.slice(0, Math.min(4, banners.length - 1));
@@ -52,8 +57,20 @@ function renderizarCategoriasAutomaticas(banners) {
 
     let htmlFinal = '';
 
+    // Sección "Destacados" al inicio del home (si hay productos con "si").
+    // Sin título visible, igual que las secciones de categoría.
+    if (destacados.length > 0) {
+        htmlFinal += `
+            <section class="category-section" id="cat-destacados">
+                <div class="products-grid">
+                    ${destacados.map(p => generarHTMLTarjetaProducto(p)).join('')}
+                </div>
+            </section>
+        `;
+    }
+
     categorias.forEach((categoria, index) => {
-        const productosFiltrados = productos.filter(p => p.categoria === categoria);
+        const productosFiltrados = resto.filter(p => p.categoria === categoria);
         if (productosFiltrados.length === 0) return;
 
         // Agregar la sección de productos de la categoría
