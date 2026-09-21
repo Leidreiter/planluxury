@@ -387,7 +387,7 @@
   },
   {
     "id": 17,
-    "nombre": "Remerea AC/DC",
+    "nombre": "Remera AC/DC",
     "descripcion": "Zapatillas urbanas cómodas para el día a día",
     "descripcionDetallada": "Zapatillas para mujer con estilo urbano, pensadas para uso diario. Livianas, cómodas y fáciles de combinar.",
     "precio": 9000,
@@ -402,9 +402,9 @@
       "Uso diario"
     ],
     "carpetaImagenes": "ACDC",
-    "imagen": "img/productos/placeholder.png",
+    "imagen": "https://lh3.googleusercontent.com/d/13F3N2z-E9GkHLv4WOmgeKJFP3Hub3eeR=s600-rw",
     "galeria": [
-      "img/productos/placeholder.png"
+      "https://lh3.googleusercontent.com/d/13F3N2z-E9GkHLv4WOmgeKJFP3Hub3eeR=s1920-rw"
     ]
   }
 ]
