@@ -67,6 +67,9 @@ function renderizarCategoriasAutomaticas(banners) {
                 </div>
             </section>
         `;
+
+        // Banner 1 inmediatamente después de los destacados
+        emitirSiguienteBloque();
     }
 
     categorias.forEach((categoria, index) => {
